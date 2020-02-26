@@ -11,7 +11,8 @@ form = {
             '검사결과(음성)': '-',
             '자가격리자'    : '-',
             '감시중'        : '-',
-            '감시해제'      : '-'
+            '감시해제'      : '-',
+            '완치'          : '-'
         }
 
 def seoul():
@@ -115,5 +116,21 @@ def gyeongnam():
     stat['검사중'] = table[3].text[:-1]
     stat['검사결과(음성)'] = table[5].text[:-1]
     stat['자가격리자'] = table[6].text[:-1]
+    
+    return stat
+
+def gyeonggi():
+    res = requests.get('https://www.gg.go.kr/bbs/boardView.do?bsIdx=464&bIdx=2296956&menuId=1535')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    table = soup.find('ul', class_='column-4').find_all('strong')
+    
+    stat = copy.copy(form)
+    
+    stat['지역'] = '경기도'
+    stat['확진자'] = table[3].text
+    stat['격리자'] = table[0].text
+    stat['완치'] = table[1].text
+    stat['사망자'] = table[2].text
     
     return stat
