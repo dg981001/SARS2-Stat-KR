@@ -106,7 +106,7 @@ class Daegu():
         stat['확진자'] = format(self.db['확진자'], ',')
         stat['사망자'] = li[2].text.split(' ')[1]
         stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')), ",")
-        stat['자가격리자'] = self.db['자가격리자']
+        stat['자가격리자'] = format(self.db['자가격리자'], ',')
     
         print("pass : ", stat['지역'])
         
