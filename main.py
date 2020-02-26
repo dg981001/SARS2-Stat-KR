@@ -1,10 +1,11 @@
 from mk_table import Mk_table
 from region import *
+from Daegu import Daegu
 import time
 
 table = Mk_table()
 region_list = [seoul(), 
-               daegu(),    
+               Daegu().collect(),    
                busan(),   
                daejeon(),
                gwangju(infected=9, quarantine=7, care=2),

@@ -1,19 +1,6 @@
 import requests, copy
 from bs4 import BeautifulSoup
-
-form = {
-            '지역'          : '-',
-            '확진자'        : '-',
-            '격리자'        : '-',
-            '사망자'        : '-',
-            '의사환자'      : '-',
-            '검사중'        : '-',
-            '검사결과(음성)': '-',
-            '자가격리자'    : '-',
-            '감시중'        : '-',
-            '감시해제'      : '-',
-            '완치'          : '-'
-        }
+from form import form
 
 def seoul():
     res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do')
