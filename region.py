@@ -158,7 +158,7 @@ def gyeonggi():
     
     return stat
 
-def chungbuk(infected='-', quarantine='-', suspect='-', testing='-', negetive='-', self_quarantine='-', unmonitor='-', care='-'):
+def chungbuk(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     stat = copy.copy(form)
 
     stat['지역'] = '충청북도'
@@ -192,7 +192,7 @@ def chungnam():
     
     return stat
 
-def gangwon(infected='-', quarantine='-', suspect='-', testing='-', negetive='-', self_quarantine='-', unmonitor='-', care='-'):
+def gangwon(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     # https://www.provin.gangwon.kr/gw/portal/sub05_01?articleSeq=164918&mode=readForm&curPage=1&boardCode=BDAADD02
     stat = copy.copy(form)
 
@@ -201,7 +201,7 @@ def gangwon(infected='-', quarantine='-', suspect='-', testing='-', negetive='-'
     stat['격리자'] = '%s'%(infected)
     stat['의사환자'] = '%s'%(suspect)
     stat['검사중'] = '%s'%(testing)
-    stat['검사결과(음성)'] = '%s'%(negetive)
+    stat['검사결과(음성)'] = '%s'%(negative)
     stat['자가격리자'] = '%s'%(self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
     
@@ -209,7 +209,7 @@ def gangwon(infected='-', quarantine='-', suspect='-', testing='-', negetive='-'
     
     return stat
 
-def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negetive='-', self_quarantine='-', unmonitor='-', care='-'):
+def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     # https://www.gwangju.go.kr/
     stat = copy.copy(form)
 
@@ -218,7 +218,7 @@ def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negetive='-'
     stat['격리자'] = '%s'%(quarantine)
     stat['의사환자'] = '%s'%(suspect)
     stat['검사중'] = '%s'%(testing)
-    stat['검사결과(음성)'] = '%s'%(negetive)
+    stat['검사결과(음성)'] = '%s'%(negative)
     stat['자가격리자'] = '%s'%(self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
     stat['완치'] = '%s'%(care)
@@ -227,7 +227,7 @@ def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negetive='-'
     
     return stat
 
-def jeonbuk(infected='-', quarantine='-', suspect='-', testing='-', negetive='-', self_quarantine='-', unmonitor='-', care='-'):
+def jeonbuk(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     # https://www.gwangju.go.kr/
     stat = copy.copy(form)
 
@@ -236,7 +236,7 @@ def jeonbuk(infected='-', quarantine='-', suspect='-', testing='-', negetive='-'
     stat['격리자'] = '%s'%(quarantine)
     stat['의사환자'] = '%s'%(suspect)
     stat['검사중'] = '%s'%(testing)
-    stat['검사결과(음성)'] = '%s'%(negetive)
+    stat['검사결과(음성)'] = '%s'%(negative)
     stat['자가격리자'] = '%s'%(self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
     stat['완치'] = '%s'%(care)
@@ -265,3 +265,21 @@ def jeonnam():
     print("pass : ", stat['지역'])
     
     return stat  
+
+def ulsan(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
+    # https://www.gwangju.go.kr/
+    stat = copy.copy(form)
+
+    stat['지역'] = '울산'
+    stat['확진자'] = '%s'%(infected)
+    stat['격리자'] = '%s'%(quarantine)
+    stat['의사환자'] = '%s'%(suspect)
+    stat['검사중'] = '%s'%(testing)
+    stat['검사결과(음성)'] = '%s'%(negative)
+    stat['자가격리자'] = '%s'%(self_quarantine)
+    stat['감시해제'] = '%s'%(unmonitor)
+    stat['완치'] = '%s'%(care)
+    
+    print("pass : ", stat['지역'])
+    
+    return stat

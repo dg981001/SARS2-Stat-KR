@@ -34,9 +34,9 @@ class Mk_table():
         line = "|"
         for key, val in stat.items():
             try:
-                line = line + format(val, ",") + "|"
+                line = line + "**" + format(val, ",") + "**|"
             except:
-                line = line + str(val) + "|"
+                line = line + "**" + str(val) + "**|"
                 
         return line
     
@@ -50,8 +50,8 @@ class Mk_table():
                 self.total[key] = '-'
         
         table = """
-        {0}{1}{2}
-        """.format(self.title, temp, self.add_total(self.total))
+        {0}{1}{2}{3}
+        """.format(self.title, self.add_total(self.total), temp, self.add_total(self.total))
         
         self.table = table
         return table
