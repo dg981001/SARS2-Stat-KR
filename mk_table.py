@@ -38,6 +38,7 @@ class Mk_table():
             except:
                 line = line + "**" + str(val) + "**|"
                 
+        line = line + "\n"
         return line
     
     def generate(self, region_list):
