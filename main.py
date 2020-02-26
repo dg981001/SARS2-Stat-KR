@@ -3,7 +3,21 @@ from region import *
 import time
 
 table = Mk_table()
-table.generate([seoul(), daegu()])
+region_list = [seoul(), 
+               daegu(),    
+               busan(),   
+               daejeon(),
+               gwangju(infected=9, quarantine=7, care=2),
+               gyeongbuk(),
+               gyeongnam(),
+               gyeonggi(), 
+               chungbuk(infected=6),
+               chungnam(),
+               gangwon(infected=6, suspect=1548, testing=509, negetive=1039),
+               jeonbuk(infected=4, quarantine=3, self_quarantine=82, unmonitor=11, care=1),
+               jeonnam()
+        ]
+table.generate(region_list)
 
 readme = open('README.md', mode='wt', encoding='utf-8')
 readme.write('''
