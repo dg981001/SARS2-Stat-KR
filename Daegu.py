@@ -2,12 +2,18 @@ import requests, copy
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from form import form
+import platform
 
 class Daegu():
     def __init__(self):
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
-        self.driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+        f_driver = ''
+        if platform.system() == 'Linux':
+            f_driver = 'chromedriver'
+        else:
+            f_driver = 'chromedriver.exe'
+        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
 
         self.db = {
                     '확진자' : 0,
