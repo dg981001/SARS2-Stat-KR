@@ -95,6 +95,7 @@ def gyeongbuk():
         
         stat['확진자'] = li[0].text
         stat['격리자'] = li[1].text
+        stat['완치'] = li[2].text
         stat['사망자'] = li[3].text
         stat['검사중'] = li[5].text
         stat['검사결과(음성)'] = li[6].text

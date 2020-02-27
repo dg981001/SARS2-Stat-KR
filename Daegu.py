@@ -88,8 +88,8 @@ class Daegu():
         table = driver.find_elements_by_tag_name('tbody')[1].text.split(" ")
         # 누계  |  확진환자  |  자가격리  |  능동감시  | 감시종료
         #print(int(table[1][:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].replace(',', '')) # 달성군 확진자
-        self.db['자가격리자'] += int(table[2].replace(',', '')) # 달성군 자가격리자
+        self.db['확진자'] += int(table[1].split("(")[0].replace(',', '')) # 달성군 확진자
+        self.db['자가격리자'] += int(table[2].split("(")[0].replace(',', '')) # 달성군 자가격리자
         
     def collect(self):
         # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
