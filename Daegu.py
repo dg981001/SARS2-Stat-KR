@@ -19,6 +19,7 @@ class Daegu():
         bukgu_data = BeautifulSoup(bukgu.content, 'html.parser')
         table = bukgu_data.find('tbody').find_all('td')
         # 전국  |  북구  |  자가격리
+        #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 북구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 북구 자가격리자
 
@@ -27,6 +28,7 @@ class Daegu():
         namgu_data = BeautifulSoup(namgu.content, 'html.parser')
         table = namgu_data.find('tbody').find_all('td')
         # 전국  |  남구  |  자가격리
+        #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 남구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
 
@@ -38,6 +40,7 @@ class Daegu():
         #print(driver.page_source)
         table = driver.find_element_by_tag_name('tbody').text.split(" ")
         # 전국  |  대구시  |  달서구  |  자가격리
+        #print(int(table[2][:-1].replace(',', '')))
         self.db['확진자'] += int(table[2][:-1].replace(',', '')) # 달서구 확진자
         self.db['자가격리자'] += int(table[3][:-1].replace(',', '')) # 달서구 자가격리자
 
@@ -47,6 +50,7 @@ class Daegu():
         seogu_data = BeautifulSoup(seogu.content, 'html.parser')
         table = seogu_data.find('tbody').find_all('td')
         # 전국  |  대구시  |  서구  |  자가격리
+        #print(int(table[2].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 서구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 서구 자가격리자
 
@@ -55,6 +59,7 @@ class Daegu():
         suseonggu_data = BeautifulSoup(suseonggu.content, 'html.parser')
         table = suseonggu_data.find('tbody').find_all('td')
         # 전국  |  수성구  |  자가격리
+        #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 수성구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 수성구 자가격리자
 
@@ -63,6 +68,7 @@ class Daegu():
         junggu_data = BeautifulSoup(junggu.content, 'html.parser')
         table = junggu_data.find('tbody').find_all('td')
         # 전국  |  대구시  |  중구  |  자가격리
+        #print(int(table[2].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 중구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 중구 자가격리자
 
@@ -71,6 +77,7 @@ class Daegu():
         donggu_data = BeautifulSoup(donggu.content, 'html.parser')
         table = donggu_data.find('ul', class_='cB').find_all("span", class_="t2")
         #  동구  |  자가격리
+        #print(int(table[0].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[0].text[:-1].replace(',', '')) # 동구 확진자
         self.db['자가격리자'] += int(table[1].text[:-1].replace(',', '')) # 동구 자가격리자
 
@@ -78,10 +85,11 @@ class Daegu():
         driver = copy.copy(self.driver)
         driver.get('http://dalseong.daegu.kr/')
         driver.implicitly_wait(5)
-        table = driver.find_element_by_tag_name('tbody').text.split(" ")
+        table = driver.find_elements_by_tag_name('tbody')[1].text.split(" ")
         # 누계  |  확진환자  |  자가격리  |  능동감시  | 감시종료
-        self.db['확진자'] += int(table[1][:-1].replace(',', '')) # 달성군 확진자
-        self.db['자가격리자'] += int(table[2][:-1].replace(',', '')) # 달성군 자가격리자
+        #print(int(table[1][:-1].replace(',', '')))
+        self.db['확진자'] += int(table[1].replace(',', '')) # 달성군 확진자
+        self.db['자가격리자'] += int(table[2].replace(',', '')) # 달성군 자가격리자
         
     def collect(self):
         # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
