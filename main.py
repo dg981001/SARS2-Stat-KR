@@ -19,6 +19,7 @@ region_list = [seoul(),
                gangwon(infected=6, suspect=1745, testing=409, negative=1336),
                jeonbuk(),
                jeonnam(),
+               
         ]
 table.generate(region_list)
 
@@ -31,5 +32,7 @@ readme.write('''
 질병관리본부에서 발표되는 공식 수치와는 다를 수 있습니다.
 
 {1}
+
+#1 확진자(중국인) 제외, #24 확진자(우한 교민) 완치
 '''.format(time.strftime(u'%Y.%m.%d %X KST', time.localtime(time.time())), table.table))
 readme.close()
