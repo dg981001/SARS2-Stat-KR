@@ -8,16 +8,17 @@ region_list = [seoul(),
                Daegu().collect(),    
                busan(),   
                daejeon(),
-               gwangju(infected=9, quarantine=7, care=2),
-               ulsan(infected=5, quarantine=5, testing=284, negative=680),
+               gwangju(infected=9, quarantine=6, self_quarantine=1, care=2),
+               ulsan(),
+               incheon(),
                gyeongbuk(),
                gyeongnam(),
                gyeonggi(), 
-               chungbuk(infected=6),
+               chungbuk(),
                chungnam(),
-               gangwon(infected=6, suspect=1548, testing=509, negative=1039),
-               jeonbuk(infected=4, quarantine=3, self_quarantine=82, unmonitor=11, care=1),
-               jeonnam()
+               gangwon(infected=6, suspect=1745, testing=409, negative=1336),
+               jeonbuk(),
+               jeonnam(),
         ]
 table.generate(region_list)
 

@@ -146,17 +146,27 @@ def gyeonggi():
     
     return stat
 
-def chungbuk(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
-    stat = copy.copy(form)
+def chungbuk():
+    res = requests.get('http://www.chungbuk.go.kr/www/index.do')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    table1 = soup.find_all('dd', class_="red") # 확진자, 검사중, 검사결과(음성)
+    table2 = soup.find('div', class_="list3").find_all('dd') # 감시중, 감시해제 (총합 : 자가격리자)
 
+    stat = copy.copy(form)
+#    
     stat['지역'] = '충청북도'
-    stat['확진자'] = '%s'%(infected)
-    stat['격리자'] = '%s'%(infected)
-    stat['자가격리자'] = '%s'%(self_quarantine)
-    stat['감시해제'] = '%s'%(unmonitor)
-    
+    stat['확진자'] = table1[0].text[:-1]
+    stat['격리자'] = table1[0].text[:-1]
+#    stat['완치'] = table[2].text
+    stat['감시중'] = table2[0].text[:-1]
+    stat['감시해제'] = table2[1].text[:-1]
+    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
+    stat['검사결과(음성)'] = table1[2].text[:-1]
+    stat['검사중'] = table1[1].text[:-1]
+    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['검사결과(음성)'].replace(',', '')), ',')    
+
     print("pass : ", stat['지역'])
-    
     return stat
 
 def chungnam():
@@ -215,22 +225,26 @@ def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-'
     
     return stat
 
-def jeonbuk(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
-    # https://www.gwangju.go.kr/
-    stat = copy.copy(form)
+def jeonbuk():
+    res = requests.get('http://www.jeonbuk.go.kr/index.jeonbuk')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    table = soup.find('ul', class_="tb_ul").find("ul").find_all('font')#.find_all('td')
 
+    stat = copy.copy(form)
+    
     stat['지역'] = '전라북도'
-    stat['확진자'] = '%s'%(infected)
-    stat['격리자'] = '%s'%(quarantine)
-    stat['의사환자'] = '%s'%(suspect)
-    stat['검사중'] = '%s'%(testing)
-    stat['검사결과(음성)'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(self_quarantine)
-    stat['감시해제'] = '%s'%(unmonitor)
-    stat['완치'] = '%s'%(care)
-    
+    stat['확진자'] = table[0].text
+    stat['격리자'] = table[1].text
+    stat['완치'] = table[2].text
+    stat['자가격리자'] = table[3].text
+#    stat['감시해제'] = table[3]
+#    stat['감시중'] = table[4]
+#    stat['검사결과(음성)'] = table[5]
+#    stat['검사중'] = table[6]
+#    stat['의사환자'] = format(int(stat['검사결과(음성)'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
+#    
     print("pass : ", stat['지역'])
-    
     return stat
 
 def jeonnam():
@@ -254,20 +268,47 @@ def jeonnam():
     
     return stat  
 
-def ulsan(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
-    # https://www.gwangju.go.kr/
+def ulsan():
+    res = requests.get('http://www.ulsan.go.kr/corona.jsp')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    table = soup.find('tbody').text.replace("\n\n", '').split("\n")#.find_all('td')
+    
     stat = copy.copy(form)
-
+    
     stat['지역'] = '울산'
-    stat['확진자'] = '%s'%(infected)
-    stat['격리자'] = '%s'%(quarantine)
-    stat['의사환자'] = '%s'%(suspect)
-    stat['검사중'] = '%s'%(testing)
-    stat['검사결과(음성)'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(self_quarantine)
-    stat['감시해제'] = '%s'%(unmonitor)
-    stat['완치'] = '%s'%(care)
+    stat['확진자'] = table[0]
+    stat['격리자'] = table[0]
+    stat['감시해제'] = table[3]
+    stat['감시중'] = table[4]
+    stat['검사결과(음성)'] = table[5]
+    stat['검사중'] = table[6]
+    stat['의사환자'] = format(int(stat['검사결과(음성)'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
     
     print("pass : ", stat['지역'])
+    return stat
+
+def incheon():
+    res = requests.get('https://www.incheon.go.kr/health/HE020409')
+    soup = BeautifulSoup(res.content, 'html.parser')
     
+    table_init = soup.find('tbody') # 확진자, 검사중, 검사결과(음성)
+    table = ' '.join(table_init.find_all('tr')[3].text.replace("\xa0", "").split()).split(' ')
+#    table2 = soup.find('div', class_="list3").find_all('dd') # 감시중, 감시해제 (총합 : 자가격리자)
+
+    stat = copy.copy(form)
+    
+    stat['지역'] = '인천'
+    stat['확진자'] = table[1]
+    stat['격리자'] = table[1]
+#    stat['완치'] = table[2].text
+#    stat['감시중'] = table2[0].text[:-1]
+#    stat['감시해제'] = table2[1].text[:-1]
+#    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
+    stat['검사결과(음성)'] = table[5]
+    stat['검사중'] = format(int(table[3]) + int(table[4]), ',')
+    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['검사결과(음성)'].replace(',', '')), ',')    
+#
+    print("pass : ", stat['지역'])
+#    return stat
     return stat
