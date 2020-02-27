@@ -10,7 +10,7 @@ class Daegu():
         options.add_argument('headless')
         f_driver = ''
         if platform.system() == 'Linux':
-            f_driver = 'chromedriver'
+            f_driver = './chromedriver'
         else:
             f_driver = 'chromedriver.exe'
         self.driver = webdriver.Chrome(f_driver, chrome_options=options)
