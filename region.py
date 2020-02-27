@@ -75,7 +75,7 @@ def daejeon():
     stat['격리자'] = soup.find('li', class_='tab-1').find('strong').text
     stat['사망자'] = soup.find('li', class_='tab-3').find('strong').text
     stat['감시중'] = li_num2[0].text[:-1] # 접촉자 격리
-    stat['감시해제'] = str(int(li_num2[1].text[:-1]) + int(li_num2[3].text[:-1])) # 접촉자 격리해제
+    stat['감시해제'] = str(int(li_num2[1].text[:-1].replace(",", "")) + int(li_num2[3].text[:-1].replace(",", ""))) # 접촉자 격리해제
     stat['의사환자'] = li_num2[2].text[:-1] # 의사환자 격리
     # stat[''] = li_num[3].text[:-1] # 의사환자 격리해제
     
@@ -242,7 +242,7 @@ def jeonnam():
     
     stat['지역'] = '전라남도'
     stat['확진자'] = table[0].text
-    stat['격리자'] = str(int(table[0].text) - int(table[4].text))
+    stat['격리자'] = str(int(table[0].text.replace(",", "")) - int(table[4].text.replace(",", "")))
     stat['검사중'] = table[9].text
     stat['검사결과(음성)'] = table[7].text
     stat['감시해제'] = table[4].text
