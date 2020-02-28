@@ -16,7 +16,7 @@ region_list = [seoul(),
                gyeonggi(), 
                chungbuk(),
                chungnam(),
-               gangwon(infected=6, suspect=1745, testing=409, negative=1336),
+               gangwon(infected=7, suspect=1881, testing=384, negative=1497),
                jeonbuk(),
                jeonnam(),
                
