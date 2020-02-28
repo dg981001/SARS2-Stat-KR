@@ -19,6 +19,7 @@ region_list = [seoul(),
                gangwon(infected=7, suspect=1881, testing=384, negative=1497),
                jeonbuk(),
                jeonnam(),
+               jeju(),
                
         ]
 table.generate(region_list)
