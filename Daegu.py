@@ -103,7 +103,7 @@ class Daegu():
         # 2) HTML 페이지 파싱 BeautifulSoup(HTML데이터, 파싱방법)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 3) 필요한 데이터 검색
-        li = soup.find('div', class_='con_r').find_all('li')
+        li = soup.find('div', class_='conunt_box').find_all('strong')
      
         self.bukgu()
         self.dalseogu()
@@ -118,10 +118,11 @@ class Daegu():
         
         stat['지역'] = '대구'
         stat['확진자'] = format(self.db['확진자'], ',')
-        stat['사망자'] = li[3].text.split(' ')[1]
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')) - int(li[1].text.split(' ')[1].replace(',','')), ",") 
+        stat['사망자'] = li[3].text[:-1]
+        stat['완치'] = li[1].text[:-1]
+        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')) - int(stat['완치'].replace(',','')), ",") 
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
-        stat['완치'] = li[1].text.split(' ')[1]
+        
     
         print("pass : ", stat['지역'])
         

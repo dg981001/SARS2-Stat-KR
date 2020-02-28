@@ -1,6 +1,7 @@
 import requests, copy
 from bs4 import BeautifulSoup
 from form import form
+from selenium import webdriver
 
 def seoul():
     res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do')
@@ -313,4 +314,26 @@ def incheon():
 #
     print("pass : ", stat['지역'])
 #    return stat
+    return stat
+
+def jeju():
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver = webdriver.Chrome('chromedriver.exe', options=options)
+    driver.get('https://www.jeju.go.kr/index.htm')
+    driver.implicitly_wait(3)
+    table = driver.find_elements_by_class_name('cc-box')
+    table = driver.find_elements_by_class_name('cc-box')
+    # print(table[0].text.split("\n"))
+    # print(table[1].text.split("\n"))
+    # print(table[2].text.split("\n"))
+    # print(table[3].text.split("\n"))
+    stat = copy.copy(form)
+    
+    stat['지역'] = '제주도'
+    stat['확진자'] = table[0].text.split("\n")[-1][:-1]
+    stat['사망자'] = table[1].text.split("\n")[-1][:-1]
+    stat['검사중'] = table[2].text.split("\n")[-1][:-1]
+    stat['자가격리자'] = table[3].text.split("\n")[2][:-1]
+    stat['감시해제'] = table[3].text.split("\n")[-1][:-1]
     return stat
