@@ -2,6 +2,7 @@ import requests, copy
 from bs4 import BeautifulSoup
 from form import form
 from selenium import webdriver
+import platform
 
 def seoul():
     res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do')
@@ -319,7 +320,16 @@ def incheon():
 def jeju():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', options=options)
+
+    f_driver = ''
+    if platform.system() == 'Linux':
+        f_driver = './chromedriver'
+    elif platform.system() == 'Darwin':
+        f_driver = './chromedriver_darwin'
+    else:
+        f_driver = 'chromedriver.exe'
+
+    driver = webdriver.Chrome(f_driver, options=options)
     driver.get('https://www.jeju.go.kr/index.htm')
     driver.implicitly_wait(3)
     table = driver.find_elements_by_class_name('cc-box')

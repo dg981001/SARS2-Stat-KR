@@ -11,6 +11,8 @@ class Daegu():
         f_driver = ''
         if platform.system() == 'Linux':
             f_driver = './chromedriver'
+        elif platform.system() == 'Darwin':
+            f_driver = './chromedriver_darwin'
         else:
             f_driver = 'chromedriver.exe'
         self.driver = webdriver.Chrome(f_driver, chrome_options=options)
