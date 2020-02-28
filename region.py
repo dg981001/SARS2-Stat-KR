@@ -151,25 +151,24 @@ def gyeonggi():
     return stat
 
 def chungbuk():
-    res = requests.get('http://www.chungbuk.go.kr/www/index.do')
+    res = requests.get('http://www.chungbuk.go.kr/www/covid-19/index.html')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table1 = soup.find_all('dd', class_="red") # 확진자, 검사중, 결과음성
-    table2 = soup.find('div', class_="list3").find_all('dd') # 감시중, 감시해제 (총합 : 자가격리자)
+    table = soup.find('ul', class_="clearfix").find_all("p", class_='text') # 확진자, 검사중, 검사결과(음성)
 
     stat = copy.copy(form)
-#    
+    
     stat['지역'] = '충청북도'
-    stat['확진자'] = table1[0].text[:-1]
-    stat['격리자'] = table1[0].text[:-1]
-#    stat['완치'] = table[2].text
-    stat['감시중'] = table2[0].text[:-1]
-    stat['감시해제'] = table2[1].text[:-1]
-    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
-    stat['결과음성'] = table1[2].text[:-1]
-    stat['검사중'] = table1[1].text[:-1]
-    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')    
-
+    stat['확진자'] = table[0].text
+    stat['의사환자'] = table[1].text
+    stat['검사중'] = table[2].text
+    stat['결과음성'] = table[3].text
+    stat['자가격리자'] = table[4].text
+    stat['감시중'] = table[5].text
+    stat['감시해제'] = table[6].text
+    stat['격리자'] = stat['확진자']
+    # stat['완치'] = 
+    
     print("pass : ", stat['지역'])
     return stat
 
@@ -376,5 +375,5 @@ def sejong():
     #stat['감시해제'] = 
 
     print("pass : ", stat['지역'])
-    
+
     return stat
