@@ -339,5 +339,32 @@ def jeju():
     stat['감시해제'] = table[3].text.split("\n")[-1][:-1]
 
     print("pass : ", stat['지역'])
+
+    return stat
+
+def sejong():
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver = webdriver.Chrome('chromedriver.exe', options=options)
+    driver.get('https://www.sejong.go.kr/')
+    driver.implicitly_wait(2)
+    table_init = driver.find_elements_by_class_name('databox')
+    table = table_init[0].text.split("\n")
+    # print(table[0].text.split("\n"))
+    # print(table[1].text.split("\n"))
+    # print(table[2].text.split("\n"))
+    # print(table[3].text.split("\n"))
+    stat = copy.copy(form)
+    
+    stat['지역'] = '세종'
+    stat['확진자'] = table[1]
+    stat['격리자'] = table[1]
+    #stat['사망자'] = 
+    stat['검사중'] = table[5]
+    stat['결과음성'] = table[7]
+    #stat['자가격리자'] = 
+    #stat['감시해제'] = 
+
+    print("pass : ", stat['지역'])
     
     return stat
