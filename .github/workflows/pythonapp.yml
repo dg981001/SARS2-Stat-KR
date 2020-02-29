@@ -1,0 +1,33 @@
+name: Python application
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run script
+      run: |
+        python main.py
+    - name: Commit changes
+      run: |
+        git config --local user.name "lk-lab"
+        git config --local user.email "dg981001@naver.com"
+        git commit --allow-empty -am "$(TZ="Asia/Seoul" date +"%Y.%m.%d %H:%M:%S %Z")"
+    - name: Push
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
