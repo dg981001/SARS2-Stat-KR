@@ -1,7 +1,7 @@
-from mk_table import Mk_table
-from region import *
-from Daegu import Daegu
-from KST import kst_time
+from util.mk_table import Mk_table
+from util.region import *
+from util.Daegu import Daegu
+from util.KST import kst_time
 
 
 if __name__=="__main__":
