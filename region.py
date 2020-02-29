@@ -356,7 +356,16 @@ def jeju():
 def sejong():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
-    driver = webdriver.Chrome('chromedriver.exe', options=options)
+
+    f_driver = ''
+    if platform.system() == 'Linux':
+        f_driver = './chromedriver'
+    elif platform.system() == 'Darwin':
+        f_driver = './chromedriver_darwin'
+    else:
+        f_driver = 'chromedriver.exe'
+
+    driver = webdriver.Chrome(f_driver, options=options)
     driver.get('https://www.sejong.go.kr/')
     driver.implicitly_wait(2)
     table_init = driver.find_elements_by_class_name('databox')
