@@ -30,7 +30,7 @@ if __name__=="__main__":
     readme = open('README.md', mode='wt', encoding='utf-8')
     readme.write('''
 ## 대한민국 우한 코로나 바이러스 감염자 실시간 통계
-{0}
+{0} KST
 
 ** 빠른 시일 내에 서울특별시 구청별 통계 수합 코드를 작성하여 실시간 반영할 수 있도록 하겠습니다. **
 
