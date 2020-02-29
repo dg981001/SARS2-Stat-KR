@@ -20,7 +20,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytz
-        chmod +x chromedriver
+        chmod +x util/chromedriver
     - name: Run script
       run: |
         python main.py
