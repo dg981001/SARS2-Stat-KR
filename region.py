@@ -19,7 +19,7 @@ def seoul():
         stat[li_txt[i]] = li_num[i]
     
     stat['지역'] = '서울'
-    stat['완치'] = format(10, ',')
+    stat['완치'] = format(9, ',')
     stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")), ",")
     
     

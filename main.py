@@ -39,6 +39,6 @@ if __name__=="__main__":
 
 {1}
 
-#1 확진자(중국인) 제외, #24 확진자(우한 교민) 완치
+#1 확진자(중국인) 제외
     '''.format(time.strftime(u'%Y.%m.%d %X KST', time.localtime(time.time())), table.table))
     readme.close()
