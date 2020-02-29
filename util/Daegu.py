@@ -24,7 +24,7 @@ class Daegu():
                     '자가격리자' : 0
                     }
         
-    def bukgu(self):
+    def buk_gu(self):
         bukgu = requests.get('http://www.buk.daegu.kr/#')
         bukgu_data = BeautifulSoup(bukgu.content, 'html.parser')
         table = bukgu_data.find('tbody').find_all('td')
@@ -33,7 +33,7 @@ class Daegu():
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 북구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 북구 자가격리자
 
-    def namgu(self):
+    def nam_gu(self):
         namgu = requests.get('http://www.nam.daegu.kr/')
         namgu_data = BeautifulSoup(namgu.content, 'html.parser')
         table = namgu_data.find('tbody').find_all('td')
@@ -43,7 +43,7 @@ class Daegu():
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
 
 
-    def dalseogu(self):
+    def dalseo_gu(self):
         driver = copy.copy(self.driver)
         driver.get('http://www.dalseo.daegu.kr/')
         driver.implicitly_wait(5)
@@ -55,7 +55,7 @@ class Daegu():
         self.db['자가격리자'] += int(table[3][:-1].replace(',', '')) # 달서구 자가격리자
 
 
-    def seogu(self):
+    def seo_gu(self):
         seogu = requests.get('https://www.dgs.go.kr/inc/popup.php?pop_open_site=seogu_k&pop_idx=36')
         seogu_data = BeautifulSoup(seogu.content, 'html.parser')
         table = seogu_data.find('tbody').find_all('td')
@@ -64,7 +64,7 @@ class Daegu():
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 서구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 서구 자가격리자
 
-    def suseonggu(self):
+    def suseong_gu(self):
         suseonggu = requests.get('http://www.suseong.kr/index.do')
         suseonggu_data = BeautifulSoup(suseonggu.content, 'html.parser')
         table = suseonggu_data.find('tbody').find_all('td')
@@ -73,7 +73,7 @@ class Daegu():
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 수성구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 수성구 자가격리자
 
-    def junggu(self):
+    def jung_gu(self):
         junggu = requests.get('http://www.jung.daegu.kr/new/pages/main/')
         junggu_data = BeautifulSoup(junggu.content, 'html.parser')
         table = junggu_data.find('tbody').find_all('td')
@@ -82,7 +82,7 @@ class Daegu():
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 중구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 중구 자가격리자
 
-    def donggu(self):
+    def dong_gu(self):
         donggu = requests.get('http://www.dong.daegu.kr/main/main.htm')
         donggu_data = BeautifulSoup(donggu.content, 'html.parser')
         table = donggu_data.find('ul', class_='cB').find_all("span", class_="t2")
@@ -109,13 +109,13 @@ class Daegu():
         # 3) 필요한 데이터 검색
         li = soup.find('div', class_='conunt_box').find_all('strong')
      
-        self.bukgu()
-        self.dalseogu()
-        self.namgu()
-        self.seogu()
-        self.suseonggu()
-        self.junggu()
-        self.donggu()
+        self.buk_gu()
+        self.dalseo_gu()
+        self.nam_gu()
+        self.seo_gu()
+        self.suseong_gu()
+        self.jung_gu()
+        self.dong_gu()
         self.dalseonggun()
     
         stat = copy.copy(form)
