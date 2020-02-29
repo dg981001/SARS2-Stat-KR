@@ -32,6 +32,40 @@ class Seoul():
             '감시해제'      :  0,
             '완치'          :  0,
             }
+
+    def gangnam_gu(self):
+        req = requests.get('http://www.gangnam.go.kr/index.htm')
+        data = BeautifulSoup(req.content, 'html.parser')
+        # 계  |  강남주민  |  타지역
+        self.db['확진자'] += int(data.find('table', 'corona_table1').find('tbody').find('span').text) # 강남 확진자
+        # 자가격리  |  능동감시
+        self.db['자가격리자'] += int(data.find('table', 'corona_table2').find('tbody').find_all('span')[0].text) # 강남 자가격리자
+        self.db['감시중'] += int(data.find('table', 'corona_table2').find('tbody').find_all('span')[1].text) # 강남 능동감시자
+
+    def gangdong_gu(self):
+        req = requests.get('https://www.gangdong.go.kr')
+        data = BeautifulSoup(req.content, 'html.parser')
+        self.db['확진자'] += int(data.find('li', 'red').find('strong').text) # 강동 확진자
+        self.db['완치자'] += int(data.find('li', 'green').find('strong').text) # 강동 완치자
+        self.db['자가격리자'] += int(data.find('li', 'blue').find('strong').text) # 강동 자가격리자
+
+    def gangbuk_gu(self):
+        driver = copy.copy(self.driver)
+        driver.get('http://www.dalseo.daegu.kr/')
+        # 확진자  |  자가격리자  |  능동감시자
+        table = driver.find_element_by_class_name('table_co').find_element_by_class_name('text_center').text.split(' ')
+        self.db['확진자'] += int(table[0]) # 강북 확진자
+        self.db['자가격리자'] += int(table[1]) # 강북 자가격리자
+        self.db['감시중'] += int(table[2]) # 강북 능동감시자
+
+    def gangseo_gu(self):
+        req = requests.get('http://www.gangseo.seoul.kr/new_portal/index.jsp')
+        data = BeautifulSoup(req.content, 'html.parser')
+        # 확진자  |  능동감시자
+        table = data.find('table', 'table0226').find_all('tr')[1].find_all('td')
+        self.db['확진자'] += int(table[0].text[:-1]) # 강서 확진자
+        self.db['감시중'] += int(table[1].text[:-1]) # 강서 능동감시자
+        # TODO: 완치자 추가하기
     
     def yeongdeungpo_gu(self):
         driver = copy.copy(self.driver)
@@ -112,6 +146,10 @@ class Seoul():
      
         self.buk_gu()
         
+        self.gangnam_gu()
+        self.gangdong_gu()
+        self.gangbuk_gu()
+        self.gangseo_gu()
         self.yeongdeungpo()
         self.yongsan_gu()
         self.eunpyeong_gu()
