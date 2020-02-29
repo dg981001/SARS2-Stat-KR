@@ -1,8 +1,10 @@
 import requests, copy
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from form import form
+from util.form import form
 import platform
+
+dir_name = "util"
 
 class Daegu():
     def __init__(self):
@@ -10,11 +12,11 @@ class Daegu():
         options.add_argument('headless')
         f_driver = ''
         if platform.system() == 'Linux':
-            f_driver = './chromedriver'
+            f_driver = '%s/chromedriver'%(dir_name)
         elif platform.system() == 'Darwin':
-            f_driver = './chromedriver_darwin'
+            f_driver = '%s/chromedriver_darwin'%(dir_name)
         else:
-            f_driver = 'chromedriver.exe'
+            f_driver = '%s/chromedriver.exe'%(dir_name)
         self.driver = webdriver.Chrome(f_driver, chrome_options=options)
 
         self.db = {
