@@ -1,7 +1,7 @@
 from mk_table import Mk_table
 from region import *
 from Daegu import Daegu
-import time
+from KST import kst_time
 
 
 if __name__=="__main__":
@@ -40,5 +40,5 @@ if __name__=="__main__":
 {1}
 
 #1 확진자(중국인) 제외
-    '''.format(time.strftime(u'%Y.%m.%d %X KST', time.localtime(time.time())), table.table))
+    '''.format(kst_time(), table.table))
     readme.close()
