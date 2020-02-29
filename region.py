@@ -123,10 +123,12 @@ def gyeongnam():
     
     stat['지역'] = '경상남도'
     stat['확진자'] = table[1].text[:-1]
-    stat['격리자'] = table[1].text[:-1] # 추후 추가시 변경
-    stat['검사중'] = table[3].text[:-1]
-    stat['결과음성'] = table[5].text[:-1]
-    stat['자가격리자'] = table[6].text[:-1]
+    stat['완치'] = table[2].text[1:-1].split(" ")[1][:-1]
+    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")), ",")
+    stat['검사중'] = table[4].text[:-1]
+    stat['결과음성'] = table[6].text[:-1]
+    stat['자가격리자'] = table[7].text[:-1]
+    stat['의사환자'] = format(int(stat['검사중'].replace(",", "")) + int(stat['결과음성'].replace(",", "")), ",")
     
     print("pass : ", stat['지역'])
     
