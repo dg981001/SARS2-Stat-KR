@@ -67,6 +67,34 @@ class Seoul():
         self.db['감시중'] += int(table[1].text[:-1]) # 강서 능동감시자
         # TODO: 완치자 추가하기
     
+    def songpa_gu(self):
+        res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True)
+        soup = BeautifulSoup(res.content, 'html.parser')
+        
+        table_init = soup.find('tbody')
+        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        # 확진자  |  완치(확진해제자)  |  자가격리  
+        
+        self.db['확진자'] += int(table[3][:-1].replace(',', ''))
+        self.db['완치'] += int(table[4][:-1].replace(',', ''))
+        self.db['자가격리자'] += int(table[5][:-1].replace(',', ''))
+        #self.db['결과음성'] += 
+        #self.db['검사중'] += 
+
+
+    def yangcheon_gu(self):
+        res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False)
+        soup = BeautifulSoup(res.content, 'html.parser')
+        
+        table_init = soup.find('tbody')
+        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        ## 전국  |  양천구  
+        
+        self.db['확진자'] += int(table[1][:-1].replace(',', ''))
+        #self.db['결과음성'] += 
+        #self.db['검사중'] += 
+        #self.db['자가격리자'] += 
+
     def yeongdeungpo_gu(self):
         driver = copy.copy(self.driver)
         driver.get('https://www.ydp.go.kr/site/corona/index.html')
@@ -132,9 +160,8 @@ class Seoul():
     
         table = soup.find('span', class_='point_txt')
         # 전국  |  북구  |  자가격리
-        self.db['확진자'] += int(table.text) # 북구 확진자
-        # self.db['자가격리자'] += int(    ) # 북구 자가격리자
-
+        self.db['확진자'] += int(table.text) # 
+        # self.db['자가격리자'] += int(    ) # 
         
     def collect(self):
         # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
@@ -150,7 +177,9 @@ class Seoul():
         self.gangdong_gu()
         self.gangbuk_gu()
         self.gangseo_gu()
-        self.yeongdeungpo()
+
+        self.yangcheon_gu()
+        self.yeongdeungpo_gu()
         self.yongsan_gu()
         self.eunpyeong_gu()
         self.jongno_gu()
