@@ -1,6 +1,7 @@
 from util.mk_table import Mk_table
 from util.region import *
 from util.Daegu import Daegu
+from util.Gangwon import Gangwon
 from util.KST import kst_time
 
 
@@ -19,7 +20,7 @@ if __name__=="__main__":
                    gyeonggi(), 
                    chungbuk(),
                    chungnam(),
-                   gangwon(infected=15, suspect=2664, testing=623, negative=2041),
+                   Gangwon().collect(suspect=2664, testing=623, negative=2041),
                    jeonbuk(),
                    jeonnam(),
                    jeju(),
@@ -32,7 +33,7 @@ if __name__=="__main__":
 ## 대한민국 우한 코로나 바이러스 감염자 실시간 통계
 {0} KST
 
-** 3월 1일 현재 각 시/도/구/군청에서 갱신해주는 속도가 지연되어 질병관리본부 수치가 더 많습니다. **
+** 3월 1일 현재 각 시/도/구/군청에서 갱신해주는 속도가 지연되어 질병관리본부 수치가 더 많습니다. **<br>
 ** 세부 지역 추가 작업을 도와주시면 감사하겠습니다 **
 
 각 **시/도/구/군청** 사이트에 공개되어 있는 **공식 자료**를 수합하여 만든 통계입니다.
