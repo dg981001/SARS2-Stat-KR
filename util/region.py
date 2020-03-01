@@ -321,7 +321,7 @@ def incheon():
 #    stat['감시해제'] = table2[1].text[:-1]
 #    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
     stat['결과음성'] = table[5]
-    stat['검사중'] = format(int(table[3]) + int(table[4]), ',')
+    stat['검사중'] = format(int(table[3].replace(',', '')) + int(table[4].replace(',', '')), ',')
     stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')    
 #
     print("pass : ", stat['지역'])
