@@ -177,21 +177,29 @@ def chungbuk():
     return stat
 
 def chungnam():
-    res = requests.get('http://www.chungnam.go.kr/cnnet/content.do?mnu_cd=CNNMENU02418')
-    soup = BeautifulSoup(res.content, 'html.parser')
-    
-    table_init = soup.find('tbody').find_all('tr')[2]
-    
-    table = table_init.text.split('\n')[1:-1]
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+
+    if platform.system() == 'Linux':
+        f_driver = '%s/chromedriver'%(dir_name)
+    elif platform.system() == 'Darwin':
+        f_driver = '%s/chromedriver_darwin'%(dir_name)
+    else:
+        f_driver = '%s/chromedriver.exe'%(dir_name)
+    driver = webdriver.Chrome(f_driver, options=options)
+    driver.get('http://www.chungnam.go.kr/coronaStatus.do')
+    driver.implicitly_wait(2)
+    table = driver.find_elements_by_class_name('item')
     
     stat = copy.copy(form)
     
     stat['지역'] = '충청남도'
-    stat['확진자'] = table[1]
-    stat['격리자'] = table[1]
-    stat['검사중'] = table[6]
-    stat['결과음성'] = table[5]
-    stat['자가격리자'] = table[7].split(' ')[1]
+    stat['확진자'] = table[0].text.split("\n")[-1]
+    stat['격리자'] = stat['확진자']
+    stat['검사중'] = table[1].text.split("\n")[-1]
+    stat['결과음성'] = table[2].text.split("\n")[-1]
+    stat['자가격리자'] = table[3].text.split("\n")[1]
+    #stat['감시해제'] = table[3].text.split("\n")[3]
     
     print("pass : ", stat['지역'])
     
