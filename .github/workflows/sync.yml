@@ -23,7 +23,7 @@ jobs:
         chmod +x util/chromedriver
     - name: Run script
       run: |
-        python main.py
+        python main_action.py
     - name: Commit changes
       run: |
         git config --local user.name "lk-lab"
