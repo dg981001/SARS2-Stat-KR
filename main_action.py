@@ -7,6 +7,7 @@ from util.KST import kst_time
 count_try = 0
 
 def region_data():
+    global count_try
     try:
         region_li = [seoul(),
                    Daegu().collect(),    
@@ -31,9 +32,11 @@ def region_data():
     except:
         if count_try < 5:
             count_try += 1
+            print("Retry %d"%count_try)
             region_data()
         else:
             print("Failed : some regions occur error ")
+            exit(0)
 
 if __name__=="__main__":
     table = Mk_table()
