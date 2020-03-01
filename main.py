@@ -19,7 +19,7 @@ if __name__=="__main__":
                    gyeonggi(), 
                    chungbuk(),
                    chungnam(),
-                   gangwon(infected=7, suspect=1881, testing=384, negative=1497),
+                   gangwon(infected=7, suspect=2095, testing=367, negative=1728),
                    jeonbuk(),
                    jeonnam(),
                    jeju(),
