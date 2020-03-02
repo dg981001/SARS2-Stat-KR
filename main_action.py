@@ -36,7 +36,6 @@ def region_data():
             region_data()
         else:
             print("Failed : some regions occur error ")
-            exit(0)
 
 if __name__=="__main__":
     table = Mk_table()
