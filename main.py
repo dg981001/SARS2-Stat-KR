@@ -1,13 +1,14 @@
 from util.mk_table import Mk_table
 from util.region import *
 from util.Daegu import Daegu
+from util.Seoul import Seoul
 from util.Gangwon import Gangwon
 from util.KST import kst_time
 
 
 if __name__=="__main__":
     table = Mk_table()
-    region_list = [seoul(),
+    region_list = [Seoul().collect(),
                    Daegu().collect(),    
                    busan(),   
                    daejeon(),

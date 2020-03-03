@@ -1,5 +1,6 @@
 from util.mk_table import Mk_table
 from util.region import *
+from util.Seoul import Seoul
 from util.Daegu import Daegu
 from util.Gangwon import Gangwon
 from util.KST import kst_time
@@ -9,7 +10,7 @@ count_try = 0
 def region_data():
     global count_try
     try:
-        region_li = [seoul(),
+        region_li = [Seoul().collect(),
                    Daegu().collect(),    
                    busan(),   
                    daejeon(),
