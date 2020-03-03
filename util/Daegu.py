@@ -41,7 +41,7 @@ class Daegu():
         #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 북구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 북구 자가격리자
-        #print("북구 : ", int(table[1].text[:-1].replace(',', '')))
+        print("#북구 : ", int(table[1].text[:-1].replace(',', '')))
 
     def nam_gu(self):
         namgu = requests.get('http://www.nam.daegu.kr/')
@@ -51,7 +51,7 @@ class Daegu():
         #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 남구 확진자
         self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
-        #print("남구 : ", int(table[1].text[:-1].replace(',', '')))
+        print("#남구 : ", int(table[1].text[:-1].replace(',', '')))
 
     def dalseo_gu(self):
         driver = copy.copy(self.driver)
@@ -63,7 +63,7 @@ class Daegu():
         #print(int(table[2][:-1].replace(',', '')))
         self.db['확진자'] += int(table[2][:-1].replace(',', '')) # 달서구 확진자
         self.db['자가격리자'] += int(table[3].split("\n")[0][:-1].replace(',', '')) # 달서구 자가격리자
-        #print("달서구 : ", int(table[2][:-1].replace(',', '')))
+        print("#달서구 : ", int(table[2][:-1].replace(',', '')))
 
     def seo_gu(self):
         seogu = requests.get('https://www.dgs.go.kr/inc/popup.php?pop_open_site=seogu_k&pop_idx=36')
@@ -73,7 +73,7 @@ class Daegu():
         #print(int(table[2].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 서구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 서구 자가격리자
-        #print("서구 : ", int(table[2].text[:-1].replace(',', '')))
+        print("#서구 : ", int(table[2].text[:-1].replace(',', '')))
 
     def suseong_gu(self):
         suseonggu = requests.get('http://www.suseong.kr/index.do')
@@ -83,7 +83,7 @@ class Daegu():
         #print(int(table[1].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 수성구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 수성구 자가격리자
-        #print("수성구 : ", int(table[1].text[:-1].replace(',', '')))
+        print("#수성구 : ", int(table[2].text[:-1].replace(',', '')))
 
     def jung_gu(self):
         junggu = requests.get('http://www.jung.daegu.kr/new/pages/main/')
@@ -93,7 +93,7 @@ class Daegu():
         #print(int(table[2].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 중구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 중구 자가격리자
-        #print("중구 : ", int(table[2].text[:-1].replace(',', '')))
+        print("#중구 : ", int(table[2].text[:-1].replace(',', '')))
 
 
     def dong_gu(self):
@@ -104,7 +104,7 @@ class Daegu():
         #print(int(table[0].text[:-1].replace(',', '')))
         self.db['확진자'] += int(table[0].text[:-1].replace(',', '')) # 동구 확진자
         self.db['자가격리자'] += int(table[1].text[:-1].replace(',', '')) # 동구 자가격리자
-        #print("동구 : ", int(table[0].text[:-1].replace(',', '')))
+        print("#동구 : ", int(table[0].text[:-1].replace(',', '')))
 
     def dalseonggun(self):
         driver = copy.copy(self.driver)
@@ -115,7 +115,7 @@ class Daegu():
         #print(int(table[1][:-1].replace(',', '')))
         self.db['확진자'] += int(table[1].split("(")[0].replace(',', '')) # 달성군 확진자
         self.db['자가격리자'] += int(table[2].split("(")[0].replace(',', '')) # 달성군 자가격리자
-        #print("달성군 : ", int(table[1].split("(")[0].replace(',', '')))
+        print("#달성군 : ", int(table[1].split("(")[0].replace(',', '')))
 
 
     def collect(self):
