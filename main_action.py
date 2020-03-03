@@ -31,7 +31,7 @@ def region_data():
                    ]
         return region_li
     except:
-        if count_try < 5:
+        if count_try < 10:
             count_try += 1
             print("Retry %d"%count_try)
             region_data()
