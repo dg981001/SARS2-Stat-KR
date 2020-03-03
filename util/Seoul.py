@@ -105,23 +105,26 @@ class Seoul():
         res = requests.get('https://www.geumcheon.go.kr/portal/index.do')
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  능동감시자(자가격리자)
-        table = soup.find('div', 'corona_popup').find('div', 'table_box division3') \
-                .find_all('span', 'text')
-        self.db['확진자'] += int(table[1].text[:-1])
+        table = table = soup.find('div', 'table_box division3').find_all('div', class_='text')
+        temp = table[2].text.split("(")
+        self.db['확진자'] += int(table[1].text.split("  ")[0][:-1].replace(' ', ''))
         # 능동감시자와 자가격리자가 N명(M명) 의 형태로 표기되어 있어 별도로 분리
-        self.db['감시중'] += int(table[2].text.split('명')[0])
-        self.db['자가격리자'] += int(table[2].text.split('명')[1].split('(')[1])
+        self.db['감시중'] += int(temp[0][:-1].replace(' ', ''))
+        self.db['자가격리자'] += int(temp[1][:-3].replace(' ', ''))
 
     def nowon_gu(self):
         res = requests.get('http://www.nowon.kr')
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  의사환자  |  유증상자  |  자가격리자
         # 유증상자는 별도로 집계하지 않음
-        table = soup.find('div', 'covid_pop').find('div', 'co_bd').find('table').find('tbody') \
-                .find_all('td')
-        self.db['확진자'] += int(table[0].text.replace(' ', '')[:-1])
-        self.db['의사환자'] += int(table[1].text.replace(' ', '')[:-1])
-        self.db['자가격리자'] += int(table[3].text.replace(' ', '')[:-1])
+        table = soup.find('tbody').find_all('td')
+
+        self.db['확진자'] += int(table[0].text[:-1].replace(' ', ''))
+        self.db['완치'] += int(table[1].text[:-1].replace(' ', ''))
+        self.db['격리자'] += int(table[3].text[:-1].replace(' ', ''))
+        self.db['의사환자'] += int(table[2].text[:-1].replace(' ', ''))
+        self.db['감시중'] += int(table[4].text[:-1].replace(' ', ''))
+        self.db['자가격리자'] += int(table[4].text[:-1].replace(' ', ''))
 
     def dobong_gu(self):
         res = requests.get('http://www.dobong.go.kr')
