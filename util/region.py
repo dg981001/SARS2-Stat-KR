@@ -21,8 +21,8 @@ def seoul():
         stat[li_txt[i]] = li_num[i]
     
     stat['지역'] = '서울'
-    stat['완치'] = format(25, ',')
-    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")), ",")
+    stat['퇴원'] = format(25, ',')
+    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     
     
     print("pass : ", stat['지역'])
@@ -78,7 +78,7 @@ def daejeon():
     
     stat['지역'] = '대전'
     stat['확진자'] = li_num[0].find("strong").text
-    stat['완치'] = li_num[1].find("strong").text
+    stat['퇴원'] = li_num[1].find("strong").text
     stat['격리자'] = li_num[2].find("strong").text
     stat['사망자'] = li_num[3].find("strong").text
     stat['검사중'] = li_num[4].find("strong").text
@@ -104,7 +104,7 @@ def gyeongbuk():
         
         stat['확진자'] = li[0].text
         stat['격리자'] = li[1].text
-        stat['완치'] = li[2].text
+        stat['퇴원'] = li[2].text
         stat['사망자'] = li[3].text
         stat['검사중'] = li[5].text
         stat['결과음성'] = li[6].text
@@ -128,8 +128,8 @@ def gyeongnam():
     
     stat['지역'] = '경상남도'
     stat['확진자'] = table[1].text[:-1]
-    stat['완치'] = table[2].text[1:-1].split(" ")[1][:-1]
-    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")), ",")
+    stat['퇴원'] = table[2].text[1:-1].split(" ")[1][:-1]
+    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     stat['검사중'] = table[4].text[:-1]
     stat['결과음성'] = table[6].text[:-1]
     stat['자가격리자'] = table[7].text[:-1]
@@ -150,7 +150,7 @@ def gyeonggi():
     stat['지역'] = '경기도'
     stat['확진자'] = table[3].text
     stat['격리자'] = table[0].text
-    stat['완치'] = table[1].text
+    stat['퇴원'] = table[1].text
     stat['사망자'] = table[2].text
     
     print("pass : ", stat['지역'])
@@ -174,7 +174,7 @@ def chungbuk():
     stat['감시중'] = table[5].text
     stat['감시해제'] = table[6].text
     stat['격리자'] = stat['확진자']
-    # stat['완치'] = 
+    # stat['퇴원'] = 
     
     print("pass : ", stat['지역'])
     return stat
@@ -237,7 +237,7 @@ def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-'
     stat['결과음성'] = '%s'%(negative)
     stat['자가격리자'] = '%s'%(self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
-    stat['완치'] = '%s'%(care)
+    stat['퇴원'] = '%s'%(care)
     
     print("pass : ", stat['지역'])
     
@@ -254,7 +254,7 @@ def jeonbuk():
     stat['지역'] = '전라북도'
     stat['확진자'] = table[0].text
     stat['격리자'] = table[1].text
-    stat['완치'] = table[2].text
+    stat['퇴원'] = table[2].text
     stat['자가격리자'] = table[3].text
 #    stat['감시해제'] = table[3]
 #    stat['감시중'] = table[4]
@@ -275,8 +275,8 @@ def jeonnam():
     
     stat['지역'] = '전라남도'
     stat['확진자'] = table[0].text
-    stat['완치'] = table[4].text
-    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")))
+    stat['퇴원'] = table[4].text
+    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")))
     stat['검사중'] = table[9].text
     stat['결과음성'] = table[7].text
     stat['감시해제'] = table[4].text
@@ -319,7 +319,7 @@ def incheon():
     stat['지역'] = '인천'
     stat['확진자'] = table[1]
     stat['격리자'] = table[1]
-#    stat['완치'] = table[2].text
+#    stat['퇴원'] = table[2].text
 #    stat['감시중'] = table2[0].text[:-1]
 #    stat['감시해제'] = table2[1].text[:-1]
 #    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
