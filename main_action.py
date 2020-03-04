@@ -33,7 +33,6 @@ def region_data():
     except:
         if count_try < 10:
             count_try += 1
-            del region_li
             print("Retry %d"%count_try)
             region_data()
         else:
