@@ -8,7 +8,7 @@ from util.KST import kst_time
 
 if __name__=="__main__":
     table = Mk_table()
-    region_list = [Seoul().collect(),
+    region_list = [seoul(),
                    Daegu().collect(),    
                    busan(),   
                    daejeon(),

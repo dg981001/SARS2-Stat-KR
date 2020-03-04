@@ -10,7 +10,7 @@ count_try = 0
 def region_data():
     global count_try
     try:
-        region_li = [Seoul().collect(),
+        region_li = [seoul(),
                    Daegu().collect(),    
                    busan(),   
                    daejeon(),
