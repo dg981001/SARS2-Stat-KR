@@ -30,7 +30,7 @@ class Daegu():
             '자가격리자'    :  0,
             '감시중'        :  0,
             '감시해제'      :  0,
-            '완치'          :  0,
+            '퇴원'          :  0,
             }
         
     def buk_gu(self):
@@ -39,9 +39,9 @@ class Daegu():
         table = bukgu_data.find('tbody').find_all('td')
         # 전국  |  북구  |  자가격리
         #print(int(table[1].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 북구 확진자
-        self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 북구 자가격리자
-        print("#북구 : ", int(table[1].text[:-1].replace(',', '')))
+        self.db['확진자'] += int(table[1].text.split("(")[0][:-1].replace(',', '')) # 북구 확진자
+        self.db['자가격리자'] += int(table[2].text.split("(")[0][:-1].replace(',', '')) # 북구 자가격리자
+        print("#북구 : ", int(table[1].text.split("(")[0][:-1].replace(',', '')))
 
     def nam_gu(self):
         namgu = requests.get('http://www.nam.daegu.kr/')
@@ -140,8 +140,8 @@ class Daegu():
         stat['지역'] = '대구'
         stat['확진자'] = format(self.db['확진자'], ',')
         stat['사망자'] = li[3].text[:-1]
-        stat['완치'] = li[1].text[:-1]
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')) - int(stat['완치'].replace(',','')), ",") 
+        stat['퇴원'] = li[1].text[:-1]
+        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",") 
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
         
     
