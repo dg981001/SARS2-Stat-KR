@@ -21,7 +21,7 @@ def seoul():
         stat[li_txt[i]] = li_num[i]
     
     stat['지역'] = '서울'
-    stat['완치'] = format(11, ',')
+    stat['완치'] = format(25, ',')
     stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['완치'].replace(",", "")), ",")
     
     
@@ -71,18 +71,21 @@ def daejeon():
     res = requests.get('https://www.daejeon.go.kr/corona19/index.do')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    li_num2 = soup.find_all('span', class_='s-txt')
-    li_txt2 = soup.find_all('span', class_='s-tit')
+    li_num = soup.find_all('span', class_='s-txt')
+    li_txt = soup.find_all('span', class_='s-tit')
     
     stat = copy.copy(form)
     
     stat['지역'] = '대전'
-    stat['확진자'] = soup.find('li', class_='tab-1').find('strong').text
-    stat['격리자'] = soup.find('li', class_='tab-1').find('strong').text
-    stat['사망자'] = soup.find('li', class_='tab-3').find('strong').text
-    stat['감시중'] = li_num2[0].text[:-1] # 접촉자 격리
-    stat['감시해제'] = str(int(li_num2[1].text[:-1].replace(",", "")) + int(li_num2[3].text[:-1].replace(",", ""))) # 접촉자 격리해제
-    stat['의사환자'] = li_num2[2].text[:-1] # 의사환자 격리
+    stat['확진자'] = li_num[0].find("strong").text
+    stat['완치'] = li_num[1].find("strong").text
+    stat['격리자'] = li_num[2].find("strong").text
+    stat['사망자'] = li_num[3].find("strong").text
+    stat['검사중'] = li_num[4].find("strong").text
+    stat['결과음성'] = li_num[5].find("strong").text
+    stat['자가격리자'] = li_num[6].find("strong").text
+    stat['감시중'] = li_num[6].find("strong").text
+    stat['감시해제'] = li_num[7].find("strong").text# 의사환자 격리
     # stat[''] = li_num[3].text[:-1] # 의사환자 격리해제
     
     print("pass : ", stat['지역'])
