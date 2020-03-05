@@ -13,3 +13,4 @@ __pycache__/mk_table.cpython-37.pyc
 *.pyc
 *.ipynb
 .ipynb_checkpoints/maker-checkpoint.ipynb
+.vscode/settings.json

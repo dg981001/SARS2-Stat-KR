@@ -23,7 +23,7 @@ class Daegu():
             '지역'          :  0,
             '확진자'        :  0,
             '격리자'        :  0,
-            '사망자'        :  0,
+            '사망'        :  0,
             '의사환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
@@ -139,9 +139,9 @@ class Daegu():
         
         stat['지역'] = '대구'
         stat['확진자'] = format(self.db['확진자'], ',')
-        stat['사망자'] = li[3].text[:-1]
+        stat['사망'] = li[3].text[:-1]
         stat['퇴원'] = li[1].text[:-1]
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",") 
+        stat['격리자'] = format(self.db['확진자'] - int(stat['사망'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",") 
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
         
     

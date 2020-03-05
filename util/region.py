@@ -45,23 +45,24 @@ def daegu():
     
     stat['확진자'] = li[0].text.split(' ')[1]
     stat['격리자'] = li[1].text.split(' ')[1]
-    stat['사망자'] = li[2].text.split(' ')[1]
+    stat['사망'] = li[2].text.split(' ')[1]
     
     print("pass : ", stat['지역'])
     
     return stat
 
 def busan():
-    res = requests.get('http://www.busan.go.kr/corona/index.jsp')
+    res = requests.get('http://www.busan.go.kr/corona19/index')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    li = soup.find('span', class_='item2')
+    li = soup.find('div', class_='banner').find_all("span")
     
     stat = copy.copy(form)
     
     stat['지역'] = '부산'
-    stat['확진자'] = li.text[:-1]
-    stat['격리자'] = li.text[:-1]
+    stat['확진자'] = li[1].text[:-1]
+    stat['퇴원'] = li[3].text[:-1]
+    stat['격리자'] = li[4].text[:-1]
     
     print("pass : ", stat['지역'])
     
@@ -80,7 +81,7 @@ def daejeon():
     stat['확진자'] = li_num[0].find("strong").text
     stat['퇴원'] = li_num[1].find("strong").text
     stat['격리자'] = li_num[2].find("strong").text
-    stat['사망자'] = li_num[3].find("strong").text
+    stat['사망'] = li_num[3].find("strong").text
     stat['검사중'] = li_num[4].find("strong").text
     stat['결과음성'] = li_num[5].find("strong").text
     stat['자가격리자'] = li_num[6].find("strong").text
@@ -105,7 +106,7 @@ def gyeongbuk():
         stat['확진자'] = li[0].text
         stat['격리자'] = li[1].text
         stat['퇴원'] = li[2].text
-        stat['사망자'] = li[3].text
+        stat['사망'] = li[3].text
         stat['검사중'] = li[5].text
         stat['결과음성'] = li[6].text
         stat['감시중'] = li[8].text
@@ -151,7 +152,7 @@ def gyeonggi():
     stat['확진자'] = table[3].text
     stat['격리자'] = table[0].text
     stat['퇴원'] = table[1].text
-    stat['사망자'] = table[2].text
+    stat['사망'] = table[2].text
     
     print("pass : ", stat['지역'])
     
@@ -208,18 +209,19 @@ def chungnam():
     
     return stat
 
-def gangwon(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
-    # https://www.provin.gangwon.kr/gw/portal/sub05_01?articleSeq=164918&mode=readForm&curPage=1&boardCode=BDAADD02
+def gangwon():
+    res = requests.get('https://www.provin.gangwon.kr/covid-19.html', verify=True)
+    soup = BeautifulSoup(res.content, 'html.parser')
+        
+    table = soup.find('ul').find_all("span")
+    
     stat = copy.copy(form)
 
     stat['지역'] = '강원도'
-    stat['확진자'] = '%s'%(infected)
-    stat['격리자'] = '%s'%(infected)
-    stat['의사환자'] = '%s'%(suspect)
-    stat['검사중'] = '%s'%(testing)
-    stat['결과음성'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(self_quarantine)
-    stat['감시해제'] = '%s'%(unmonitor)
+    stat['확진자'] = table[0].text[:-1]
+    stat['자가격리자'] = table[1].text[:-1]
+    stat['검사중'] = table[2].text[:-1]
+    stat['퇴원'] = table[3].text[:-1]
     
     print("pass : ", stat['지역'])
     
@@ -354,8 +356,8 @@ def jeju():
     
     stat['지역'] = '제주도'
     stat['확진자'] = table[0].text.split("\n")[-1][:-1]
-    stat['사망자'] = table[1].text.split("\n")[-1][:-1]
-    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['사망자'].replace(",", "")))
+    stat['사망'] = table[1].text.split("\n")[-1][:-1]
+    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['사망'].replace(",", "")))
     stat['검사중'] = table[2].text.split("\n")[-1][:-1]
     stat['자가격리자'] = table[3].text.split("\n")[2][:-1]
     stat['감시해제'] = table[3].text.split("\n")[-1][:-1]
@@ -390,7 +392,7 @@ def sejong():
     stat['지역'] = '세종'
     stat['확진자'] = table[1]
     stat['격리자'] = table[1]
-    #stat['사망자'] = 
+    #stat['사망'] = 
     stat['검사중'] = table[5]
     stat['결과음성'] = table[7]
     #stat['자가격리자'] = 

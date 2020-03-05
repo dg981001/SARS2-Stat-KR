@@ -25,7 +25,7 @@ class Seoul():
             '지역'          :  0,
             '확진자'        :  0,
             '격리자'        :  0,
-            '사망자'        :  0,
+            '사망'        :  0,
             '의사환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
@@ -371,7 +371,7 @@ class Seoul():
         
         stat['지역'] = '서울'
         stat['확진자'] = format(self.db['확진자'], ',')
-        # stat['사망자'] = li[2].text.split(' ')[1]
+        # stat['사망'] = li[2].text.split(' ')[1]
         stat['퇴원'] = format(15, ',')
         stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     

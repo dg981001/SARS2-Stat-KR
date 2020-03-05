@@ -23,7 +23,7 @@ class Gangwon():
             '지역'          :  0,
             '확진자'        :  0,
             '격리자'        :  0,
-            '사망자'        :  0,
+            '사망'        :  0,
             '의사환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
@@ -44,6 +44,7 @@ class Gangwon():
         self.db['자가격리자'] += int(table[1].text.replace(',', ''))
         self.db['검사중'] += int(table[3].text.replace(',', ''))
         self.db['결과음성'] += int(table[4].text.replace(',', ''))
+        print("# 원주 : %d"%(int(table[0].text.replace(',', '')) ))
 
 
     def chuncheon(self):
@@ -58,6 +59,7 @@ class Gangwon():
         self.db['검사중'] += int(table[2].text.replace(',', ''))
         self.db['결과음성'] += int(table[3].text.replace(',', ''))
         self.db['자가격리자'] += int(table[5].text.replace(',', ''))
+        print("# 춘천 : %d"%(int(table[0].text.replace(',', '')) ))
 
 
     def gangneung(self):
@@ -72,12 +74,14 @@ class Gangwon():
         self.db['결과음성'] += int(table[1].text[:-1].replace(',', ''))
         self.db['검사중'] += int(table[2].text[:-1].replace(',', ''))
         #self.db['자가격리자'] += 
+        print("# 강릉 : %d"%(int(table[0].text[:-1].replace(',', '')) ))
     
     def sokcho(self):
         res = requests.get('http://www.sokcho.go.kr/portal', verify=True)
         soup = BeautifulSoup(res.content, 'html.parser')
     
-        confirmed = soup.find('div', class_='tb_sub').find('span', class_='tb_c_t').text[:-1]
+        confirmed = soup.find_all('div', class_='tb_c_tit')[0].find('span', class_='point').text
+        quarantine = soup.find('div', class_='tb_sub').find('span', class_='tb_c_r').text[:-1]
         suspected = soup.find_all('div', class_='tb_c_tit')[1].find("span").text
         table = soup.find('div', class_='tb_sub').find_all('span', class_='tb_c_r')
         # 확진자 | ~ 명
@@ -89,6 +93,8 @@ class Gangwon():
         self.db['자가격리자'] += int(suspected.replace(',', '')) # 의사환자(자가격리자) 로 표기되어 있음
         self.db['결과음성'] += int(table[1].text[:-1].replace(',', '')) + int(table[4].text[:-1].replace(',', ''))
         self.db['검사중'] += int(table[0].text[:-1].replace(',', '')) + int(table[3].text[:-1].replace(',', ''))
+
+        print("# 속초 : %d"%(int(confirmed.replace(',', '')) ))
 
     def samcheok(self):
         res = requests.get('http://www.samcheok.go.kr/02179/02696.web', verify=True)
@@ -102,6 +108,8 @@ class Gangwon():
         self.db['결과음성'] += int(table[1][:-1].replace(',', ''))
         self.db['검사중'] += int(table[2][:-1].replace(',', ''))
         self.db['자가격리자'] += int(table[3][:-1].replace(',', ''))
+
+        print("# 삼척 : %d"%(int(table[0][:-1].replace(',', '')) ))
         
         
     def collect(self, suspect='-', testing='-', negative='-'):
@@ -122,12 +130,12 @@ class Gangwon():
         
         stat['지역'] = '강원도'
         stat['확진자'] = format(self.db['확진자'], ',')
-        stat['사망자'] = format(self.db['사망자'], ',')
+        stat['사망'] = format(self.db['사망'], ',')
         stat['검사중'] = '%s'%(testing) # format(self.db['검사중'], ',')
         stat['결과음성'] = '%s'%(negative) # format(self.db['결과음성'], ',')
         stat['의사환자'] = '%s'%(suspect) # format(self.db['의사환자'], ',')
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자']), ",")
+        stat['격리자'] = format(self.db['확진자'] - int(stat['사망']), ",")
     
         print("pass : ", stat['지역'])
         

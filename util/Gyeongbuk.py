@@ -23,7 +23,7 @@ class Gyeongbuk():
             '지역'          :  0,
             '확진자'        :  0,
             '격리자'        :  0,
-            '사망자'        :  0,
+            '사망'        :  0,
             '의사환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
@@ -43,7 +43,7 @@ class Gyeongbuk():
         
         self.db['확진자'] += int(table[0].text.replace(',', ''))
         self.db['격리자'] += int(table[1].text.replace(',', ''))
-        self.db['사망자'] += int(table[2].text.replace(',', ''))
+        self.db['사망'] += int(table[2].text.replace(',', ''))
         self.db['자가격리'] += int(table[3].text.replace(',', ''))
         self.db['의사환자'] += int(table[5].text.replace(',', ''))
         self.db['검사중'] += int(table[7].text.replace(',', ''))
@@ -60,7 +60,7 @@ class Gyeongbuk():
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
         # 확진자  |  완치(확진해제자)  |  자가격리  
         self.db['확진자'] += int(table[0].text.replace(',', ''))
-        self.db['사망자'] += int(table[4].text.replace(',', ''))
+        self.db['사망'] += int(table[4].text.replace(',', ''))
         self.db['격리자'] += int(table[0].text.replace(',', '')) - int(table[4].text.replace(',', '')) 
 
 
@@ -85,7 +85,7 @@ class Gyeongbuk():
         self.db['확진자'] += int(table[0].text.replace(',', ''))
         self.db['격리자'] += int(table[1].text.replace(',', ''))
         self.db['완치'] += int(table[2].text.replace(',', ''))
-        self.db['사망자'] += int(table[3].text.replace(',', ''))
+        self.db['사망'] += int(table[3].text.replace(',', ''))
         self.db['자가격리자'] += int(table[4].text.replace(',', ''))
 
     def yeongcheon(self):
@@ -93,11 +93,11 @@ class Gyeongbuk():
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table = soup.find('ul').find_all("p", class_='')
-        # 확진자 | 추가확진자  |  검사중  |  자가격리  |  사망자  |  비고(퇴원)  
+        # 확진자 | 추가확진자  |  검사중  |  자가격리  |  사망  |  비고(퇴원)  
         self.db['확진자'] += int(table[0].text.replace(',', ''))
         self.db['검사중'] += int(table[2].text.replace(',', ''))
         self.db['자가격리자'] += int(table[3].text.replace(',', ''))
-        self.db['사망자'] += int(table[4].text.replace(',', ''))
+        self.db['사망'] += int(table[4].text.replace(',', ''))
         self.db['완치'] += int(table[5].text[2:-1].replace(',', ''))
         
 
@@ -111,7 +111,7 @@ class Gyeongbuk():
         self.db['확진자'] += int(re.findall("\d+",table[0].text)[0].replace(',', ''))
         self.db['격리자'] += int(re.findall("\d+",table[1].text)[0].replace(',', ''))
         self.db['완치'] += int(re.findall("\d+",table[2].text)[0].replace(',', ''))
-        self.db['사망자'] += int(re.findall("\d+",table[3].text)[0].replace(',', ''))
+        self.db['사망'] += int(re.findall("\d+",table[3].text)[0].replace(',', ''))
         self.db['의사환자'] += int(re.findall("\d+",table[4].text)[0].replace(',', ''))
         self.db['검사중'] += int(re.findall("\d+",table[5].text)[0].replace(',', ''))
         self.db['결과음성'] += int(re.findall("\d+",table[6].text)[0].replace(',', ''))
@@ -127,7 +127,7 @@ class Gyeongbuk():
         # ['26', '확진자(합계)', '0', '사망', '0', '완치', '635', '검사완료', '406', '자가격리']
         self.db['확진자'] += int(table[0])
         self.db['완치'] += int(table[4])
-        self.db['사망자'] += int(table[2])
+        self.db['사망'] += int(table[2])
         self.db['결과음성'] += int(table[6]) - int(table[0])
         self.db['자가격리자'] += int(table[8])
 
@@ -150,7 +150,7 @@ class Gyeongbuk():
 
         self.db['확진자'] += int(table[0].text)
         self.db['격리자'] += int(table[1].text)
-        self.db['사망자'] += int(table[2].text)
+        self.db['사망'] += int(table[2].text)
         self.db['검사중'] += int(table[4].text)
         self.db['결과음성'] += int(table[5].text)
         self.db['자가격리자'] += int(table[6].text)
@@ -179,12 +179,12 @@ class Gyeongbuk():
         
         stat['지역'] = '경상북도'
         stat['확진자'] = format(self.db['확진자'], ',')
-        stat['사망자'] = format(self.db['사망자'], ',')
+        stat['사망'] = format(self.db['사망'], ',')
         stat['검사중'] = '%s'%(testing) # format(self.db['검사중'], ',')
         stat['결과음성'] = '%s'%(negative) # format(self.db['결과음성'], ',')
         stat['의사환자'] = '%s'%(suspect) # format(self.db['의사환자'], ',')
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망자']), ",")
+        stat['격리자'] = format(self.db['확진자'] - int(stat['사망']), ",")
     
         print("pass : ", stat['지역'])
         

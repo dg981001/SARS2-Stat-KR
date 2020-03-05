@@ -23,7 +23,7 @@ def region_data():
                    gyeonggi(), 
                    chungbuk(),
                    chungnam(),
-                   Gangwon().collect(suspect=4849, testing=1080, negative=3747),
+                   gangwon(),
                    jeonbuk(),
                    jeonnam(),
                    jeju(),
