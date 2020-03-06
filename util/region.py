@@ -230,16 +230,16 @@ def gangwon():
 def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     # https://www.gwangju.go.kr/
     stat = copy.copy(form)
-
+    # before : gwangju(infected=13, quarantine=9, self_quarantine=1, care=3)
     stat['지역'] = '광주'
-    stat['확진자'] = '%s'%(infected)
-    stat['격리자'] = '%s'%(quarantine)
+    stat['확진자'] = '%s'%(13) # (infected)
+    stat['격리자'] = '%s'%(9) # (quarantine)
     stat['의사환자'] = '%s'%(suspect)
     stat['검사중'] = '%s'%(testing)
     stat['결과음성'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(self_quarantine)
+    stat['자가격리자'] = '%s'%(1) # (self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
-    stat['퇴원'] = '%s'%(care)
+    stat['퇴원'] = '%s'%(3) # (care)
     
     print("pass : ", stat['지역'])
     
