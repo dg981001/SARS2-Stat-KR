@@ -4,30 +4,35 @@ from util.Daegu import Daegu
 from util.Seoul import Seoul
 from util.Gangwon import Gangwon
 from util.KST import kst_time
+from util.collector import collector
 
+regions = [seoul, 
+               Daegu().collect,    
+               busan,   
+               daejeon,
+               gwangju,
+               ulsan,
+               incheon,
+               sejong,
+               gyeongbuk,
+               gyeongnam,
+               gyeonggi, 
+               chungbuk,
+               chungnam,
+               gangwon,
+               jeonbuk,
+               jeonnam,
+               jeju,
+        ]
 
 if __name__=="__main__":
     table = Mk_table()
-    region_list = [seoul(),
-                   Daegu().collect(),    
-                   busan(),   
-                   daejeon(),
-                   gwangju(infected=13, quarantine=10, self_quarantine=1, care=2),
-                   ulsan(),
-                   incheon(),
-                   sejong(),
-                   gyeongbuk(),
-                   gyeongnam(),
-                   gyeonggi(), 
-                   chungbuk(),
-                   chungnam(),
-                   gangwon(),
-                   jeonbuk(),
-                   jeonnam(),
-                   jeju(),
-                   
-                   ]
-    table.generate(region_list)
+    data = collector(regions)
+    try:
+        table.generate(data)
+    except:
+        data = collector(regions)
+        table.generate(data)
 
     readme = open('README.md', mode='wt', encoding='utf-8')
     readme.write('''

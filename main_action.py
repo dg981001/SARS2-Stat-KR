@@ -4,32 +4,33 @@ from util.Seoul import Seoul
 from util.Daegu import Daegu
 from util.Gangwon import Gangwon
 from util.KST import kst_time
+from util.collector import collector
 
 count_try = 0
+regions = [seoul, 
+               Daegu().collect,    
+               busan,   
+               daejeon,
+               gwangju,
+               ulsan,
+               incheon,
+               sejong,
+               gyeongbuk,
+               gyeongnam,
+               gyeonggi, 
+               chungbuk,
+               chungnam,
+               gangwon,
+               jeonbuk,
+               jeonnam,
+               jeju,
+        ]
 
 def region_data():
     global count_try
     try:
-        region_li = [seoul(),
-                   Daegu().collect(),    
-                   busan(),   
-                   daejeon(),
-                   gwangju(infected=13, quarantine=10, self_quarantine=1, care=2),
-                   ulsan(),
-                   incheon(),
-                   sejong(),
-                   gyeongbuk(),
-                   gyeongnam(),
-                   gyeonggi(), 
-                   chungbuk(),
-                   chungnam(),
-                   gangwon(),
-                   jeonbuk(),
-                   jeonnam(),
-                   jeju(),
-                   
-                   ]
-        return region_li
+        
+        return regions
     except:
         if count_try < 10:
             count_try += 1
@@ -40,8 +41,12 @@ def region_data():
 
 if __name__=="__main__":
     table = Mk_table()
-    region_list = region_data()
-    table.generate(region_list)
+    data = collector(regions)
+    try:
+        table.generate(data)
+    except:
+        data = collector(regions)
+        table.generate(data)
 
     readme = open('README.md', mode='wt', encoding='utf-8')
     readme.write('''
