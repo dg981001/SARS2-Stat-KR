@@ -8,16 +8,16 @@ dir_name = "util"
 
 class Gangwon():
     def __init__(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        f_driver = ''
-        if platform.system() == 'Linux':
-            f_driver = '%s/chromedriver'%(dir_name)
-        elif platform.system() == 'Darwin':
-            f_driver = '%s/chromedriver_darwin'%(dir_name)
-        else:
-            f_driver = '%s/chromedriver.exe'%(dir_name)
-        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
+#        options = webdriver.ChromeOptions()
+#        options.add_argument('headless')
+#        f_driver = ''
+#        if platform.system() == 'Linux':
+#            f_driver = '%s/chromedriver'%(dir_name)
+#        elif platform.system() == 'Darwin':
+#            f_driver = '%s/chromedriver_darwin'%(dir_name)
+#        else:
+#            f_driver = '%s/chromedriver.exe'%(dir_name)
+#        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
 
         self.db = {
             '지역'          :  0,
@@ -113,12 +113,9 @@ class Gangwon():
         
         
     def collect(self, suspect='-', testing='-', negative='-'):
-        # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
-        #res = requests.get('http://www.daegu.go.kr/')
-        # 2) HTML 페이지 파싱 BeautifulSoup(HTML데이터, 파싱방법)
-        #soup = BeautifulSoup(res.content, 'html.parser')
-        # 3) 필요한 데이터 검색
-        #li = soup.find('div', class_='con_r').find_all('li')
+        res = requests.get('https://www.provin.gangwon.kr/covid-19.html', verify=True)
+        soup = BeautifulSoup(res.content, 'html.parser')
+        table = soup.find('ul').find_all("span")
      
         self.wonju()
         self.chuncheon()
@@ -131,11 +128,16 @@ class Gangwon():
         stat['지역'] = '강원도'
         stat['확진자'] = format(self.db['확진자'], ',')
         stat['사망'] = format(self.db['사망'], ',')
-        stat['검사중'] = '%s'%(testing) # format(self.db['검사중'], ',')
-        stat['결과음성'] = '%s'%(negative) # format(self.db['결과음성'], ',')
+        stat['검사중'] = '%s'%format(self.db['검사중'], ',')
+        stat['결과음성'] = '%s'%format(self.db['결과음성'], ',')
         stat['의사환자'] = '%s'%(suspect) # format(self.db['의사환자'], ',')
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
-        stat['격리자'] = format(self.db['확진자'] - int(stat['사망']), ",")
+        stat['퇴원'] = table[3].text[:-1]
+        stat['격리자'] = format(int(stat['확진자'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",")
+        #stat['확진자'] = table[0].text[:-1]
+        #stat['자가격리자'] = table[1].text[:-1]
+        
+
     
         print("pass : ", stat['지역'])
         
