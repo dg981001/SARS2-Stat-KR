@@ -228,10 +228,14 @@ class Seoul():
 
     # 성북구는 텍스트로 된 자료를 제공하지 않아 크롤링 불가
     def seongbuk_gu(self):
-        self.db['확진자'] += 5
-        self.db['퇴원'] += 2
-        self.db['격리자'] += 3
-        self.db['자가격리자'] += 41
+        res = requests.get('http://www.sb.go.kr/main/mainPage.do')
+        seongbuk_data = BeautifulSoup(res.content, 'html.parser')
+        table = seongbuk_data.find_all('span', class_='num')
+
+        self.db['퇴원'] += int(table[0].text.replace(',', ''))
+        self.db['격리자'] += int(table[1].text.replace(',', ''))
+        self.db['확진자'] += int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
+        self.db['자가격리자'] += int(table[2].text.replace(',', ''))
 
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True)
