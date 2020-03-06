@@ -6,7 +6,7 @@ from util.Gangwon import Gangwon
 from util.KST import kst_time
 from util.collector import collector
 
-regions = [seoul, 
+regions = [Seoul().collect, 
                Daegu().collect,    
                busan,   
                daejeon,
