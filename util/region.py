@@ -298,7 +298,8 @@ def ulsan():
     
     stat['지역'] = '울산'
     stat['확진자'] = table[0]
-    stat['격리자'] = table[0]
+    stat['퇴원'] = table[1]
+    stat['격리자'] = int(stat['확진자'].replace(',','')) - int(stat['퇴원'].replace(',',''))
     stat['감시해제'] = table[3]
     stat['감시중'] = table[4]
     stat['결과음성'] = table[5]
@@ -321,6 +322,7 @@ def incheon():
     stat['지역'] = '인천'
     stat['확진자'] = table[1]
     stat['격리자'] = format(int(table[1].replace(',','')) - 2, ',')
+    stat['퇴원'] = format(2, ',')
 #    stat['퇴원'] = table[2].text
 #    stat['감시중'] = table2[0].text[:-1]
 #    stat['감시해제'] = table2[1].text[:-1]
