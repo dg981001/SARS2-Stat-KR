@@ -293,7 +293,7 @@ class Seoul():
         self.db['확진자'] += int(table[0][:-1]) # 확진자
         self.db['자가격리자'] += int(table[1][:-1]) # 확진자
 
-        print("# 양산구 : %d"%(int(table['cnt1'])))
+        print("# 용산구 : %d"%(int(table[0][:-1])))
     
     def eunpyeong_gu(self):
         res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918')
