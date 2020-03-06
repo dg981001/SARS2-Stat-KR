@@ -8,16 +8,16 @@ dir_name = "util"
 
 class Daegu():
     def __init__(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        f_driver = ''
-        if platform.system() == 'Linux':
-            f_driver = '%s/chromedriver'%(dir_name)
-        elif platform.system() == 'Darwin':
-            f_driver = '%s/chromedriver_darwin'%(dir_name)
-        else:
-            f_driver = '%s/chromedriver.exe'%(dir_name)
-        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
+#        options = webdriver.ChromeOptions()
+#        options.add_argument('headless')
+#        f_driver = ''
+#        if platform.system() == 'Linux':
+#            f_driver = '%s/chromedriver'%(dir_name)
+#        elif platform.system() == 'Darwin':
+#            f_driver = '%s/chromedriver_darwin'%(dir_name)
+#        else:
+#            f_driver = '%s/chromedriver.exe'%(dir_name)
+#        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
 
         self.db = {
             '지역'          :  0,
@@ -54,16 +54,17 @@ class Daegu():
         print("#남구 : ", int(table[1].text[:-1].replace(',', '')))
 
     def dalseo_gu(self):
-        driver = copy.copy(self.driver)
-        driver.get('http://www.dalseo.daegu.kr/')
-        driver.implicitly_wait(2)
-        #print(driver.page_source)
-        table = driver.find_element_by_tag_name('tbody').text.split(" ")
+        res = requests.get('https://www.dalseo.daegu.kr/icms/popup/getLayerPopup.do?popup_id=POPUP_00000000000021')
+        temp = BeautifulSoup(res.content, 'html.parser')
+        cookie = temp.find("script").text.split("\r\n")[1].replace("document.cookie = '", '').replace("'", "")
+        headers = {'Cookie' : cookie}
+        res = requests.get('https://www.dalseo.daegu.kr/icms/popup/getLayerPopup.do?popup_id=POPUP_00000000000021', headers=headers)
+        table = BeautifulSoup(res.content, 'html.parser').find('tbody').find_all('td')
         # 전국  |  대구시  |  달서구  |  자가격리
         #print(int(table[2][:-1].replace(',', '')))
-        self.db['확진자'] += int(table[2][:-1].replace(',', '')) # 달서구 확진자
-        self.db['자가격리자'] += int(table[3].split("\n")[0][:-1].replace(',', '')) # 달서구 자가격리자
-        print("#달서구 : ", int(table[2][:-1].replace(',', '')))
+        self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 달서구 확진자
+        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 달서구 자가격리자
+        print("#달서구 : ", int(table[2].text[:-1].replace(',', '')))
 
     def seo_gu(self):
         seogu = requests.get('https://www.dgs.go.kr/inc/popup.php?pop_open_site=seogu_k&pop_idx=36')
@@ -107,15 +108,14 @@ class Daegu():
         print("#동구 : ", int(table[0].text[:-1].replace(',', '')))
 
     def dalseonggun(self):
-        driver = copy.copy(self.driver)
-        driver.get('http://dalseong.daegu.kr/')
-        driver.implicitly_wait(2)
-        table = driver.find_elements_by_tag_name('tbody')[1].text.split(" ")
+        res = requests.get('http://dalseong.daegu.kr/icms/popup/getLayerPopup.do?popup_id=POPUP_00000000000051')
+        dalseonggun_data = BeautifulSoup(res.content, 'html.parser')
+        table = dalseonggun_data.find_all('tbody')[1].find_all('td')
         # 누계  |  확진환자  |  자가격리  |  능동감시  | 감시종료
         #print(int(table[1][:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].split("(")[0].replace(',', '')) # 달성군 확진자
-        self.db['자가격리자'] += int(table[2].split("(")[0].replace(',', '')) # 달성군 자가격리자
-        print("#달성군 : ", int(table[1].split("(")[0].replace(',', '')))
+        self.db['확진자'] += int(table[1].text.split("(")[0].replace(',', '')) # 달성군 확진자
+        self.db['자가격리자'] += int(table[2].text.split("(")[0].replace(',', '')) # 달성군 자가격리자
+        print("#달성군 : ", int(table[1].text.split("(")[0].replace(',', '')))
 
 
     def collect(self):

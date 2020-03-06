@@ -8,16 +8,16 @@ dir_name = "util"
 
 class Gyeongbuk():
     def __init__(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        f_driver = ''
-        if platform.system() == 'Linux':
-            f_driver = '%s/chromedriver'%(dir_name)
-        elif platform.system() == 'Darwin':
-            f_driver = '%s/chromedriver_darwin'%(dir_name)
-        else:
-            f_driver = '%s/chromedriver.exe'%(dir_name)
-        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
+#        options = webdriver.ChromeOptions()
+#        options.add_argument('headless')
+#        f_driver = ''
+#        if platform.system() == 'Linux':
+#            f_driver = '%s/chromedriver'%(dir_name)
+#        elif platform.system() == 'Darwin':
+#            f_driver = '%s/chromedriver_darwin'%(dir_name)
+#        else:
+#            f_driver = '%s/chromedriver.exe'%(dir_name)
+#        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
 
         self.db = {
             '지역'          :  0,
@@ -30,7 +30,7 @@ class Gyeongbuk():
             '자가격리자'    :  0,
             '감시중'        :  0,
             '감시해제'      :  0,
-            '완치'          :  0,
+            '퇴원'          :  0,
             }
     
     def gyeongsan(self):
@@ -118,21 +118,17 @@ class Gyeongbuk():
         self.db['자가격리자'] += int(re.findall("\d+",table[9].text)[0].replace(',', ''))
         
     def pohang(self):
-        driver = copy.copy(self.driver)
-        driver.get('http://www.pohang.go.kr/COVID-19.html')
-        driver.implicitly_wait(2)
-        table_init = driver.find_elements_by_class_name('status_list')[0].text
-        table = ' '.join(table_init.replace("\n"," ").split()).split(' ') 
-        
+        res = requests.get('http://atec114.pohang.go.kr/COVID-19/covid-19.php')
+        table = json.loads(res.content)['result']
         # ['26', '확진자(합계)', '0', '사망', '0', '완치', '635', '검사완료', '406', '자가격리']
-        self.db['확진자'] += int(table[0])
-        self.db['완치'] += int(table[4])
-        self.db['사망'] += int(table[2])
-        self.db['결과음성'] += int(table[6]) - int(table[0])
-        self.db['자가격리자'] += int(table[8])
+        self.db['확진자'] += int(table['cv_ph1'])
+        self.db['완치'] += int(table['cv_ph7'])
+        self.db['사망'] += int(table['cv_ph12'])
+        self.db['결과음성'] += int(table['cv_ph9'])
+        self.db['자가격리자'] += int(table['cv_ph5'])
 
     def uiseong(self):
-        res = requests.get('https://www.usc.go.kr/tabBoard/detail.tc?mn=2510&viewType=sub&mngNo=423&pageIndex=1&boardName=CORONASLKD1&boardNo=3029311&pageSeq=1700&preview=&previewTempl=&previewTempl=&tabBoardSeq=51&type=&tabOrder=&searchCondition=0&searchKeyword=', verify=True)
+        res = requests.get('https://www.usc.go.kr/tabBoard/detail.tc?mn=2510&viewType=sub&mngNo=423&pageIndex=1&boardName=CORONASLKD1&boardNo=3029393&pageSeq=1700&preview=&previewTempl=&previewTempl=&tabBoardSeq=51&type=&tabOrder=&searchCondition=0&searchKeyword=', verify=True)
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table = soup.find('tbody').find_all('tr')[10].find_all('td')
