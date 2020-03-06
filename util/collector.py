@@ -8,8 +8,13 @@ def collector(region_list):
         try:
             data_list.insert(i, temp_method())
         except:
-            error_idx.append(i)
-            print("Error occured at : %s"%(region_list[i].__name__))
+            try:
+                print("Error occured. Retry : %s"%(region_list[i].__name__))
+                temp_method = copy(region_list[i])
+                data_list.insert(i, temp_method())
+            except:
+                error_idx.append(i)
+                print("Error occured at : %s"%(region_list[i].__name__))
 
     for i in error_idx:
         temp_method = copy(region_list[i])
