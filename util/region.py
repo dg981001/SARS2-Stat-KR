@@ -312,15 +312,15 @@ def incheon():
     res = requests.get('https://www.incheon.go.kr/health/HE020409')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table_init = soup.find('tbody') # 확진자, 검사중, 결과음성
-    table = ' '.join(table_init.find_all('tr')[3].text.replace("\xa0", "").split()).split(' ')
+    table_init = soup.find_all('tbody')[1] # 확진자, 검사중, 결과음성
+    table = ' '.join(table_init.text.replace("\n", " ").split()).split(' ')
 #    table2 = soup.find('div', class_="list3").find_all('dd') # 감시중, 감시해제 (총합 : 자가격리자)
 
     stat = copy.copy(form)
     
     stat['지역'] = '인천'
     stat['확진자'] = table[1]
-    stat['격리자'] = table[1]
+    stat['격리자'] = format(int(table[1].replace(',','')) - 2, ',')
 #    stat['퇴원'] = table[2].text
 #    stat['감시중'] = table2[0].text[:-1]
 #    stat['감시해제'] = table2[1].text[:-1]

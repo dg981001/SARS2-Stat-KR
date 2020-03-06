@@ -39,9 +39,9 @@ class Daegu():
         table = bukgu_data.find('tbody').find_all('td')
         # 전국  |  북구  |  자가격리
         #print(int(table[1].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].text.split("(")[0][:-1].replace(',', '')) # 북구 확진자
-        self.db['자가격리자'] += int(table[2].text.split("(")[0][:-1].replace(',', '')) # 북구 자가격리자
-        print("#북구 : ", int(table[1].text.split("(")[0][:-1].replace(',', '')))
+        self.db['확진자'] += int(table[1].text.split("(")[0].split()[0][:-1].replace(',', '')) # 북구 확진자
+        self.db['자가격리자'] += int(table[2].text.split("(")[0].split()[0][:-1].replace(',', '')) # 북구 자가격리자
+        print("#북구 : ", int(table[1].text.split("(")[0].split()[0][:-1].replace(',', '')))
 
     def nam_gu(self):
         namgu = requests.get('http://www.nam.daegu.kr/')
