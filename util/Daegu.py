@@ -56,7 +56,7 @@ class Daegu():
     def dalseo_gu(self):
         driver = copy.copy(self.driver)
         driver.get('http://www.dalseo.daegu.kr/')
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(2)
         #print(driver.page_source)
         table = driver.find_element_by_tag_name('tbody').text.split(" ")
         # 전국  |  대구시  |  달서구  |  자가격리
@@ -109,7 +109,7 @@ class Daegu():
     def dalseonggun(self):
         driver = copy.copy(self.driver)
         driver.get('http://dalseong.daegu.kr/')
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(2)
         table = driver.find_elements_by_tag_name('tbody')[1].text.split(" ")
         # 누계  |  확진환자  |  자가격리  |  능동감시  | 감시종료
         #print(int(table[1][:-1].replace(',', '')))
