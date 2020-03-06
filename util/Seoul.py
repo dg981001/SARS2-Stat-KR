@@ -336,7 +336,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1])
         self.db['감시중'] += int(table[2])
 
-        print("# 종로구 : %d"%(int(table[0])))
+        print("# 중구 : %d"%(int(table[0])))
     
     def jungnang_gu(self):
         res = requests.get('https://www.jungnang.go.kr/portal/main.do')
