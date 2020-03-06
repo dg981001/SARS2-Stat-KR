@@ -6,7 +6,6 @@ def collector(region_list):
     for i in range(len(region_list)):
         temp_method = copy(region_list[i])
         try:
-            if type
             data_list.insert(i, temp_method())
         except:
             error_idx.append(i)
