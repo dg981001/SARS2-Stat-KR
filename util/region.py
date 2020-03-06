@@ -222,6 +222,7 @@ def gangwon():
     stat['자가격리자'] = table[1].text[:-1]
     stat['검사중'] = table[2].text[:-1]
     stat['퇴원'] = table[3].text[:-1]
+    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ',')
     
     print("pass : ", stat['지역'])
     
@@ -278,7 +279,7 @@ def jeonnam():
     stat['지역'] = '전라남도'
     stat['확진자'] = table[0].text
     stat['퇴원'] = table[4].text
-    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")))
+    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ',')
     stat['검사중'] = table[9].text
     stat['결과음성'] = table[7].text
     stat['감시해제'] = table[4].text
