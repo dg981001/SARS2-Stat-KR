@@ -50,7 +50,7 @@ class Seoul():
         print("# 강남구 : %d"%(int(table[0].text.replace(",",""))))
 
     def gangdong_gu(self):
-        res = requests.get('https://www.gangdong.go.kr')
+        res = requests.get('https://www.gangdong.go.kr', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         self.db['확진자'] += int(soup.find('li', 'red').find('strong').text.replace(",","")) # 강동 확진자
         self.db['퇴원'] += int(soup.find('li', 'green').find('strong').text.replace(",","")) # 강동 퇴원자
@@ -73,7 +73,7 @@ class Seoul():
         print("# 강북구 : %d"%(int(table[0].text.replace(',',''))))
 
     def gangseo_gu(self):
-        res = requests.get('http://www.gangseo.seoul.kr/new_portal/index.jsp')
+        res = requests.get('http://www.gangseo.seoul.kr/new_portal/index.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  능동감시자
         table = soup.find('table', 'table0226').find_all('tr')[1].find_all('td')
@@ -83,7 +83,7 @@ class Seoul():
         print("# 강서구 : %d"%(int(table[0].text[:-1])))
 
     def gwanak_gu(self):
-        res = requests.get('http://www.gwanak.go.kr/site/gwanak/main.do')
+        res = requests.get('http://www.gwanak.go.kr/site/gwanak/main.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
         table1 = soup.find('div', 'corona_con').find_all('td')
@@ -98,7 +98,7 @@ class Seoul():
         print("# 관악구 : %d"%(int(table1[0].text[:-1].replace(",",""))))
 
     def gwangjin_gu(self):
-        res = requests.get('https://www.gwangjin.go.kr/portal/main/main.do')
+        res = requests.get('https://www.gwangjin.go.kr/portal/main/main.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 위기경보단계  |  확진환자  |  자가격리&능동감시자
         # 자가격리자와 능동감시자와 별개로 분류되어 있지 않으므로 자가격리자로 취급
@@ -109,7 +109,7 @@ class Seoul():
         print("# 광진구 : %d"%(int(table[1].text.replace(",",""))))
 
     def guro_gu(self):
-        res = requests.get('http://www.guro.go.kr/www/NR_index.do')
+        res = requests.get('http://www.guro.go.kr/www/NR_index.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  자가격리자  |  능동감시자
         table = soup.find('table', 'table').find('tbody').find('tr').find_all('td')
@@ -121,7 +121,7 @@ class Seoul():
         print("# 구로구 : %d"%(int(table[1].text.replace(",",""))))
 
     def geumcheon_gu(self):
-        res = requests.get('https://www.geumcheon.go.kr/')
+        res = requests.get('https://www.geumcheon.go.kr/', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  능동감시자(자가격리자)
         value1 = soup.find('li', class_='pink_line').find('span', class_='text2').text.split()[0][:-1].replace(',','')
@@ -135,7 +135,7 @@ class Seoul():
         print("# 금천구 : %d"%(int(value1)))
 
     def nowon_gu(self):
-        res = requests.get('http://www.nowon.kr')
+        res = requests.get('http://www.nowon.kr', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  의사환자  |  유증상자  |  자가격리자
         # 유증상자는 별도로 집계하지 않음
@@ -151,7 +151,7 @@ class Seoul():
         print("# 노원구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def dobong_gu(self):
-        res = requests.get('http://www.dobong.go.kr/')
+        res = requests.get('http://www.dobong.go.kr/', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
         table = soup.find_all('em', class_='num')
@@ -162,7 +162,7 @@ class Seoul():
         print("# 도봉구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def dongdaemun_gu(self):
-        res = requests.get('http://www.ddm.go.kr/life/presentCondition.jsp')
+        res = requests.get('http://www.ddm.go.kr/life/presentCondition.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  검사중  |  결과음성
         table = soup.find('table', 'data5 indent2 center').find('tbody').find_all('td')
@@ -173,7 +173,7 @@ class Seoul():
         print("# 동대문구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def dongjak_gu(self):
-        res = requests.get('http://www.dongjak.go.kr')
+        res = requests.get('http://www.dongjak.go.kr', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
         table = soup.find('ul', 'status-ul').find_all('p', 'sta-data')
@@ -184,7 +184,7 @@ class Seoul():
         print("# 동작구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def mapo_gu(self):
-        res = requests.get('https://www.mapo.go.kr/site/main/home')
+        res = requests.get('https://www.mapo.go.kr/site/main/home', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
         table = soup.find('table', 'status-table3').find('tbody').find_all('td')
@@ -195,7 +195,7 @@ class Seoul():
         print("# 마포구 : %d"%(int(table[0].text.split('명')[0].replace(' ', ''))))
 
     def seodaemun_gu(self):
-        res = requests.get('http://www.sdm.go.kr/index.do')
+        res = requests.get('http://www.sdm.go.kr/index.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  퇴원자  |  자가격리자
         table = soup.find('ul', class_='corona-popup-number-box').find_all('span') 
@@ -206,7 +206,7 @@ class Seoul():
         print("# 서대문구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def seocho_gu(self):
-        res = requests.get('http://www.seocho.go.kr/site/seocho/main.do')
+        res = requests.get('http://www.seocho.go.kr/site/seocho/main.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  능동감시자
         table = soup.find('div', id='virusPopup').find('table').find('tbody').find_all('td')
@@ -244,7 +244,7 @@ class Seoul():
         print("# 성북구 : %d"%(2))
 
     def songpa_gu(self):
-        res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True)
+        res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table_init = soup.find('tbody')
@@ -259,7 +259,7 @@ class Seoul():
         print("# 송파구 : %d"%(int(table[3][:-1].replace(',', ''))))
 
     def yangcheon_gu(self):
-        res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False)
+        res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table_init = soup.find('tbody')
@@ -273,7 +273,7 @@ class Seoul():
         print("# 양천구 : %d"%(int(table[1][:-1].replace(',', ''))))
 
     def yeongdeungpo_gu(self):
-        res = requests.post('https://www.ydp.go.kr/selectDissInfoJSON.do', verify=False)
+        res = requests.post('https://www.ydp.go.kr/selectDissInfoJSON.do', verify=False, headers=headers)
         table = json.loads(res.content)['dissInfo']
 
         self.db['확진자'] += int(table['cnt1']) # 확진자
@@ -283,7 +283,7 @@ class Seoul():
         print("# 영등포구 : %d"%(int(table['cnt1'])))
     
     def yongsan_gu(self):
-        res = requests.get('http://www.yongsan.go.kr/site/kr/index.jsp')
+        res = requests.get('http://www.yongsan.go.kr/site/kr/index.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table_init = soup.find('tbody')
@@ -296,7 +296,7 @@ class Seoul():
         print("# 용산구 : %d"%(int(table[0][:-1])))
     
     def eunpyeong_gu(self):
-        res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918')
+        res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table_init = soup.find_all('tbody')[1]
@@ -311,7 +311,7 @@ class Seoul():
         print("# 은평구 : %d"%(int(table[1][:-1].replace(',',''))))
         
     def jongno_gu(self):
-        res = requests.get('http://www.jongno.go.kr/portalMain.do;jsessionid=edgF6qdhxN6YfuSesu3MBWaoxB1zxK13M4zajh2nSIWcitqm4UVSX7ITFaNU1Rdb.was_servlet_engine1')
+        res = requests.get('http://www.jongno.go.kr/portalMain.do;jsessionid=edgF6qdhxN6YfuSesu3MBWaoxB1zxK13M4zajh2nSIWcitqm4UVSX7ITFaNU1Rdb.was_servlet_engine1', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         # 확진자  |  퇴원자  |  격리  |  자가격리/능동감시(자가격리자)
@@ -325,7 +325,7 @@ class Seoul():
         print("# 종로구 : %d"%(int(table[0].text[:-1])))
         
     def jung_gu(self):
-        res = requests.get('http://www.junggu.seoul.kr/index.jsp')
+        res = requests.get('http://www.junggu.seoul.kr/index.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
@@ -339,7 +339,7 @@ class Seoul():
         print("# 중구 : %d"%(int(table[0])))
     
     def jungnang_gu(self):
-        res = requests.get('https://www.jungnang.go.kr/portal/main.do')
+        res = requests.get('https://www.jungnang.go.kr/portal/main.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table = soup.find('span', class_='point_txt')
@@ -350,7 +350,7 @@ class Seoul():
         print("# 중랑구 : %d"%(int(table.text)))
         
     def collect(self):
-        res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do')
+        res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
 
         li_num = soup.find_all('p', class_='counter')
