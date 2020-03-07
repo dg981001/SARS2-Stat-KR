@@ -269,20 +269,21 @@ def jeonbuk():
     return stat
 
 def jeonnam():
-    res = requests.get('https://www.jeonnam.go.kr/M05040701/boardView.do?seq=0&menuId=jeonnam0504150400')
+    res = requests.get('https://www.jeonnam.go.kr/coronaMainPage.do')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table = soup.find('tbody').find_all('span')
+    table = soup.find_all('p', class_='num')
     
     stat = copy.copy(form)
     
     stat['지역'] = '전라남도'
-    stat['확진자'] = table[0].text
-    stat['퇴원'] = table[4].text
+    stat['확진자'] = table[1].text.replace(',','')
+    stat['퇴원'] = format(1,',')  
     stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ',')
-    stat['검사중'] = table[9].text
-    stat['결과음성'] = table[7].text
-    stat['감시해제'] = table[4].text
+    stat['검사중'] = table[4].text.replace(',','')
+    stat['결과음성'] = table[2].text.replace(',','')
+    stat['감시중'] = table[5].text.replace(',','')
+    stat['감시해제'] = table[6].text.replace(',','')
     # stat['자가격리자'] = 
     
     print("pass : ", stat['지역'])
