@@ -32,6 +32,8 @@ class Daegu():
             '감시해제'      :  0,
             '퇴원'          :  0,
             }
+
+        self.collect()
         
     def buk_gu(self):
         bukgu = requests.get('http://www.buk.daegu.kr/#')

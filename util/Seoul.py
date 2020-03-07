@@ -115,7 +115,7 @@ class Seoul():
         table = soup.find('tbody').find_all('td')
          # 확진자 수 뒤에 붙어있는 '강조' 텍스트 제거
         table[1].find('span').extract()
-        
+
         self.db['확진자'] += int(table[1].text.replace(",",""))
         self.db['자가격리자'] += int(table[2].text.replace(",",""))
         self.db['감시중'] += int(table[3].text.replace(",",""))
@@ -391,12 +391,12 @@ class Seoul():
         self.jung_gu()
         self.jungnang_gu()
 
-        self.db['확진자'] += 9 # 기타
+        self.db['확진자'] += 11 # 기타
         
         stat['지역'] = '서울'
         stat['확진자'] = format(self.db['확진자'], ',')
         # stat['사망'] = li[2].text.split(' ')[1]
-        stat['퇴원'] = format(25, ',')
+        stat['퇴원'] = format(int(stat['퇴원'].replace(',','')) - 1, ',')
         stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     
         print("pass : ", stat['지역'])

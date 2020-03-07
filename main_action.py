@@ -7,8 +7,8 @@ from util.KST import kst_time
 from util.collector import collector
 
 count_try = 0
-regions = [Seoul().collect, 
-               Daegu().collect,    
+regions = [Seoul, 
+               Daegu,    
                busan,   
                daejeon,
                gwangju,
