@@ -314,7 +314,7 @@ class Seoul():
         print("# 종로구 : %d"%(int(table[0].text[:-1])))
         
     def jung_gu(self):
-        res = requests.get('http://www.junggu.seoul.kr/index.jsp', headers=headers)
+        res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         
         table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
