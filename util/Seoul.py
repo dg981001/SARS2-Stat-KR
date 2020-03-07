@@ -37,6 +37,8 @@ class Seoul():
             '퇴원'          :  0,
             }
 
+        self.collect()
+
     def gangnam_gu(self):
         res = requests.get('http://www.gangnam.go.kr/index.htm', headers=headers)
         data = BeautifulSoup(res.content, 'html.parser')
