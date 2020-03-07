@@ -18,23 +18,8 @@ class Daegu():
 #        else:
 #            f_driver = '%s/chromedriver.exe'%(dir_name)
 #        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
+        self.db = dict()
 
-        self.db = {
-            '지역'          :  0,
-            '확진자'        :  0,
-            '격리자'        :  0,
-            '사망'        :  0,
-            '의사환자'      :  0,
-            '검사중'        :  0,
-            '결과음성'      :  0,
-            '자가격리자'    :  0,
-            '감시중'        :  0,
-            '감시해제'      :  0,
-            '퇴원'          :  0,
-            }
-
-        self.collect()
-        
     def buk_gu(self):
         bukgu = requests.get('http://www.buk.daegu.kr/#')
         bukgu_data = BeautifulSoup(bukgu.content, 'html.parser')
@@ -128,6 +113,21 @@ class Daegu():
         # 3) 필요한 데이터 검색
         li = soup.find('div', class_='conunt_box').find_all('strong')
      
+        self.db = {
+
+            '지역'          :  0,
+            '확진자'        :  0,
+            '격리자'        :  0,
+            '사망'        :  0,
+            '의사환자'      :  0,
+            '검사중'        :  0,
+            '결과음성'      :  0,
+            '자가격리자'    :  0,
+            '감시중'        :  0,
+            '감시해제'      :  0,
+            '퇴원'          :  0,
+            }
+
         self.buk_gu()
         self.dalseo_gu()
         self.nam_gu()

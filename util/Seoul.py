@@ -7,7 +7,7 @@ from time import sleep
 
 dir_name = "util"
 
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.146 Whale/2.6.90.18 Safari/537.36'
+user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
 headers = {'User-Agent': user_agent}
 
 class Seoul():
@@ -22,22 +22,7 @@ class Seoul():
 #        else:
 #            f_driver = '%s/chromedriver.exe'%(dir_name)
 #        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
-
-        self.db = {
-            '지역'          :  0,
-            '확진자'        :  0,
-            '격리자'        :  0,
-            '사망'        :  0,
-            '의사환자'      :  0,
-            '검사중'        :  0,
-            '결과음성'      :  0,
-            '자가격리자'    :  0,
-            '감시중'        :  0,
-            '감시해제'      :  0,
-            '퇴원'          :  0,
-            }
-
-        self.collect()
+        self.db = dict()
 
     def gangnam_gu(self):
         res = requests.get('http://www.gangnam.go.kr/index.htm', headers=headers)
@@ -242,10 +227,10 @@ class Seoul():
         # table = seongbuk_data.find_all('span', class_='num')
 
         self.db['퇴원'] += 2# int(table[0].text.replace(',', ''))
-        self.db['격리자'] += 3# int(table[1].text.replace(',', ''))
-        self.db['확진자'] += 5# int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
+        self.db['격리자'] += 4# int(table[1].text.replace(',', ''))
+        self.db['확진자'] += 6# int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
         #self.db['자가격리자'] += # int(table[2].text.replace(',', ''))
-        print("# 성북구 : %d"%(2))
+        print("# 성북구 : %d"%(6))
 
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
@@ -366,6 +351,21 @@ class Seoul():
         stat = copy.copy(form)
         for i in range(0, len(li_txt)-4):
             stat[li_txt[i]] = li_num[i]
+
+        self.db = {
+            '지역'          :  0,
+            '확진자'        :  0,
+            '격리자'        :  0,
+            '사망'        :  0,
+            '의사환자'      :  0,
+            '검사중'        :  0,
+            '결과음성'      :  0,
+            '자가격리자'    :  0,
+            '감시중'        :  0,
+            '감시해제'      :  0,
+            '퇴원'          :  0,
+            }
+
 
         self.gangnam_gu()
         self.gangdong_gu()
