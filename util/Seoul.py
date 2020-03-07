@@ -34,7 +34,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1].text.replace(",","")) # 강남 자가격리자
         self.db['감시중'] += int(table[2].text.replace(",","")) # 강남 능동감시자
         
-        print("# 강남구 : %d"%(int(table[0].text.replace(",",""))))
+        print(u"# 강남구 : %d"%(int(table[0].text.replace(",",""))))
 
     def gangdong_gu(self):
         res = requests.get('https://www.gangdong.go.kr', headers=headers)
@@ -43,7 +43,7 @@ class Seoul():
         self.db['퇴원'] += int(soup.find('li', 'green').find('strong').text.replace(",","")) # 강동 퇴원자
         self.db['자가격리자'] += int(soup.find('li', 'blue').find('strong').text.replace(",","")) # 강동 자가격리자
 
-        print("# 강동구 : %d"%(int(soup.find('li', 'red').find('strong').text)))
+        print(u"# 강동구 : %d"%(int(soup.find('li', 'red').find('strong').text)))
 
     def gangbuk_gu(self):
         res = requests.get('http://www.gangbuk.go.kr/intro_gb.jsp')
@@ -57,7 +57,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1].text.replace(',','')) # 강북 자가격리자
         self.db['퇴원'] += int(table[3].text.replace(',','')) # 강북 능동감시자
 
-        print("# 강북구 : %d"%(int(table[0].text.replace(',',''))))
+        print(u"# 강북구 : %d"%(int(table[0].text.replace(',',''))))
 
     def gangseo_gu(self):
         res = requests.get('http://www.gangseo.seoul.kr/new_portal/index.jsp', headers=headers)
@@ -67,7 +67,7 @@ class Seoul():
         self.db['확진자'] += int(table[0].text[:-1].replace(",","")) # 강서 확진자
         self.db['감시중'] += int(table[1].text[:-1].replace(",","")) # 강서 능동감시자
         # TODO: 퇴원자 추가하기
-        print("# 강서구 : %d"%(int(table[0].text[:-1])))
+        print(u"# 강서구 : %d"%(int(table[0].text[:-1])))
 
     def gwanak_gu(self):
         res = requests.get('http://www.gwanak.go.kr/site/gwanak/main.do', headers=headers)
@@ -82,7 +82,7 @@ class Seoul():
         self.db['자가격리자'] += int(table2[0].text[:-1].replace(",",""))
         self.db['감시중'] += int(table2[1].text[:-1].replace(",",""))
 
-        print("# 관악구 : %d"%(int(table1[0].text[:-1].replace(",",""))))
+        print(u"# 관악구 : %d"%(int(table1[0].text[:-1].replace(",",""))))
 
     def gwangjin_gu(self):
         res = requests.get('https://www.gwangjin.go.kr/portal/main/main.do', headers=headers)
@@ -93,7 +93,7 @@ class Seoul():
         self.db['확진자'] += int(table[1].text.replace(",",""))
         self.db['자가격리자'] += int(table[2].text.replace(",",""))
 
-        print("# 광진구 : %d"%(int(table[1].text.replace(",",""))))
+        print(u"# 광진구 : %d"%(int(table[1].text.replace(",",""))))
 
     def guro_gu(self):
         res = requests.get('http://www.guro.go.kr/corona.jsp', headers=headers)
@@ -107,7 +107,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[2].text.replace(",",""))
         self.db['감시중'] += int(table[3].text.replace(",",""))
 
-        print("# 구로구 : %d"%(int(table[1].text.replace(",",""))))
+        print(u"# 구로구 : %d"%(int(table[1].text.replace(",",""))))
 
     def geumcheon_gu(self):
         res = requests.get('https://www.geumcheon.go.kr/', headers=headers)
@@ -121,7 +121,7 @@ class Seoul():
         self.db['감시중'] += int(value2[0].replace(' ', ''))
         self.db['자가격리자'] += int(value2[1].replace('(','').replace(' ', ''))
 
-        print("# 금천구 : %d"%(int(value1)))
+        print(u"# 금천구 : %d"%(int(value1)))
 
     def nowon_gu(self):
         res = requests.get('http://www.nowon.kr', headers=headers)
@@ -137,7 +137,7 @@ class Seoul():
         self.db['감시중'] += int(table[4].text[:-1].replace(' ', ''))
         self.db['자가격리자'] += int(table[4].text[:-1].replace(' ', ''))
 
-        print("# 노원구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
+        print(u"# 노원구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def dobong_gu(self):
         res = requests.get('http://www.dobong.go.kr/', headers=headers)
@@ -148,7 +148,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1].text.replace(' ', ''))
         self.db['감시중'] += int(table[2].text.replace(' ', ''))
 
-        print("# 도봉구 : %d"%(int(table[0].text.replace(' ', ''))))
+        print(u"# 도봉구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def dongdaemun_gu(self):
         res = requests.get('http://www.ddm.go.kr/life/presentCondition.jsp', headers=headers)
@@ -159,7 +159,7 @@ class Seoul():
         self.db['검사중'] += int(table[1].text[:-1].replace(' ', ''))
         self.db['결과음성'] += int(table[2].text[:-1].replace(' ', ''))
 
-        print("# 동대문구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
+        print(u"# 동대문구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def dongjak_gu(self):
         res = requests.get('http://www.dongjak.go.kr', headers=headers)
@@ -170,7 +170,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1].text[:-1].replace(' ', ''))
         self.db['감시중'] += int(table[2].text[:-1].replace(' ', ''))
 
-        print("# 동작구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
+        print(u"# 동작구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def mapo_gu(self):
         res = requests.get('https://www.mapo.go.kr/site/main/home', headers=headers)
@@ -181,7 +181,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1].text[:-1].replace(' ', ''))
         self.db['감시중'] += int(table[2].text[:-1].replace(' ', ''))
 
-        print("# 마포구 : %d"%(int(table[0].text.split('명')[0].replace(' ', ''))))
+        print(u"# 마포구 : %d"%(int(table[0].text.split('명')[0].replace(' ', ''))))
 
     def seodaemun_gu(self):
         res = requests.get('http://www.sdm.go.kr/index.do', headers=headers)
@@ -192,7 +192,7 @@ class Seoul():
         self.db['퇴원'] += int(table[1].text.replace(' ', ''))
         self.db['자가격리자'] += int(table[2].text.replace(' ', ''))
 
-        print("# 서대문구 : %d"%(int(table[0].text.replace(' ', ''))))
+        print(u"# 서대문구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def seocho_gu(self):
         res = requests.get('http://www.seocho.go.kr/site/seocho/main.do', headers=headers)
@@ -202,7 +202,7 @@ class Seoul():
         self.db['확진자'] += int(table[0].text[:-1].replace(',',''))
         self.db['감시중'] += int(table[1].text[:-1].replace(',',''))
 
-        print("# 서초구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
+        print(u"# 서초구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
 
     def seongdong_gu(self):
         res = requests.get('http://www.sd.go.kr/sd/main.do', headers=headers)
@@ -218,7 +218,7 @@ class Seoul():
         self.db['감시중'] += int(table[2].text[:-1].replace(',',''))
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
 
-        print("# 성동구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
+        print(u"# 성동구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
 
     # 성북구는 텍스트로 된 자료를 제공하지 않아 크롤링 불가
     def seongbuk_gu(self):
@@ -230,7 +230,7 @@ class Seoul():
         self.db['격리자'] += 4# int(table[1].text.replace(',', ''))
         self.db['확진자'] += 6# int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
         #self.db['자가격리자'] += # int(table[2].text.replace(',', ''))
-        print("# 성북구 : %d"%(6))
+        print(u"# 성북구 : %d"%(6))
 
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
@@ -245,7 +245,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[5][:-1].replace(',', ''))
         #self.db['결과음성'] += 
         #self.db['검사중'] += 
-        print("# 송파구 : %d"%(int(table[3][:-1].replace(',', ''))))
+        print(u"# 송파구 : %d"%(int(table[3][:-1].replace(',', ''))))
 
     def yangcheon_gu(self):
         res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False, headers=headers)
@@ -259,7 +259,7 @@ class Seoul():
         #self.db['결과음성'] += 
         #self.db['검사중'] += 
         #self.db['자가격리자'] += 
-        print("# 양천구 : %d"%(int(table[1][:-1].replace(',', ''))))
+        print(u"# 양천구 : %d"%(int(table[1][:-1].replace(',', ''))))
 
     def yeongdeungpo_gu(self):
         res = requests.post('https://www.ydp.go.kr/selectDissInfoJSON.do', verify=False, headers=headers)
@@ -269,7 +269,7 @@ class Seoul():
         self.db['자가격리자'] += int(table['cnt2']) # 자가격리자
         self.db['감시중'] += int(table['cnt3']) # 능동감시자
 
-        print("# 영등포구 : %d"%(int(table['cnt1'])))
+        print(u"# 영등포구 : %d"%(int(table['cnt1'])))
     
     def yongsan_gu(self):
         res = requests.get('http://www.yongsan.go.kr/site/kr/index.jsp', headers=headers)
@@ -282,7 +282,7 @@ class Seoul():
         self.db['확진자'] += int(table[0][:-1]) # 확진자
         self.db['자가격리자'] += int(table[1][:-1]) # 확진자
 
-        print("# 용산구 : %d"%(int(table[0][:-1])))
+        print(u"# 용산구 : %d"%(int(table[0][:-1])))
     
     def eunpyeong_gu(self):
         res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918', headers=headers)
@@ -297,7 +297,7 @@ class Seoul():
         #self.db['퇴원'] += 
         self.db['자가격리자'] += int(table[2][:-1].replace(',',''))
         
-        print("# 은평구 : %d"%(int(table[1][:-1].replace(',',''))))
+        print(u"# 은평구 : %d"%(int(table[1][:-1].replace(',',''))))
         
     def jongno_gu(self):
         res = requests.get('http://www.jongno.go.kr/portalMain.do;jsessionid=edgF6qdhxN6YfuSesu3MBWaoxB1zxK13M4zajh2nSIWcitqm4UVSX7ITFaNU1Rdb.was_servlet_engine1', headers=headers)
@@ -311,7 +311,7 @@ class Seoul():
         self.db['격리자'] += int(table[2].text[:-1]) # 치료중
         self.db['자가격리자'] += int(table[3].text[:-1]) # 자가격리자
 
-        print("# 종로구 : %d"%(int(table[0].text[:-1])))
+        print(u"# 종로구 : %d"%(int(table[0].text[:-1])))
         
     def jung_gu(self):
         res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
@@ -325,7 +325,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[1])
         self.db['감시중'] += int(table[2])
 
-        print("# 중구 : %d"%(int(table[0])))
+        print(u"# 중구 : %d"%(int(table[0])))
     
     def jungnang_gu(self):
         res = requests.get('https://www.jungnang.go.kr/portal/main.do', headers=headers)
@@ -336,7 +336,7 @@ class Seoul():
         self.db['확진자'] += int(table.text) # 
         # self.db['자가격리자'] += int(    ) # 
 
-        print("# 중랑구 : %d"%(int(table.text)))
+        print(u"# 중랑구 : %d"%(int(table.text)))
         
     def collect(self):
         res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do', headers=headers)
