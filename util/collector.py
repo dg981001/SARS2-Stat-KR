@@ -4,20 +4,18 @@ def collector(region_list):
     data_list = []
     error_idx = []
     for i in range(len(region_list)):
-        temp_method = copy(region_list[i])
+        now = region_list[i]
         try:
-            data_list.insert(i, temp_method())
+            data_list.insert(i, now())
         except:
             try:
-                print("Error occured. Retry : %s"%(region_list[i].__name__))
-                temp_method = copy(region_list[i])
-                data_list.insert(i, temp_method())
+                print("Error occured. Retry : %s"%(now.__name__))
+                data_list.insert(i, now())
             except:
                 error_idx.append(i)
-                print("Error occured at : %s"%(region_list[i].__name__))
+                print("Error occured at : %s"%(now.__name__))
 
     for i in error_idx:
-        temp_method = copy(region_list[i])
         data_list.insert(i, region_list[i]())
         # 이 과정에서 Daegu() 클래스가 초기화되지 않아 누적
 
