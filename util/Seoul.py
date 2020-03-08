@@ -393,7 +393,7 @@ class Seoul():
         self.jung_gu()
         self.jungnang_gu()
 
-        self.db['확진자'] += 11 # 기타
+        self.db['확진자'] += 12 # 기타
         
         stat['지역'] = '서울'
         stat['확진자'] = format(self.db['확진자'], ',')
