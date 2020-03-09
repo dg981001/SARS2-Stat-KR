@@ -362,10 +362,11 @@ def jeju():
 
 def sejong():
     res = requests.get('https://www.sejong.go.kr/prog/fluInfo/listAjax.do')#, headers=headers)
-    table = json.loads(res.content)
+    table = json.loads(res.content)[0]
 
     stat = copy.copy(form)
     
+    stat['지역'] = '세종'
     stat['확진자'] = table['info1'] # 확진
     stat['격리자'] = table['info1'] # 격리자
     stat['검사중'] = table['info3'] # 검사중
