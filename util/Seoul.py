@@ -96,7 +96,7 @@ class Seoul():
         print(u"# 광진구 : %d"%(int(table[1].text.replace(",",""))))
 
     def guro_gu(self):
-        res = requests.get('http://www.guro.go.kr/corona.jsp', headers=headers)
+        res = requests.get('http://www.guro.go.kr/www/index.do', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  자가격리자  |  능동감시자
         table = soup.find('tbody').find_all('td')
@@ -222,15 +222,16 @@ class Seoul():
 
     # 성북구는 텍스트로 된 자료를 제공하지 않아 크롤링 불가
     def seongbuk_gu(self):
-        # res = requests.get('http://www.sb.go.kr/main/mainPage.do')
-        # seongbuk_data = BeautifulSoup(res.content, 'html.parser')
-        # table = seongbuk_data.find_all('span', class_='num')
+        res = requests.get('http://www.sb.go.kr/')
+        soup = BeautifulSoup(res.content, 'html.parser')
+        # 퇴원  |  격리자  |  자가격리 능동감시자
+        table = soup.find_all('span', class_='num')
 
-        self.db['퇴원'] += 2# int(table[0].text.replace(',', ''))
-        self.db['격리자'] += 4# int(table[1].text.replace(',', ''))
-        self.db['확진자'] += 6# int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
+        self.db['퇴원'] += int(table[0].text.replace(',', ''))
+        self.db['격리자'] += int(table[1].text.replace(',', ''))
+        self.db['확진자'] += int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
         #self.db['자가격리자'] += # int(table[2].text.replace(',', ''))
-        print(u"# 성북구 : %d"%(6))
+        print(u"# 성북구 : %d"%(int(table[0].text.replace(',', ''))))
 
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
@@ -322,8 +323,8 @@ class Seoul():
         #
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
         self.db['확진자'] += 0     # int(table[0])
-        self.db['자가격리자'] += 10 # int(table[1])
-        self.db['감시중'] += 0      # int(table[2])
+        self.db['자가격리자'] += 11 # int(table[1])
+        self.db['감시중'] += 1      # int(table[2])
 
         print(u"# 중구 : %d"%(0))
     
@@ -393,7 +394,9 @@ class Seoul():
         self.jung_gu()
         self.jungnang_gu()
 
-        self.db['확진자'] += 12 # 기타
+        self.db['확진자'] += 13 # 기타
+
+        print("# 기타 : %d"%(13))
         
         stat['지역'] = '서울'
         stat['확진자'] = format(self.db['확진자'], ',')
