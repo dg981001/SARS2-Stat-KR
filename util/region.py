@@ -361,36 +361,15 @@ def jeju():
     return stat
 
 def sejong():
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    res = requests.get('https://www.sejong.go.kr/prog/fluInfo/listAjax.do')#, headers=headers)
+    table = json.loads(res.content)
 
-    f_driver = ''
-    if platform.system() == 'Linux':
-        f_driver = '%s/chromedriver'%(dir_name)
-    elif platform.system() == 'Darwin':
-        f_driver = '%s/chromedriver_darwin'%(dir_name)
-    else:
-        f_driver = '%s/chromedriver.exe'%(dir_name)
-
-    driver = webdriver.Chrome(f_driver, options=options)
-    driver.get('https://www.sejong.go.kr/')
-    driver.implicitly_wait(2)
-    table_init = driver.find_elements_by_class_name('databox')
-    table = table_init[0].text.split("\n")
-    # print(table[0].text.split("\n"))
-    # print(table[1].text.split("\n"))
-    # print(table[2].text.split("\n"))
-    # print(table[3].text.split("\n"))
     stat = copy.copy(form)
     
-    stat['지역'] = '세종'
-    stat['확진자'] = table[1]
-    stat['격리자'] = table[1]
-    #stat['사망'] = 
-    stat['검사중'] = table[5]
-    stat['결과음성'] = table[7]
-    #stat['자가격리자'] = 
-    #stat['감시해제'] = 
+    stat['확진자'] = table['info1'] # 확진
+    stat['격리자'] = table['info1'] # 격리자
+    stat['검사중'] = table['info3'] # 검사중
+    stat['결과음성'] = table['info4'] # 결과음성
 
     print("pass : ", stat['지역'])
 
