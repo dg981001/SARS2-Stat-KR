@@ -2,7 +2,7 @@ import requests, copy
 from bs4 import BeautifulSoup
 from util.form import form
 from selenium import webdriver
-import platform
+import platform, json
 
 dir_name = "util"
 
@@ -338,20 +338,10 @@ def incheon():
     return stat
 
 def jeju():
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-
-    if platform.system() == 'Linux':
-        f_driver = '%s/chromedriver'%(dir_name)
-    elif platform.system() == 'Darwin':
-        f_driver = '%s/chromedriver_darwin'%(dir_name)
-    else:
-        f_driver = '%s/chromedriver.exe'%(dir_name)
-    driver = webdriver.Chrome(f_driver, options=options)
-    driver.get('https://www.jeju.go.kr/index.htm')
-    driver.implicitly_wait(3)
-    table = driver.find_elements_by_class_name('cc-box')
-    table = driver.find_elements_by_class_name('cc-box')
+    headers = {'Referer': 'https://www.jeju.go.kr/index.htm'}
+    res = requests.get('https://www.jeju.go.kr/api/corona.jsp', headers=headers)
+    res.encoding = 'eur-kr'
+    table = json.loads(res.content)
     # print(table[0].text.split("\n"))
     # print(table[1].text.split("\n"))
     # print(table[2].text.split("\n"))
@@ -359,12 +349,12 @@ def jeju():
     stat = copy.copy(form)
     
     stat['지역'] = '제주도'
-    stat['확진자'] = table[0].text.split("\n")[-1][:-1]
-    stat['사망'] = table[1].text.split("\n")[-1][:-1]
-    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['사망'].replace(",", "")))
-    stat['검사중'] = table[2].text.split("\n")[-1][:-1]
-    stat['자가격리자'] = table[3].text.split("\n")[2][:-1]
-    stat['감시해제'] = table[3].text.split("\n")[-1][:-1]
+    stat['확진자'] = table['field2'] # 확진
+    stat['사망'] = table['field3'] # 사망
+    stat['검사중'] = table['field5'] # 검사중
+    stat['자가격리자'] = table['field11'] # 자가격리
+    stat['퇴원'] = table['field13'] # 퇴원
+    stat['격리자'] = str(int(stat['확진자'].replace(",", "")) - int(stat['사망'].replace(",", "")) - int(stat['퇴원'].replace(",", "")))
 
     print("pass : ", stat['지역'])
 
