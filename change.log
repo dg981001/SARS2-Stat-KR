@@ -8,3 +8,11 @@ Change
 3. Modify Sejong
 - change to use requests (not a selenium)
 - change to request json data
+
+2020-03-10
+Change
+1. Add table class
+- now create excel file when collecting is finished
+2. Add kst_time_for_file function in KST.py
+- it is for table.py
+3. Modify str format at Ulsan function
