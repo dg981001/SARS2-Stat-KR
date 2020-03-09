@@ -173,15 +173,15 @@ class Seoul():
         print(u"# 동작구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
 
     def mapo_gu(self):
-        res = requests.get('https://www.mapo.go.kr/site/main/home', headers=headers)
+        res = requests.get('http://www.mapo.go.kr/html/corona/intro.htm')#, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
-        table = soup.find('table', 'status-table3').find('tbody').find_all('td')
-        self.db['확진자'] += int(table[0].text.split('명')[0].replace(' ', ''))
-        self.db['자가격리자'] += int(table[1].text[:-1].replace(' ', ''))
-        self.db['감시중'] += int(table[2].text[:-1].replace(' ', ''))
+        table = soup.find('div', class_='is-cont').find('ul').find_all('span')
+        self.db['확진자'] += int(table[0].text.replace(' ', ''))
+        self.db['자가격리자'] += int(table[1].text.replace(' ', ''))
+        self.db['감시중'] += int(table[2].text.replace(' ', ''))
 
-        print(u"# 마포구 : %d"%(int(table[0].text.split('명')[0].replace(' ', ''))))
+        print(u"# 마포구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def seodaemun_gu(self):
         res = requests.get('http://www.sdm.go.kr/index.do', headers=headers)
