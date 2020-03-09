@@ -1,0 +1,5 @@
+2020-03-09
+Change
+1. update jeju
+- change to use requests (not a selenium)
+- change to request json data
