@@ -1,4 +1,4 @@
-from util.mk_table import Mk_table
+from util.table import table
 from util.region import *
 from util.Daegu import Daegu
 from util.Seoul import Seoul
@@ -26,7 +26,7 @@ regions = [Seoul().collect,
         ]
 
 if __name__=="__main__":
-    table = Mk_table()
+    table = table()
     data = collector(regions)
     try:
         table.generate(data)
@@ -47,5 +47,5 @@ if __name__=="__main__":
 {1}
 
 #1 확진자(중국인) 제외
-    '''.format(kst_time(), table.table))
+    '''.format(kst_time(), table.Chart))
     readme.close()
