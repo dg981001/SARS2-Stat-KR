@@ -96,7 +96,7 @@ class Seoul():
         print(u"# 광진구 : %d"%(int(table[1].text.replace(",",""))))
 
     def guro_gu(self):
-        res = requests.get('http://www.guro.go.kr/www/index.do', headers=headers)
+        res = requests.get('http://www.guro.go.kr/corona2.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  자가격리자  |  능동감시자
         table = soup.find('tbody').find_all('td')
