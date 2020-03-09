@@ -1,5 +1,10 @@
 2020-03-09
 Change
-1. update jeju
+1. Update jeju
+- change to use requests (not a selenium)
+- change to request json data
+2. Update guro_gu (Seoul)
+- change guro_gu url
+3. Modify Sejong
 - change to use requests (not a selenium)
 - change to request json data
