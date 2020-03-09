@@ -26,6 +26,8 @@ class table():
         chart = chart.fillna('-').astype('int', errors='ignore')
         self.DataFrame = chart
         self.DataFrame.to_excel("table/%s.xlsx"%(kst_time_for_file()))
+        print("Save")
+
 
     # def to_markdown(self):
         ## 총합 맨 위 표기
