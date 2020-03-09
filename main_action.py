@@ -41,12 +41,10 @@ def region_data():
 
 if __name__=="__main__":
     table = table()
-    data = collector(regions)
     try:
-        table.generate(data)
+        data = collector(regions)
     except:
         data = collector(regions)
-        table.generate(data)
 
     readme = open('README.md', mode='wt', encoding='utf-8')
     readme.write('''
@@ -61,5 +59,5 @@ if __name__=="__main__":
 {1}
 
 #1 확진자(중국인) 제외
-    '''.format(kst_time(), table.Chart))
+    '''.format(kst_time(), table.generate(data)))
     readme.close()
