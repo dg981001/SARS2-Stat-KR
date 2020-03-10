@@ -322,7 +322,7 @@ class Seoul():
         ##li = table.find_all('td')[1:11]
         #
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += 0     # int(table[0])
+        self.db['확진자'] += 1     # int(table[0])
         self.db['자가격리자'] += 11 # int(table[1])
         self.db['감시중'] += 1      # int(table[2])
 
@@ -348,6 +348,8 @@ class Seoul():
 
         li_txt = [txt.text for txt in li_txt]
         li_num = [num.text for num in li_num]
+
+        others = int(soup.find('div', class_='seoul-map-other').find('span', class_='num').text.replace(',', ''))
 
         stat = copy.copy(form)
         for i in range(0, len(li_txt)-4):
@@ -394,9 +396,9 @@ class Seoul():
         self.jung_gu()
         self.jungnang_gu()
 
-        self.db['확진자'] += 13 # 기타
+        self.db['확진자'] += others # 기타
 
-        print("# 기타 : %d"%(13))
+        print("# 기타 : %d"%(others))
         
         stat['지역'] = '서울'
         stat['확진자'] = format(self.db['확진자'], ',')
