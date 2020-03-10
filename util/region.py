@@ -141,18 +141,18 @@ def gyeongnam():
     return stat
 
 def gyeonggi():
-    res = requests.get('https://www.gg.go.kr/bbs/boardView.do?bsIdx=464&bIdx=2296956&menuId=1535')
+    res = requests.get('https://www.gg.go.kr/contents/contents.do?ciIdx=1150&menuId=2909')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table = soup.find('ul', class_='column-4').find_all('strong')
+    table = soup.find('div', class_='corona_confirmation').find_all('span')
     
     stat = copy.copy(form)
     
     stat['지역'] = '경기도'
-    stat['확진자'] = table[3].text
-    stat['격리자'] = table[0].text
-    stat['퇴원'] = table[1].text
-    stat['사망'] = table[2].text
+    stat['확진자'] = table[0].text
+    stat['격리자'] = table[1].text
+    stat['퇴원'] = table[2].text
+    stat['사망'] = table[3].text
     
     print("pass : ", stat['지역'])
     
@@ -178,7 +178,7 @@ def chungbuk():
     stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')))
     
     print("pass : ", stat['지역'])
-    
+
     return stat
 
 def chungnam():
