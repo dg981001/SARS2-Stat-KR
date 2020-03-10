@@ -233,12 +233,12 @@ def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-'
     stat = copy.copy(form)
     # before : gwangju(infected=13, quarantine=9, self_quarantine=1, care=3)
     stat['지역'] = '광주'
-    stat['확진자'] = '%s'%(14) # (infected)
+    stat['확진자'] = '%s'%(15) # (infected)
     stat['격리자'] = '%s'%(9) # (quarantine)
     stat['의사환자'] = '%s'%(suspect)
     stat['검사중'] = '%s'%(testing)
     stat['결과음성'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(2) # (self_quarantine)
+    stat['자가격리자'] = '%s'%(3) # (self_quarantine)
     stat['감시해제'] = '%s'%(unmonitor)
     stat['퇴원'] = '%s'%(3) # (care)
     
