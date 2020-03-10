@@ -159,10 +159,10 @@ def gyeonggi():
     return stat
 
 def chungbuk():
-    res = requests.get('http://www.chungbuk.go.kr/www/covid-19/index.html')
+    res = requests.get('http://www1.chungbuk.go.kr/covid-19/index.do')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table = soup.find('ul', class_="clearfix").find_all("p", class_='text') # 확진자, 검사중, 검사결과(음성)
+    table = soup.find('ul', class_="clearfix").find_all("p", class_='text')
 
     stat = copy.copy(form)
     
@@ -174,10 +174,11 @@ def chungbuk():
     stat['자가격리자'] = table[4].text
     stat['감시중'] = table[5].text
     stat['감시해제'] = table[6].text
-    stat['격리자'] = stat['확진자']
-    # stat['퇴원'] = 
+    stat['퇴원'] = table[7].text
+    stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')))
     
     print("pass : ", stat['지역'])
+    
     return stat
 
 def chungnam():
