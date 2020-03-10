@@ -31,7 +31,7 @@ class Daegu():
         print(u"#  북구 : ", int(table[1].text.split("(")[0].split()[0][:-1].replace(',', '')))
 
     def nam_gu(self):
-        namgu = requests.get('http://www.nam.daegu.kr/')
+        namgu = requests.get('http://nam.daegu.kr/')
         namgu_data = BeautifulSoup(namgu.content, 'html.parser')
         table = namgu_data.find('tbody').find_all('td')
         # 전국  |  남구  |  자가격리
