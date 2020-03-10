@@ -16,3 +16,7 @@ Change
 2. Add kst_time_for_file function in KST.py
 - it is for table.py
 3. Modify str format at Ulsan function
+4. Update Seoul
+- update guro_gu
+- now update others automatically
+5. Update dalseo_gu (Daegu)
