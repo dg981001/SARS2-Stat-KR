@@ -50,7 +50,7 @@ class Daegu():
         # 전국  |  대구시  |  달서구  |  자가격리
         #print(int(table[2][:-1].replace(',', '')))
         self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 달서구 확진자
-        self.db['자가격리자'] += int(table[3].text.split('(')[0].replace(',', '')) # 달서구 자가격리자
+        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 달서구 자가격리자
         print(u"#  달서구 : ", int(table[2].text[:-1].replace(',', '')))
 
     def seo_gu(self):
