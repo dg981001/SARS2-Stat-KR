@@ -22,7 +22,19 @@ class Seoul():
 #        else:
 #            f_driver = '%s/chromedriver.exe'%(dir_name)
 #        self.driver = webdriver.Chrome(f_driver, chrome_options=options)
-        self.db = dict()
+        self.db = {
+            '지역'          :  0,
+            '확진자'        :  0,
+            '격리자'        :  0,
+            '사망'        :  0,
+            '의사환자'      :  0,
+            '검사중'        :  0,
+            '결과음성'      :  0,
+            '자가격리자'    :  0,
+            '감시중'        :  0,
+            '감시해제'      :  0,
+            '퇴원'          :  0,
+            }
 
     def gangnam_gu(self):
         res = requests.get('http://www.gangnam.go.kr/index.htm', headers=headers)
@@ -103,11 +115,11 @@ class Seoul():
          # 확진자 수 뒤에 붙어있는 '강조' 텍스트 제거
         table[1].find('span').extract()
 
-        self.db['확진자'] += int(table[1].text.replace(",",""))
+        self.db['확진자'] += int(table[1].text.split('(')[0].replace(",",""))
         self.db['자가격리자'] += int(table[2].text.replace(",",""))
         self.db['감시중'] += int(table[3].text.replace(",",""))
 
-        print(u"# 구로구 : %d"%(int(table[1].text.replace(",",""))))
+        print(u"# 구로구 : %d"%(int(table[1].text.split('(')[0].replace(",",""))))
 
     def geumcheon_gu(self):
         res = requests.get('https://www.geumcheon.go.kr/', headers=headers)
