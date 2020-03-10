@@ -181,28 +181,27 @@ def chungbuk():
     return stat
 
 def chungnam():
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-
-    if platform.system() == 'Linux':
-        f_driver = '%s/chromedriver'%(dir_name)
-    elif platform.system() == 'Darwin':
-        f_driver = '%s/chromedriver_darwin'%(dir_name)
-    else:
-        f_driver = '%s/chromedriver.exe'%(dir_name)
-    driver = webdriver.Chrome(f_driver, options=options)
-    driver.get('http://www.chungnam.go.kr/coronaStatus.do')
-    driver.implicitly_wait(2)
-    table = driver.find_elements_by_class_name('item')
+    res = requests.get('http://www.chungnam.go.kr/coronaStatus.do') #, headers=headers)
+    data = BeautifulSoup(res.content, 'html.parser')
+    init = data.find_all('ul', class_='small_list')
+    self_quarantine = data.find('div', class_='item item03').find('li').find('strong').text
     
+    table = []
+    for i in range(len(init)):
+        init[i].find_all('li')[1].find('span').extract()
+        d = init[i].find_all('li')[1].text[:-1]
+        table.append(d)
+
     stat = copy.copy(form)
     
     stat['지역'] = '충청남도'
-    stat['확진자'] = table[0].text.split("\n")[-1]
-    stat['격리자'] = stat['확진자']
-    stat['검사중'] = table[1].text.split("\n")[-1]
-    stat['결과음성'] = table[2].text.split("\n")[-1]
-    stat['자가격리자'] = table[3].text.split("\n")[1]
+    stat['확진자'] = table[0]
+    stat['격리자'] = table[1]
+    stat['퇴원'] = table[2]
+    stat['사망'] = table[3]
+    stat['검사중'] = table[4]
+    stat['결과음성'] = table[5]
+    stat['자가격리자'] = self_quarantine
     #stat['감시해제'] = table[3].text.split("\n")[3]
     
     print("pass : ", stat['지역'])
