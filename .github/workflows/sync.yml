@@ -26,6 +26,7 @@ jobs:
         python main_action.py
     - name: Commit changes
       run: |
+        git add --all table/
         git config --local user.name "lk-lab"
         git config --local user.email "dg981001@naver.com"
         git commit --allow-empty -am "$(TZ="Asia/Seoul" date +"%Y.%m.%d %H:%M:%S %Z")"
