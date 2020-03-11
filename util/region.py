@@ -299,13 +299,13 @@ def ulsan():
     stat = copy.copy(form)
     
     stat['지역'] = '울산'
-    stat['확진자'] = table[0]
+    stat['격리자'] = table[0]
     stat['퇴원'] = table[1]
-    stat['격리자'] = format(int(stat['확진자'].replace(',','')) - int(stat['퇴원'].replace(',','')), ',')
+    stat['확진자'] = format(int(stat['격리자'].replace(',','')) + int(stat['퇴원'].replace(',','')), ',')
     stat['감시해제'] = table[3]
-    stat['감시중'] = table[4]
-    stat['결과음성'] = table[5]
-    stat['검사중'] = table[6]
+    stat['감시중'] = table[2]
+    stat['결과음성'] = format(int(table[4].replace(',','')) + int(table[6].replace(',','')), ',')
+    stat['검사중'] = format(int(table[5].replace(',','')) + int(table[7].replace(',','')), ',')
     stat['의사환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
     
     print("pass : ", stat['지역'])
