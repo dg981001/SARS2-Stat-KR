@@ -341,7 +341,7 @@ class Seoul():
         print(u"# 중구 : %d"%(1))
     
     def jungnang_gu(self):
-        res = requests.get('https://www.jungnang.go.kr/', headers=headers)
+        res = requests.get('https://www.jungnang.go.kr/popup_index3.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table = soup.find('dl', class_='intro_tbl jn_intro_tbl').find_all('span')
