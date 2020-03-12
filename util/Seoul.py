@@ -328,16 +328,16 @@ class Seoul():
         print(u"# 종로구 : %d"%(int(table[0].text[:-1])))
         
     def jung_gu(self):
-        res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
-        soup = BeautifulSoup(res.content, 'html.parser')
+        #res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
+        #soup = BeautifulSoup(res.content, 'html.parser')
         #
-        table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
+        #table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
         #li = table.find_all('td')[1:11]
         #
-        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += int(table[0])
-        self.db['자가격리자'] += int(table[1])
-        self.db['감시중'] +=  int(table[2])
+        #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        self.db['확진자'] += 1 #int(table[0])
+        self.db['자가격리자'] += 38 # int(table[1])
+        self.db['감시중'] +=  0 # int(table[2])
 
         print(u"# 중구 : %d"%(1))
     
