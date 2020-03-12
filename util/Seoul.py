@@ -111,13 +111,14 @@ class Seoul():
         res = requests.get('http://www.guro.go.kr/corona2.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  자가격리자  |  능동감시자
-        table = soup.find('tbody').find_all('td')
+        table = soup.find('table', class_='table_A').find('tbody').find_all('td')
          # 확진자 수 뒤에 붙어있는 '강조' 텍스트 제거
-        table[1].find('span').extract()
 
-        self.db['확진자'] += int(table[1].text.split('(')[0].replace(",",""))
-        self.db['자가격리자'] += int(table[2].text.replace(",",""))
-        self.db['감시중'] += int(table[3].text.replace(",",""))
+        self.db['확진자'] += int(table[0].text.replace(",",""))
+        self.db['격리자'] += int(table[1].text.replace(",",""))
+        self.db['퇴원'] += int(table[2].text.replace(",",""))
+        self.db['자가격리자'] += int(table[3].text.replace(",",""))
+        self.db['감시중'] += int(table[4].text.replace(",",""))
 
         print(u"# 구로구 : %d"%(int(table[1].text.split('(')[0].replace(",",""))))
 
