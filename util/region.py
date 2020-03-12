@@ -324,8 +324,9 @@ def ulsan():
     stat['확진자'] = format(int(stat['격리자'].replace(',','')) + int(stat['퇴원'].replace(',','')), ',')
     stat['감시해제'] = table[3]
     stat['감시중'] = table[2]
-    stat['결과음성'] = format(int(table[4].replace(',','')) + int(table[6].replace(',','')), ',')
-    stat['검사중'] = format(int(table[5].replace(',','')) + int(table[7].replace(',','')), ',')
+    stat['자가격리자'] = format(int(stat['감시해제'].replace(',','')) + int(stat['감시중'].replace(',','')), ',')
+    stat['결과음성'] = table[5]
+    stat['검사중'] = table[4]
     stat['의사환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
     
     print("pass : ", stat['지역'])
