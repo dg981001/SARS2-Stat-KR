@@ -67,7 +67,7 @@ class Seoul():
 
         self.db['확진자'] += int(table[0].text.replace(',','')) # 강북 확진자
         self.db['자가격리자'] += int(table[1].text.replace(',','')) # 강북 자가격리자
-        self.db['퇴원'] += int(table[3].text.replace(',','')) # 강북 능동감시자
+        self.db['퇴원'] += int(table[2].text.replace(',','')) # 강북 능동감시자
 
         print(u"# 강북구 : %d"%(int(table[0].text.replace(',',''))))
 
@@ -241,9 +241,10 @@ class Seoul():
 
         self.db['퇴원'] += int(table[0].text.replace(',', ''))
         self.db['격리자'] += int(table[1].text.replace(',', ''))
-        self.db['확진자'] += int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
+        confirmed = int(table[0].text.replace(',', '')) + int(table[1].text.replace(',', ''))
+        self.db['확진자'] += confirmed
         #self.db['자가격리자'] += # int(table[2].text.replace(',', ''))
-        print(u"# 성북구 : %d"%(int(table[0].text.replace(',', ''))))
+        print(u"# 성북구 : %d"%(confirmed))
 
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
@@ -327,21 +328,21 @@ class Seoul():
         print(u"# 종로구 : %d"%(int(table[0].text[:-1])))
         
     def jung_gu(self):
-        #res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
-        #soup = BeautifulSoup(res.content, 'html.parser')
+        res = requests.get('http://www.junggu.seoul.kr/', headers=headers)
+        soup = BeautifulSoup(res.content, 'html.parser')
         #
-        #table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
-        ##li = table.find_all('td')[1:11]
+        table_init = soup.find('tbody')#, class_='point_txt')#.find_all('span')
+        #li = table.find_all('td')[1:11]
         #
-        #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += 1     # int(table[0])
-        self.db['자가격리자'] += 11 # int(table[1])
-        self.db['감시중'] += 1      # int(table[2])
+        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        self.db['확진자'] += int(table[0])
+        self.db['자가격리자'] += int(table[1])
+        self.db['감시중'] +=  int(table[2])
 
         print(u"# 중구 : %d"%(1))
     
     def jungnang_gu(self):
-        res = requests.get('https://www.jungnang.go.kr/popup_index3.jsp', headers=headers)
+        res = requests.get('https://www.jungnang.go.kr/intro.jsp', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table = soup.find('dl', class_='intro_tbl jn_intro_tbl').find_all('span')
