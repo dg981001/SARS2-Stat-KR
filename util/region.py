@@ -5,6 +5,8 @@ from selenium import webdriver
 import platform, json
 
 dir_name = "util"
+user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
+headers = {'User-Agent': user_agent}
 
 def seoul():
     res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do')
@@ -230,17 +232,35 @@ def gangwon():
 
 def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
     # https://www.gwangju.go.kr/
+    res = requests.get('https://www.gwangju.go.kr/index_corona.jsp', headers=headers)
+    soup = BeautifulSoup(res.content, 'html.parser')
+        #
+    table = soup.find('div', class_='toplayer_left').find_all('span', class_='num_s2')#
+    
+
     stat = copy.copy(form)
-    # before : gwangju(infected=13, quarantine=9, self_quarantine=1, care=3)
     stat['지역'] = '광주'
-    stat['확진자'] = '%s'%(15) # (infected)
-    stat['격리자'] = '%s'%(9) # (quarantine)
-    stat['의사환자'] = '%s'%(suspect)
-    stat['검사중'] = '%s'%(testing)
-    stat['결과음성'] = '%s'%(negative)
-    stat['자가격리자'] = '%s'%(3) # (self_quarantine)
-    stat['감시해제'] = '%s'%(unmonitor)
-    stat['퇴원'] = '%s'%(3) # (care)
+    stat['확진자'] = table[4].text # (infected)
+    stat['퇴원'] = table[3].text
+    stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')), ',')
+    stat['검사중'] = table[6].text
+    stat['결과음성'] = table[5].text
+    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')
+    stat['감시중'] = table[7].text # (self_quarantine)
+    stat['감시해제'] = table[8].text
+    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
+
+
+    # before : gwangju(infected=13, quarantine=9, self_quarantine=1, care=3)
+    #stat['지역'] = '광주'
+    #stat['확진자'] = '%s'%(15) # (infected)
+    #stat['격리자'] = '%s'%(12) # (quarantine)
+    #stat['의사환자'] = '%s'%(suspect)
+    #stat['검사중'] = '%s'%(testing)
+    #stat['결과음성'] = '%s'%(negative)
+    #stat['자가격리자'] = '%s'%(3) # (self_quarantine)
+    #stat['감시해제'] = '%s'%(unmonitor)
+    #stat['퇴원'] = '%s'%(3) # (care)
     
     print("pass : ", stat['지역'])
     
