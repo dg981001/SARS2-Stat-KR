@@ -231,7 +231,7 @@ class Seoul():
         self.db['감시중'] += int(table[2].text[:-1].replace(',',''))
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
 
-        print(u"# 성동구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
+        print(u"# 성동구 : %d"%(int(table[0].text[:-1].replace(',',''))))
 
     # 성북구는 텍스트로 된 자료를 제공하지 않아 크롤링 불가
     def seongbuk_gu(self):
@@ -255,12 +255,12 @@ class Seoul():
         table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
         # 확진자  |  퇴원(확진해제자)  |  자가격리  
         
-        self.db['확진자'] += int(table[3][:-1].replace(',', ''))
-        self.db['퇴원'] += int(table[4][:-1].replace(',', ''))
-        self.db['자가격리자'] += int(table[5][:-1].replace(',', ''))
+        self.db['확진자'] += int(table[5][:-1].replace(',', ''))
+        self.db['퇴원'] += int(table[7][:-1].replace(',', ''))
+        self.db['자가격리자'] += int(table[8][:-1].replace(',', ''))
         #self.db['결과음성'] += 
         #self.db['검사중'] += 
-        print(u"# 송파구 : %d"%(int(table[3][:-1].replace(',', ''))))
+        print(u"# 송파구 : %d"%(int(table[5][:-1].replace(',', ''))))
 
     def yangcheon_gu(self):
         res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False, headers=headers)
@@ -303,16 +303,15 @@ class Seoul():
         res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
-        table_init = soup.find_all('tbody')[1]
-        # 확진자  |  퇴원자  |  격리 |  자가격리/능동감시(자가격리자)
-        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ') 
+        table = soup.find_all('tbody')[1].find_all('td')
 
-        self.db['확진자'] += int(table[1][:-1].replace(',','')) # 확진자
+        confirmed = int(table[1].text.split('명')[0].replace(',',''))
+        self.db['확진자'] += confirmed  # 확진자
         #self.db['추가확진자'] += int(table[0][:-1]) # 
         #self.db['퇴원'] += 
-        self.db['자가격리자'] += int(table[2][:-1].replace(',',''))
+        self.db['자가격리자'] += int(table[2].text[:-1].replace(',',''))
         
-        print(u"# 은평구 : %d"%(int(table[1][:-1].replace(',',''))))
+        print(u"# 은평구 : %d"%(confirmed))
         
     def jongno_gu(self):
         res = requests.get('http://www.jongno.go.kr/portalMain.do;jsessionid=edgF6qdhxN6YfuSesu3MBWaoxB1zxK13M4zajh2nSIWcitqm4UVSX7ITFaNU1Rdb.was_servlet_engine1', headers=headers)
