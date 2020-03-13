@@ -212,10 +212,14 @@ class Seoul():
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  능동감시자
         table = soup.find('div', id='virusPopup').find('table').find('tbody').find_all('td')
-        self.db['확진자'] += int(table[0].text[:-1].replace(',',''))
-        self.db['감시중'] += int(table[1].text[:-1].replace(',',''))
 
-        print(u"# 서초구 : %d"%(int(int(table[0].text[:-1].replace(',','')))))
+        treatment = int(table[0].text[:-1].replace(',',''))
+        cured = int(table[1].text[:-1].replace(',',''))
+
+        self.db['확진자'] += treatment + cured
+        self.db['퇴원'] += cured
+
+        print(u"# 서초구 : %d"%(treatment + cured))
 
     def seongdong_gu(self):
         res = requests.get('http://www.sd.go.kr/sd/intro.do', headers=headers)
