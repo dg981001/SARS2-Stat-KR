@@ -36,8 +36,8 @@ if __name__=="__main__":
 
     readme = open('README.md', mode='wt', encoding='utf-8')
     readme.write('''
-## 우한 코로나 바이러스 대한민국 확진자 실시간 통계
-#### China's Wuhan Corona-virus Koran confirmed case chart
+## 중국 우한 바이러스(SARS-CoV-2) 대한민국 확진자 통계
+#### Confirmed cases of China-Virus in Korea
 {0} KST
 
 각 **시/도/구/군청** 사이트에 공개되어 있는 **공식 자료**를 수합하여 만든 통계입니다.
