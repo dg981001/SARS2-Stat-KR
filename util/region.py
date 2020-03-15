@@ -391,7 +391,7 @@ def sejong():
     stat['확진자'] = table['info1'] # 확진
     stat['격리자'] = table['info1'] # 격리자
     stat['검사중'] = table['info3'] # 검사중
-    stat['결과음성'] = table['info4'] # 결과음성
+    stat['결과음성'] = table['info4'].split("(")[0] # 결과음성
 
     print("pass : ", stat['지역'])
 
