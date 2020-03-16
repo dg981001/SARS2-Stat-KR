@@ -76,10 +76,10 @@ class Seoul():
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  능동감시자
         table = soup.find('table', 'table0226').find_all('tr')[1].find_all('td')
-        self.db['확진자'] += int(table[0].text[:-1].replace(",","")) # 강서 확진자
-        self.db['감시중'] += int(table[1].text[:-1].replace(",","")) # 강서 능동감시자
+        self.db['확진자'] += int(table[0].text.replace(",","")) # 강서 확진자
+        self.db['감시중'] += int(table[1].text.replace(",","")) # 강서 능동감시자
         # TODO: 퇴원자 추가하기
-        print(u"# 강서구 : %d"%(int(table[0].text[:-1])))
+        print(u"# 강서구 : %d"%(int(table[0].text)))
 
     def gwanak_gu(self):
         res = requests.get('http://www.gwanak.go.kr/site/gwanak/main.do', headers=headers)
@@ -120,7 +120,7 @@ class Seoul():
         self.db['자가격리자'] += int(table[3].text.replace(",",""))
         self.db['감시중'] += int(table[4].text.replace(",",""))
 
-        print(u"# 구로구 : %d"%(int(table[1].text.split('(')[0].replace(",",""))))
+        print(u"# 구로구 : %d"%(int(int(table[0].text.replace(",","")))))
 
     def geumcheon_gu(self):
         res = requests.get('https://www.geumcheon.go.kr/', headers=headers)
@@ -233,7 +233,7 @@ class Seoul():
         self.db['확진자'] += int(table[0].text[:-1].replace(',',''))
         self.db['의사환자'] += int(table[1].text[:-1].replace(',',''))
         self.db['감시중'] += int(table[2].text[:-1].replace(',',''))
-        self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
+        #self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
 
         print(u"# 성동구 : %d"%(int(table[0].text[:-1].replace(',',''))))
 
@@ -304,16 +304,16 @@ class Seoul():
         print(u"# 용산구 : %d"%(int(table[0][:-1])))
     
     def eunpyeong_gu(self):
-        res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918', headers=headers)
+        res = requests.get('https://www.ep.go.kr/CmsWeb/viewPage.req?idx=PG0000004918')#, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
     
         table = soup.find_all('tbody')[1].find_all('td')
 
-        confirmed = int(table[1].text.split('명')[0].replace(',',''))
+        confirmed = int(table[0].text.split('명')[0].replace(',',''))
         self.db['확진자'] += confirmed  # 확진자
         #self.db['추가확진자'] += int(table[0][:-1]) # 
         #self.db['퇴원'] += 
-        self.db['자가격리자'] += int(table[2].text[:-1].replace(',',''))
+        #self.db['자가격리자'] += int(table[2].text[:-1].replace(',',''))
         
         print(u"# 은평구 : %d"%(confirmed))
         
