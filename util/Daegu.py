@@ -49,9 +49,10 @@ class Daegu():
         table = BeautifulSoup(res.content, 'html.parser').find('tbody').find_all('td')
         # 전국  |  대구시  |  달서구  |  자가격리
         #print(int(table[2][:-1].replace(',', '')))
-        self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 달서구 확진자
+        confirmed = int(table[2].text.split('명')[0].replace(',', ''))
+        self.db['확진자'] += confirmed # 달서구 확진자
         self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 달서구 자가격리자
-        print(u"#  달서구 : ", int(table[2].text[:-1].replace(',', '')))
+        print(u"#  달서구 : ", confirmed)
 
     def seo_gu(self):
         seogu = requests.get('https://www.dgs.go.kr/inc/popup.php?pop_open_site=seogu_k&pop_idx=36')

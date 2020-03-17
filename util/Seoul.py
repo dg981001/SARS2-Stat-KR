@@ -39,14 +39,16 @@ class Seoul():
     def gangnam_gu(self):
         res = requests.get('http://www.gangnam.go.kr/index.htm', headers=headers)
         data = BeautifulSoup(res.content, 'html.parser')
-        table = data.find('div', class_='sBox').find_all('strong')
-        # 계  |  강남주민  |  타지역
-        self.db['확진자'] += int(table[0].text.replace(",","")) # 강남 확진자
-        # 자가격리  |  능동감시
-        self.db['자가격리자'] += int(table[1].text.replace(",","")) # 강남 자가격리자
-        self.db['감시중'] += int(table[2].text.replace(",","")) # 강남 능동감시자
+        table = data.find_all('script')
         
-        print(u"# 강남구 : %d"%(int(table[0].text.replace(",",""))))
+        confirmed = int(table[4].text.split('"counter8", ')[1].split(')')[0].replace(',',''))
+        self.db['확진자'] += confirmed
+        #self.db['확진자'] += int(table[0].text.replace(",","")) # 강남 확진자
+        # 자가격리  |  능동감시
+        #self.db['자가격리자'] += int(table[1].text.replace(",","")) # 강남 자가격리자
+        #self.db['감시중'] += int(table[2].text.replace(",","")) # 강남 능동감시자
+        
+        print(u"# 강남구 : %d"%(confirmed))
 
     def gangdong_gu(self):
         res = requests.get('https://www.gangdong.go.kr', headers=headers)
