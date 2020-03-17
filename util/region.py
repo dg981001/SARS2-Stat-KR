@@ -65,6 +65,7 @@ def busan():
     stat['확진자'] = li[1].text[:-1]
     stat['퇴원'] = li[3].text[:-1]
     stat['격리자'] = li[4].text[:-1]
+    stat['사망'] = li[5].text[:-1]
     
     print("pass : ", stat['지역'])
     
