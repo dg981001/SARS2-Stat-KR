@@ -101,9 +101,9 @@ class Daegu():
         table = dalseonggun_data.find_all('tbody')[1].find_all('td')
         # 누계  |  확진환자  |  자가격리  |  능동감시  | 감시종료
         #print(int(table[1][:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].text.split("(")[0].replace(',', '')) # 달성군 확진자
-        self.db['자가격리자'] += int(table[2].text.split("(")[0].replace(',', '')) # 달성군 자가격리자
-        print(u"#  달성군 : ", int(table[1].text.split("(")[0].replace(',', '')))
+        self.db['확진자'] += int(table[0].text.split("(")[0].replace(',', '')) # 달성군 확진자
+        # self.db['자가격리자'] += int(table[2].text.split("(")[0].replace(',', '')) # 달성군 자가격리자
+        print(u"#  달성군 : ", int(table[0].text.split("(")[0].replace(',', '')))
 
 
     def collect(self):
