@@ -269,18 +269,17 @@ class Seoul():
         print(u"# 송파구 : %d"%(int(table[5][:-1].replace(',', ''))))
 
     def yangcheon_gu(self):
-        res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/main.do', verify=False, headers=headers)
+        res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/coronaStatusList.do') #, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         
-        table_init = soup.find('tbody')
-        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        confirmed = int(soup.find('tbody').find_all('td')[1].text.split('명')[0].replace(',', ''))
         ## 전국  |  양천구  
         
-        self.db['확진자'] += int(table[1][:-1].replace(',', ''))
+        self.db['확진자'] += confirmed
         #self.db['결과음성'] += 
         #self.db['검사중'] += 
         #self.db['자가격리자'] += 
-        print(u"# 양천구 : %d"%(int(table[1][:-1].replace(',', ''))))
+        print(u"# 양천구 : %d"%(confirmed))
 
     def yeongdeungpo_gu(self):
         res = requests.post('https://www.ydp.go.kr/selectDissInfoJSON.do', verify=False, headers=headers)
