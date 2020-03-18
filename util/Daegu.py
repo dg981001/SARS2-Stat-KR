@@ -70,9 +70,16 @@ class Daegu():
         table = suseonggu_data.find('tbody').find_all('td')
         # 전국  |  수성구  |  자가격리
         #print(int(table[1].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 수성구 확진자
-        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 수성구 자가격리자
-        print(u"#  수성구 : ", int(table[2].text[:-1].replace(',', '')))
+        cared = int(table[0].text.split('명')[0])
+        quarantine = int(table[1].text.split('명')[0])
+        death = int(table[2].text.split('명')[0])
+        self_qurantine = int(table[3].text.split('명')[0])
+
+        confirmed = cared + quarantine + death
+
+        self.db['확진자'] += confirmed # 수성구 확진자
+        self.db['자가격리자'] += self_qurantine # 수성구 자가격리자
+        print(u"#  수성구 : ", confirmed)
 
     def jung_gu(self):
         junggu = requests.get('http://www.jung.daegu.kr/new/pages/main/')
