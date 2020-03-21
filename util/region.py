@@ -2,7 +2,7 @@ import requests, copy
 from bs4 import BeautifulSoup
 from util.form import form
 from selenium import webdriver
-import platform, json
+import platform, json, re
 
 dir_name = "util"
 user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
@@ -313,9 +313,9 @@ def jeonnam():
 
 def ulsan():
     res = requests.get('http://www.ulsan.go.kr/corona.jsp')
-    soup = BeautifulSoup(res.content, 'html.parser')
-    
-    table = soup.find('tbody').text.replace("\n\n", '').split("\n")#.find_all('td')
+    #soup = BeautifulSoup(res.content, 'html.parser')
+    #table = soup.find_all('span', class_='num_people counter')
+    table = re.findall('<span class="num_people counter.*?">(.*?)</span>', res.text)
     
     stat = copy.copy(form)
     
