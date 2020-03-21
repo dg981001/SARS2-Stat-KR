@@ -2,7 +2,7 @@ from util.table import table
 from util.region import *
 from util.Seoul import Seoul
 from util.Daegu import Daegu
-from util.Gangwon import Gangwon
+#from util.Gangwon import Gangwon
 from util.KST import kst_time
 from util.collector import collector
 
