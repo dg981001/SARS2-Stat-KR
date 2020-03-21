@@ -244,7 +244,7 @@ def gwangju():
     soup = BeautifulSoup(res.content, 'html.parser')
     # 확진자  |  능동감시자
     temp = soup.find('div', 'person_box')
-    table = re.findall('<span>(.*?)</span>명',str(table))
+    table = re.findall(u"<span>(.*?)</span>명",str(temp))
     
 
     stat = copy.copy(form)
