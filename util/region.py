@@ -130,13 +130,21 @@ def gyeongnam():
     
     stat = copy.copy(form)
     
+    res = requests.get('http://xn--19-q81ii1knc140d892b.kr/main/main.do#close')
+    #soup = BeautifulSoup(res.content, 'html.parser')
+    #table = soup.find_all('span', class_='num_people counter')
+    table = re.findall('<span class="num_people counter.*?">(.*?)</span>', res.text)[:5]
+    
+    stat = copy.copy(form)
+    
     stat['지역'] = '경상남도'
-    stat['확진자'] = table[1].text[:-1]
-    stat['퇴원'] = table[2].text[1:-1].split(" ")[1][:-1]
-    stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
-    stat['검사중'] = table[4].text[:-1]
-    stat['결과음성'] = table[6].text[:-1]
-    stat['자가격리자'] = table[7].text[:-1]
+    stat['확진자'] = table[0]
+    stat['퇴원'] = table[1]
+    stat['격리자'] = table[2]
+    # format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
+    stat['검사중'] = table[3]
+    stat['결과음성'] = table[4]
+    # stat['자가격리자'] = table[7].text[:-1]
     stat['의사환자'] = format(int(stat['검사중'].replace(",", "")) + int(stat['결과음성'].replace(",", "")), ",")
     
     print("pass : ", stat['지역'])
@@ -231,25 +239,25 @@ def gangwon():
     
     return stat
 
-def gwangju(infected='-', quarantine='-', suspect='-', testing='-', negative='-', self_quarantine='-', unmonitor='-', care='-'):
-    # https://www.gwangju.go.kr/
-    res = requests.get('https://www.gwangju.go.kr/index_corona.jsp', headers=headers)
+def gwangju():
+    res = requests.get('https://www.gwangju.go.kr/')#, headers=headers)
     soup = BeautifulSoup(res.content, 'html.parser')
-        #
-    table = soup.find('div', class_='toplayer_left').find_all('span', class_='num_s2')#
+    # 확진자  |  능동감시자
+    temp = soup.find('div', 'person_box')
+    table = re.findall('<span>(.*?)</span>명',str(table))
     
 
     stat = copy.copy(form)
     stat['지역'] = '광주'
-    stat['확진자'] = table[4].text # (infected)
-    stat['퇴원'] = table[3].text
+    stat['확진자'] = table[0]
+    stat['퇴원'] = table[4]
     stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')), ',')
-    stat['검사중'] = table[6].text
-    stat['결과음성'] = table[5].text
-    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')
-    stat['감시중'] = table[7].text # (self_quarantine)
-    stat['감시해제'] = table[8].text
-    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
+    stat['검사중'] = table[8]
+    stat['결과음성'] = table[7]
+    stat['의사환자'] = table[5] # format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')
+    stat['감시중'] = table[10] # (self_quarantine)
+    stat['감시해제'] = table[11]
+    stat['자가격리자'] = table[9] # format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
 
 
     # before : gwangju(infected=13, quarantine=9, self_quarantine=1, care=3)
