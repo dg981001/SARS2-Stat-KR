@@ -405,3 +405,16 @@ def sejong():
     print("pass : ", stat['지역'])
 
     return stat
+
+def foreign():
+    stat = copy.copy(form)
+    
+    stat['지역'] = '검역'
+    stat['확진자'] = "34" # 확진
+    stat['격리자'] = "34" # 격리자
+    #stat['검사중'] =  # 검사중
+    #stat['결과음성'] =  # 결과음성
+
+    print("pass : ", stat['지역'])
+
+    return stat
