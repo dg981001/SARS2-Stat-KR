@@ -23,6 +23,7 @@ regions = [Seoul().collect,
                jeonbuk,
                jeonnam,
                jeju,
+               foreign,
         ]
 
 if __name__=="__main__":

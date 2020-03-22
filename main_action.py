@@ -24,6 +24,7 @@ regions = [Seoul().collect,
                jeonbuk,
                jeonnam,
                jeju,
+               foreign,
         ]
 
 def region_data():
