@@ -298,7 +298,7 @@ def jeonbuk():
     return stat
 
 def jeonnam():
-    res = requests.get('https://www.jeonnam.go.kr/coronaMainPage.do')
+    res = requests.get('https://www.jeonnam.go.kr/coronaMainPage.do', verify=False)
     soup = BeautifulSoup(res.content, 'html.parser')
     
     table = soup.find_all('p', class_='num')
