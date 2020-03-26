@@ -27,7 +27,7 @@ class Seoul():
             '확진자'        :  0,
             '격리자'        :  0,
             '사망'        :  0,
-            '의사환자'      :  0,
+            '의심환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
             '자가격리자'    :  0,
@@ -141,14 +141,14 @@ class Seoul():
     def nowon_gu(self):
         res = requests.get('http://www.nowon.kr', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
-        # 확진자  |  의사환자  |  유증상자  |  자가격리자
+        # 확진자  |  의심환자  |  유증상자  |  자가격리자
         # 유증상자는 별도로 집계하지 않음
         table = soup.find('tbody').find_all('td')
 
         self.db['확진자'] += int(table[0].text[:-1].replace(' ', ''))
         self.db['퇴원'] += int(table[1].text[:-1].replace(' ', ''))
         self.db['격리자'] += int(table[3].text[:-1].replace(' ', ''))
-        self.db['의사환자'] += int(table[2].text[:-1].replace(' ', ''))
+        self.db['의심환자'] += int(table[2].text[:-1].replace(' ', ''))
         self.db['감시중'] += int(table[4].text[:-1].replace(' ', ''))
         self.db['자가격리자'] += int(table[4].text[:-1].replace(' ', ''))
 
@@ -230,10 +230,10 @@ class Seoul():
         table = data.find('ul', class_='status_list').find_all("span", class_='stat_txt')
         # 디코딩에 실패하는 경우가 있어 최대 10번까지 시도
 
-        # 확진자  |  의사환자  |  능동감시자  |  자가격리자  |  유증상자
+        # 확진자  |  의심환자  |  능동감시자  |  자가격리자  |  유증상자
         # 유증상자는 별도로 집계 안함
         self.db['확진자'] += int(table[0].text[:-1].replace(',',''))
-        self.db['의사환자'] += int(table[1].text[:-1].replace(',',''))
+        self.db['의심환자'] += int(table[1].text[:-1].replace(',',''))
         self.db['감시중'] += int(table[2].text[:-1].replace(',',''))
         #self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
 
@@ -361,7 +361,7 @@ class Seoul():
         print(u"# 중랑구 : %d"%(int(table[0].text.replace(',', ''))))
         
     def collect(self):
-        res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do', headers=headers)
+        res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do?menu_code=01', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
 
         li_num = soup.find_all('p', class_='counter')
@@ -370,7 +370,7 @@ class Seoul():
         li_txt = [txt.text for txt in li_txt]
         li_num = [num.text for num in li_num]
 
-        others = int(soup.find('div', class_='seoul-map-other').find('span', class_='num').text.replace(',', ''))
+        others = int(soup.find('span', class_='district district26').find('span', class_='num').text.replace(',', ''))
 
         stat = copy.copy(form)
         for i in range(0, len(li_txt)-4):
@@ -381,7 +381,7 @@ class Seoul():
             '확진자'        :  0,
             '격리자'        :  0,
             '사망'        :  0,
-            '의사환자'      :  0,
+            '의심환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
             '자가격리자'    :  0,

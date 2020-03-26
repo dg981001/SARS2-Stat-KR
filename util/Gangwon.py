@@ -24,7 +24,7 @@ class Gangwon():
             '확진자'        :  0,
             '격리자'        :  0,
             '사망'        :  0,
-            '의사환자'      :  0,
+            '의심환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
             '자가격리자'    :  0,
@@ -55,7 +55,7 @@ class Gangwon():
         # 확진자  |  의심환자  |  검사중 |  결과음성  |  접촉자  |  자가격리자  |  파악중  
         
         self.db['확진자'] += int(table[0].text.replace(',', ''))
-        self.db['의사환자'] += int(table[1].text.replace(',', ''))  #<
+        self.db['의심환자'] += int(table[1].text.replace(',', ''))  #<
         self.db['검사중'] += int(table[2].text.replace(',', ''))
         self.db['결과음성'] += int(table[3].text.replace(',', ''))
         self.db['자가격리자'] += int(table[5].text.replace(',', ''))
@@ -70,7 +70,7 @@ class Gangwon():
         # 확진자  |  결과음성  |  검사중  |  총계
         
         self.db['확진자'] += int(table[0].text[:-1].replace(',', ''))
-        #self.db['의사환자'] += 
+        #self.db['의심환자'] += 
         self.db['결과음성'] += int(table[1].text[:-1].replace(',', ''))
         self.db['검사중'] += int(table[2].text[:-1].replace(',', ''))
         #self.db['자가격리자'] += 
@@ -85,12 +85,12 @@ class Gangwon():
         suspected = soup.find_all('div', class_='tb_c_tit')[1].find("span").text
         table = soup.find('div', class_='tb_sub').find_all('span', class_='tb_c_r')
         # 확진자 | ~ 명
-        # 의사환자  |  검사중/결과음성/결과양성
+        # 의심환자  |  검사중/결과음성/결과양성
         # 조사대상 유증상자 | 검사중/결과음성/결과양성
         
         self.db['확진자'] += int(confirmed.replace(',', ''))
-        self.db['의사환자'] += int(suspected.replace(',', ''))
-        self.db['자가격리자'] += int(suspected.replace(',', '')) # 의사환자(자가격리자) 로 표기되어 있음
+        self.db['의심환자'] += int(suspected.replace(',', ''))
+        self.db['자가격리자'] += int(suspected.replace(',', '')) # 의심환자(자가격리자) 로 표기되어 있음
         self.db['결과음성'] += int(table[1].text[:-1].replace(',', '')) + int(table[4].text[:-1].replace(',', ''))
         self.db['검사중'] += int(table[0].text[:-1].replace(',', '')) + int(table[3].text[:-1].replace(',', ''))
 
@@ -130,7 +130,7 @@ class Gangwon():
         stat['사망'] = format(self.db['사망'], ',')
         stat['검사중'] = '%s'%format(self.db['검사중'], ',')
         stat['결과음성'] = '%s'%format(self.db['결과음성'], ',')
-        stat['의사환자'] = '%s'%(suspect) # format(self.db['의사환자'], ',')
+        stat['의심환자'] = '%s'%(suspect) # format(self.db['의심환자'], ',')
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
         stat['퇴원'] = table[3].text[:-1]
         stat['격리자'] = format(int(stat['확진자'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",")

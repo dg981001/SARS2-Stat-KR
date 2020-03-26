@@ -89,8 +89,8 @@ def daejeon():
     stat['결과음성'] = li_num[5].find("strong").text
     stat['자가격리자'] = li_num[6].find("strong").text
     stat['감시중'] = li_num[6].find("strong").text
-    stat['감시해제'] = li_num[7].find("strong").text# 의사환자 격리
-    # stat[''] = li_num[3].text[:-1] # 의사환자 격리해제
+    stat['감시해제'] = li_num[7].find("strong").text# 의심환자 격리
+    # stat[''] = li_num[3].text[:-1] # 의심환자 격리해제
     
     print("pass : ", stat['지역'])
     
@@ -145,7 +145,7 @@ def gyeongnam():
     stat['검사중'] = table[3]
     stat['결과음성'] = table[4]
     # stat['자가격리자'] = table[7].text[:-1]
-    stat['의사환자'] = format(int(stat['검사중'].replace(",", "")) + int(stat['결과음성'].replace(",", "")), ",")
+    stat['의심환자'] = format(int(stat['검사중'].replace(",", "")) + int(stat['결과음성'].replace(",", "")), ",")
     
     print("pass : ", stat['지역'])
     
@@ -179,7 +179,7 @@ def chungbuk():
     
     stat['지역'] = '충청북도'
     stat['확진자'] = table[0].text
-    stat['의사환자'] = table[1].text
+    stat['의심환자'] = table[1].text
     stat['검사중'] = table[2].text
     stat['결과음성'] = table[3].text
     stat['자가격리자'] = table[4].text
@@ -254,7 +254,7 @@ def gwangju():
     stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')), ',')
     stat['검사중'] = table[8]
     stat['결과음성'] = table[7]
-    stat['의사환자'] = table[5] # format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')
+    stat['의심환자'] = table[5] # format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')
     stat['감시중'] = table[10] # (self_quarantine)
     stat['감시해제'] = table[11]
     stat['자가격리자'] = table[9] # format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
@@ -264,7 +264,7 @@ def gwangju():
     #stat['지역'] = '광주'
     #stat['확진자'] = '%s'%(15) # (infected)
     #stat['격리자'] = '%s'%(12) # (quarantine)
-    #stat['의사환자'] = '%s'%(suspect)
+    #stat['의심환자'] = '%s'%(suspect)
     #stat['검사중'] = '%s'%(testing)
     #stat['결과음성'] = '%s'%(negative)
     #stat['자가격리자'] = '%s'%(3) # (self_quarantine)
@@ -292,7 +292,7 @@ def jeonbuk():
 #    stat['감시중'] = table[4]
 #    stat['결과음성'] = table[5]
 #    stat['검사중'] = table[6]
-#    stat['의사환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
+#    stat['의심환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
 #    
     print("pass : ", stat['지역'])
     return stat
@@ -336,7 +336,7 @@ def ulsan():
     stat['자가격리자'] = format(int(stat['감시해제'].replace(',','')) + int(stat['감시중'].replace(',','')), ',')
     stat['결과음성'] = table[5]
     stat['검사중'] = table[4]
-    stat['의사환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
+    stat['의심환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
     
     print("pass : ", stat['지역'])
     return stat
@@ -361,7 +361,7 @@ def incheon():
 #    stat['자가격리자'] = format(int(stat['감시중'].replace(',', '')) + int(stat['감시해제'].replace(',', '')), ',')
     stat['결과음성'] = table[5]
     stat['검사중'] = format(int(table[3].replace(',', '')) + int(table[4].replace(',', '')), ',')
-    stat['의사환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')    
+    stat['의심환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')    
 #
     print("pass : ", stat['지역'])
 #    return stat
@@ -410,8 +410,8 @@ def foreign():
     stat = copy.copy(form)
     
     stat['지역'] = '검역'
-    stat['확진자'] = "101" # 확진
-    stat['격리자'] = "101" # 격리자
+    stat['확진자'] = "131" # 확진
+    stat['격리자'] = "131" # 격리자
     #stat['검사중'] =  # 검사중
     #stat['결과음성'] =  # 결과음성
 

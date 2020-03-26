@@ -24,7 +24,7 @@ class Gyeongbuk():
             '확진자'        :  0,
             '격리자'        :  0,
             '사망'        :  0,
-            '의사환자'      :  0,
+            '의심환자'      :  0,
             '검사중'        :  0,
             '결과음성'      :  0,
             '자가격리자'    :  0,
@@ -45,7 +45,7 @@ class Gyeongbuk():
         self.db['격리자'] += int(table[1].text.replace(',', ''))
         self.db['사망'] += int(table[2].text.replace(',', ''))
         self.db['자가격리'] += int(table[3].text.replace(',', ''))
-        self.db['의사환자'] += int(table[5].text.replace(',', ''))
+        self.db['의심환자'] += int(table[5].text.replace(',', ''))
         self.db['검사중'] += int(table[7].text.replace(',', ''))
         self.db['결과음성'] += int(table[8].text.replace(',', ''))
         self.db['감시중'] += int(table[10].text.replace(',', ''))
@@ -112,7 +112,7 @@ class Gyeongbuk():
         self.db['격리자'] += int(re.findall("\d+",table[1].text)[0].replace(',', ''))
         self.db['완치'] += int(re.findall("\d+",table[2].text)[0].replace(',', ''))
         self.db['사망'] += int(re.findall("\d+",table[3].text)[0].replace(',', ''))
-        self.db['의사환자'] += int(re.findall("\d+",table[4].text)[0].replace(',', ''))
+        self.db['의심환자'] += int(re.findall("\d+",table[4].text)[0].replace(',', ''))
         self.db['검사중'] += int(re.findall("\d+",table[5].text)[0].replace(',', ''))
         self.db['결과음성'] += int(re.findall("\d+",table[6].text)[0].replace(',', ''))
         self.db['자가격리자'] += int(re.findall("\d+",table[9].text)[0].replace(',', ''))
@@ -178,7 +178,7 @@ class Gyeongbuk():
         stat['사망'] = format(self.db['사망'], ',')
         stat['검사중'] = '%s'%(testing) # format(self.db['검사중'], ',')
         stat['결과음성'] = '%s'%(negative) # format(self.db['결과음성'], ',')
-        stat['의사환자'] = '%s'%(suspect) # format(self.db['의사환자'], ',')
+        stat['의심환자'] = '%s'%(suspect) # format(self.db['의심환자'], ',')
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
         stat['격리자'] = format(self.db['확진자'] - int(stat['사망']), ",")
     
