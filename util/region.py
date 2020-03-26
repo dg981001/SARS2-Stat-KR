@@ -102,11 +102,14 @@ def gyeongbuk():
     try:
         res = requests.get('http://www.gb.go.kr/Main/open_contents/section/wel/page.do?mnu_uid=5760&LARGE_CODE=360&MEDIUM_CODE=10&SMALL_CODE=50&SMALL_CODE2=60mnu_order=2')
         soup = BeautifulSoup(res.content, 'html.parser')
+        res_cdc = requests.get('http://ncov.mohw.go.kr/')#, headers=headers)
+        soup_cdc = BeautifulSoup(res_cdc.content, 'html.parser')
+        confirmed = soup_cdc.find('div', id='map_city15').find('span', class_='num').text.replace("명", '').replace(" ", "")
         
         table = soup.find_all('table', class_='tbl_st1')[1]
         li = table.find_all('td')[1:11]
         
-        stat['확진자'] = li[0].text
+        stat['확진자'] = confirmed
         stat['격리자'] = li[1].text
         stat['퇴원'] = li[2].text
         stat['사망'] = li[3].text
