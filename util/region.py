@@ -243,7 +243,7 @@ def gangwon():
     return stat
 
 def gwangju():
-    res = requests.get('https://www.gwangju.go.kr/')#, headers=headers)
+    res = requests.get('https://www.gwangju.go.kr/c19/')#, headers=headers)
     soup = BeautifulSoup(res.content, 'html.parser')
     # 확진자  |  능동감시자
     temp = soup.find('div', 'person_box')
