@@ -2,7 +2,7 @@ import requests, copy
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from util.form import form
-import platform, json
+import platform, json, re
 from time import sleep
 
 dir_name = "util"
@@ -177,15 +177,17 @@ class Seoul():
         print(u"# 동대문구 : %d"%(int(table[0].text.replace(' ', ''))))
 
     def dongjak_gu(self):
-        res = requests.get('http://www.dongjak.go.kr', headers=headers)
+        res = requests.get('https://www.dongjak.go.kr/')#, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
-        # 확진자  |  자가격리자  |  능동감시자
-        table = soup.find('ul', 'status-ul').find_all('p', 'sta-data')
-        self.db['확진자'] += int(table[0].text[:-1].replace(' ', ''))
-        self.db['자가격리자'] += int(table[1].text[:-1].replace(' ', ''))
-        self.db['감시중'] += int(table[2].text[:-1].replace(' ', ''))
+        # 확진자  |  능동감시자
+        temp = soup.find('tbody')
+        table = re.findall('td>(.*?) 명</td>',str(temp))
 
-        print(u"# 동작구 : %d"%(int(table[0].text[:-1].replace(' ', ''))))
+        self.db['확진자'] += int(table[0].replace(',', ''))
+        self.db['자가격리자'] += int(table[1].replace(',', ''))
+        self.db['퇴원'] += int(table[2].replace(',', ''))
+
+        print(u"# 동작구 : %d"%(int(table[0].replace(' ', ''))))
 
     def mapo_gu(self):
         res = requests.get('http://www.mapo.go.kr/html/corona/intro.htm')#, headers=headers)
@@ -225,19 +227,21 @@ class Seoul():
 
     def seongdong_gu(self):
         res = requests.get('http://www.sd.go.kr/sd/intro.do', headers=headers)
-        res.encoding='euc-kr'
-        data = BeautifulSoup(res.text, 'html.parser')
-        table = data.find('ul', class_='status_list').find_all("span", class_='stat_txt')
-        # 디코딩에 실패하는 경우가 있어 최대 10번까지 시도
+        soup = BeautifulSoup(res.content, 'html.parser')
+        temp = soup.find('ul', class_='status_list')
+        table = re.findall('<em>(.*?)명</em>',str(temp))
 
         # 확진자  |  의심환자  |  능동감시자  |  자가격리자  |  유증상자
         # 유증상자는 별도로 집계 안함
-        self.db['확진자'] += int(table[0].text[:-1].replace(',',''))
-        self.db['의심환자'] += int(table[1].text[:-1].replace(',',''))
-        self.db['감시중'] += int(table[2].text[:-1].replace(',',''))
+        quarantined = int(table[0].replace(',',''))
+        cared = int(table[1].replace(',',''))
+        confirmed = quarantined + cared
+        self.db['확진자'] += confirmed
+        #self.db['의심환자'] += int(table[1].text[:-1].replace(',',''))
+        self.db['퇴원'] += cared
         #self.db['자가격리자'] += int(table[3].text[:-1].replace(',',''))
 
-        print(u"# 성동구 : %d"%(int(table[0].text[:-1].replace(',',''))))
+        print(u"# 성동구 : %d"%(confirmed))
 
     # 성북구는 텍스트로 된 자료를 제공하지 않아 크롤링 불가
     def seongbuk_gu(self):
@@ -285,11 +289,15 @@ class Seoul():
         res = requests.post('https://www.ydp.go.kr/selectDissInfoJSON.do', verify=False, headers=headers)
         table = json.loads(res.content)['dissInfo']
 
-        self.db['확진자'] += int(table['cnt1']) # 확진자
+        quarantined = int(table['cnt1'])
+        cared = int(table['cnt4'])
+        confirmed = quarantined + cared
+        self.db['확진자'] += confirmed
+        self.db['격리자'] += quarantined # 확진자
         self.db['자가격리자'] += int(table['cnt2']) # 자가격리자
-        self.db['감시중'] += int(table['cnt3']) # 능동감시자
+        self.db['퇴원'] += cared # 능동감시자
 
-        print(u"# 영등포구 : %d"%(int(table['cnt1'])))
+        print(u"# 영등포구 : %d"%(confirmed))
     
     def yongsan_gu(self):
         res = requests.get('http://www.yongsan.go.kr/site/kr/index.jsp', headers=headers)
@@ -340,11 +348,11 @@ class Seoul():
         #li = table.find_all('td')[1:11]
         #
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += 1 #int(table[0])
-        self.db['자가격리자'] += 38 # int(table[1])
+        self.db['확진자'] += 2 #int(table[0])
+        self.db['자가격리자'] += 71 # int(table[1])
         self.db['감시중'] +=  0 # int(table[2])
 
-        print(u"# 중구 : %d"%(1))
+        print(u"# 중구 : %d"%(2))
     
     def jungnang_gu(self):
         res = requests.get('https://www.jungnang.go.kr/intro.jsp', headers=headers)
