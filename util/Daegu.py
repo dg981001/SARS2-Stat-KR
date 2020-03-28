@@ -1,10 +1,11 @@
-import requests, copy
+import requests, copy, re
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from util.form import form
-import platform
 
 dir_name = "util"
+user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
+headers = {'User-Agent': user_agent}
 
 class Daegu():
     def __init__(self):
@@ -93,14 +94,20 @@ class Daegu():
 
 
     def dong_gu(self):
-        donggu = requests.get('http://www.dong.daegu.kr/main/main.htm')
-        donggu_data = BeautifulSoup(donggu.content, 'html.parser')
-        table = donggu_data.find('ul', class_='cB').find_all("span", class_="t2")
+        res = requests.get('http://www.dong.daegu.kr/main/main.htm', headers=headers)
+        soup = BeautifulSoup(res.content, 'html.parser')
+        # 확진자  |  능동감시자
+        temp = soup.find('ul', class_='cB')
+        table = re.findall('<p class="txt02">(.*?)</p>',str(temp))
         #  동구  |  자가격리
         #print(int(table[0].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[0].text[:-1].replace(',', '')) # 동구 확진자
-        self.db['자가격리자'] += int(table[1].text[:-1].replace(',', '')) # 동구 자가격리자
-        print(u"#  동구 : ", int(table[0].text[:-1].replace(',', '')))
+        confirmed = int(table[0].replace(',', ''))
+        cared = int(table[1].replace(',', ''))
+        self_quarantined = int(table[2].replace(',', ''))
+        quarantined = int(table[3].replace(',', ''))
+        self.db['확진자'] += int(confirmed) # 동구 확진자
+        self.db['자가격리자'] += int(self_quarantined) # 동구 자가격리자
+        print(u"#  동구 : ", int(confirmed))
 
     def dalseonggun(self):
         res = requests.get('http://dalseong.daegu.kr/icms/popup/getLayerPopup.do?popup_id=POPUP_00000000000051')
