@@ -260,17 +260,19 @@ class Seoul():
     def songpa_gu(self):
         res = requests.get('http://www.songpa.go.kr/index.jsp', verify=True, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
-        
-        table_init = soup.find('tbody')
-        table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
+        init = soup.find('tbody')
+        table = re.findall('\n(.*?)명', init.text)
+        confirmed = int(table[0].replace(',', ''))
+        quarantined = int(table[1].replace(',', ''))
+        cared = int(table[2].replace(',', ''))
         # 확진자  |  퇴원(확진해제자)  |  자가격리  
         
-        self.db['확진자'] += int(table[5][:-1].replace(',', ''))
-        self.db['퇴원'] += int(table[7][:-1].replace(',', ''))
-        self.db['자가격리자'] += int(table[8][:-1].replace(',', ''))
+        self.db['확진자'] += confirmed
+        self.db['퇴원'] += cared
+        #self.db['자가격리자'] += int(table[8][:-1].replace(',', ''))
         #self.db['결과음성'] += 
         #self.db['검사중'] += 
-        print(u"# 송파구 : %d"%(int(table[5][:-1].replace(',', ''))))
+        print(u"# 송파구 : %d"%(confirmed))
 
     def yangcheon_gu(self):
         res = requests.get('http://www.yangcheon.go.kr/site/yangcheon/coronaStatusList.do') #, headers=headers)
