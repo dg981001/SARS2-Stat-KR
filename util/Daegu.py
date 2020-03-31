@@ -122,7 +122,7 @@ class Daegu():
 
     def collect(self):
         # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
-        res = requests.get('http://www.daegu.go.kr/')
+        res = requests.get('http://www.daegu.go.kr/dgcontent/index.do')
         # 2) HTML 페이지 파싱 BeautifulSoup(HTML데이터, 파싱방법)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 3) 필요한 데이터 검색

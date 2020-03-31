@@ -128,15 +128,19 @@ class Seoul():
         res = requests.get('https://www.geumcheon.go.kr/', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 구분  |  확진자  |  능동감시자(자가격리자)
-        value1 = soup.find('li', class_='pink_line').find('span', class_='text2').text.split()[0][:-1].replace(',','')
-        value2 = soup.find('li', class_='pink_line').find('span', class_='text2_2').text.split('명')
+        value1 = soup.find('li', class_='pink_line clearfix')
+        table = re.findall('(.*?)명', value1.text)
 
-        self.db['확진자'] += int(value1)
+        confirmed = int(table[0].replace(',', ''))
+        quarantined = int(table[1].replace(',', ''))
+        cared = int(table[2].replace(',', ''))
+
+        self.db['확진자'] += confirmed
         # 능동감시자와 자가격리자가 N명(M명) 의 형태로 표기되어 있어 별도로 분리
-        self.db['감시중'] += int(value2[0].replace(' ', ''))
-        self.db['자가격리자'] += int(value2[1].replace('(','').replace(' ', ''))
+        #self.db['감시중'] += int(value2[0].replace(' ', ''))
+        #self.db['자가격리자'] += int(value2[1].replace('(','').replace(' ', ''))
 
-        print(u"# 금천구 : %d"%(int(value1)))
+        print(u"# 금천구 : %d"%(confirmed))
 
     def nowon_gu(self):
         res = requests.get('http://www.nowon.kr', headers=headers)
@@ -350,11 +354,11 @@ class Seoul():
         #li = table.find_all('td')[1:11]
         #
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += 2 #int(table[0])
-        self.db['자가격리자'] += 71 # int(table[1])
+        self.db['확진자'] += 4 #int(table[0])
+        self.db['자가격리자'] += 125 # int(table[1])
         self.db['감시중'] +=  0 # int(table[2])
 
-        print(u"# 중구 : %d"%(2))
+        print(u"# 중구 : %d"%(4))
     
     def jungnang_gu(self):
         res = requests.get('https://www.jungnang.go.kr/intro.jsp', headers=headers)
