@@ -197,12 +197,15 @@ class Seoul():
         res = requests.get('http://www.mapo.go.kr/html/corona/intro.htm')#, headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  자가격리자  |  능동감시자
-        table = soup.find('div', class_='is-cont').find('ul').find_all('span')
-        self.db['확진자'] += int(table[0].text.replace(' ', ''))
-        self.db['자가격리자'] += int(table[1].text.replace(' ', ''))
-        self.db['감시중'] += int(table[2].text.replace(' ', ''))
+        table = soup.find('tbody').find_all('tr')[1].find_all('td')
+        quarantined = int(table[0].text.replace(' ', ''))
+        cared = int(table[1].text.replace(' ', ''))
+        confirmed = quarantined + cared
+        self.db['확진자'] += confirmed
+        #self.db['자가격리자'] += int(table[1].text.replace(' ', ''))
+        #self.db['감시중'] += int(table[2].text.replace(' ', ''))
 
-        print(u"# 마포구 : %d"%(int(table[0].text.replace(' ', ''))))
+        print(u"# 마포구 : %d"%(confirmed))
 
     def seodaemun_gu(self):
         res = requests.get('http://www.sdm.go.kr/index.do', headers=headers)
