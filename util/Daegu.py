@@ -50,9 +50,10 @@ class Daegu():
         table = BeautifulSoup(res.content, 'html.parser').find('tbody').find_all('td')
         # 전국  |  대구시  |  달서구  |  자가격리
         #print(int(table[2][:-1].replace(',', '')))
-        confirmed = int(table[2].text.split('명')[0].replace(',', ''))
+        confirmed = int(table[2].text.replace('\t', '').replace('\r', '').replace('\n', '').split('명')[0].replace(',', ''))
+        self_quarantined = int(table[3].text.replace('\t', '').replace('\r', '').replace('\n', '').split('명')[0].replace(',', ''))
         self.db['확진자'] += confirmed # 달서구 확진자
-        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 달서구 자가격리자
+        self.db['자가격리자'] += self_quarantined # 달서구 자가격리자
         print(u"#  달서구 : ", confirmed)
 
     def seo_gu(self):
@@ -97,7 +98,7 @@ class Daegu():
         res = requests.get('http://www.dong.daegu.kr/main/main.htm', headers=headers)
         soup = BeautifulSoup(res.content, 'html.parser')
         # 확진자  |  능동감시자
-        temp = soup.find('ul', class_='cB')
+        temp = soup.find('div', class_='covid_box').find('ul', class_='cB')
         table = re.findall('<p class="txt02">(.*?)</p>',str(temp))
         #  동구  |  자가격리
         #print(int(table[0].text[:-1].replace(',', '')))

@@ -210,9 +210,9 @@ def chungnam():
     stat = copy.copy(form)
     
     stat['지역'] = '충청남도'
-    stat['확진자'] = table[0]
+    stat['확진자'] = table[2]
     stat['격리자'] = table[1]
-    stat['퇴원'] = table[2]
+    stat['퇴원'] = table[0]
     stat['사망'] = table[3]
     stat['검사중'] = table[4]
     stat['결과음성'] = table[5]
