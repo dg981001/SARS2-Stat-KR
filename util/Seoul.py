@@ -357,8 +357,8 @@ class Seoul():
         #li = table.find_all('td')[1:11]
         #
         #table = ' '.join(table_init.text.replace("\n"," ").split()).split(' ')
-        self.db['확진자'] += 4 #int(table[0])
-        self.db['자가격리자'] += 125 # int(table[1])
+        self.db['확진자'] += 5 #int(table[0])
+        self.db['자가격리자'] += 265 # int(table[1])
         self.db['감시중'] +=  0 # int(table[2])
 
         print(u"# 중구 : %d"%(4))
