@@ -158,15 +158,16 @@ def gyeonggi():
     res = requests.get('https://www.gg.go.kr/contents/contents.do?ciIdx=1150&menuId=2909')
     soup = BeautifulSoup(res.content, 'html.parser')
     
-    table = soup.find('div', class_='corona_confirmation').find_all('span')
+    temp = soup.find('div', class_='s-w-covid19').find('div', class_='gg')
+    table = re.findall('<strong id=".*?">(.*?)</strong>', str(temp))
     
     stat = copy.copy(form)
     
     stat['지역'] = '경기도'
-    stat['확진자'] = table[0].text
-    stat['격리자'] = table[1].text
-    stat['퇴원'] = table[2].text
-    stat['사망'] = table[3].text
+    stat['확진자'] = table[0]
+    stat['격리자'] = table[1]
+    stat['퇴원'] = table[2]
+    stat['사망'] = table[3]
     
     print("pass : ", stat['지역'])
     
