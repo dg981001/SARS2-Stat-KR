@@ -87,7 +87,7 @@ class Daegu():
         junggu = requests.get('http://www.jung.daegu.kr/new/pages/main/')
         junggu_data = BeautifulSoup(junggu.content, 'html.parser')
         temp = junggu_data.find('ul', class_='count')
-        table = re.findall('<dd>(.*?)<span>명', str(table))
+        table = re.findall('<dd>(.*?)<span>명', str(temp))
         # 전국  |  대구시  |  중구  |  자가격리
         confirmed = int(table[0].replace(',', ''))
         cured = int(table[1].replace(',', ''))
