@@ -86,12 +86,16 @@ class Daegu():
     def jung_gu(self):
         junggu = requests.get('http://www.jung.daegu.kr/new/pages/main/')
         junggu_data = BeautifulSoup(junggu.content, 'html.parser')
-        table = junggu_data.find('tbody').find_all('td')
+        temp = junggu_data.find('ul', class_='count')
+        table = re.findall('<dd>(.*?)<span>명', str(table))
         # 전국  |  대구시  |  중구  |  자가격리
-        #print(int(table[2].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 중구 확진자
-        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 중구 자가격리자
-        print(u"#  중구 : ", int(table[2].text[:-1].replace(',', '')))
+        confirmed = int(table[0].replace(',', ''))
+        cured = int(table[1].replace(',', ''))
+        quarantined = int(table[2].replace(',', ''))
+        self_quarnatined = int(table[3].replace(',', ''))
+        self.db['확진자'] += confirmed # 중구 확진자
+        self.db['자가격리자'] += self_quarnatined # 중구 자가격리자
+        print(u"#  중구 : ", confirmed)
 
 
     def dong_gu(self):
