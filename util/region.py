@@ -1,7 +1,7 @@
 import requests, copy
 from bs4 import BeautifulSoup
 from util.form import form
-from selenium import webdriver
+#from selenium import webdriver
 import platform, json, re
 
 dir_name = "util"
@@ -178,18 +178,19 @@ def chungbuk():
     soup = BeautifulSoup(res.content, 'html.parser')
     
     table = soup.find('ul', class_="clearfix").find_all("p", class_='text')
+    confirm_cure = soup.find('ul', class_="clearfix").find_all("p", class_='text2')
 
     stat = copy.copy(form)
     
     stat['지역'] = '충청북도'
-    stat['확진자'] = table[0].text
-    stat['의심환자'] = table[1].text
-    stat['검사중'] = table[2].text
-    stat['결과음성'] = table[3].text
-    stat['자가격리자'] = table[4].text
-    stat['감시중'] = table[5].text
-    stat['감시해제'] = table[6].text
-    stat['퇴원'] = table[7].text
+    stat['확진자'] = confirm_cure[0].text
+    stat['의심환자'] = table[0].text
+    stat['검사중'] = table[1].text
+    stat['결과음성'] = table[2].text
+    stat['자가격리자'] = table[3].text
+    stat['감시중'] = table[4].text
+    stat['감시해제'] = table[5].text
+    stat['퇴원'] = confirm_cure[1].text
     stat['격리자'] = format(int(stat['확진자'].replace(',', '')) - int(stat['퇴원'].replace(',', '')))
     
     print("pass : ", stat['지역'])
@@ -280,10 +281,18 @@ def gwangju():
     return stat
 
 def jeonbuk():
-    res = requests.get('http://www.jeonbuk.go.kr/index.jeonbuk')
-    soup = BeautifulSoup(res.content, 'html.parser')
+    try:
+        res = requests.get('http://www.jeonbuk.go.kr/index.jeonbuk')
+        soup = BeautifulSoup(res.content, 'html.parser')
+        table = soup.find('ul', class_="tb_ul").find("ul").find_all('font')#.find_all('td')
+
+    except:
+        stat = copy.copy(form)
     
-    table = soup.find('ul', class_="tb_ul").find("ul").find_all('font')#.find_all('td')
+        stat['지역'] = '전라북도'
+        return stat
+    
+    
 
     stat = copy.copy(form)
     
@@ -334,13 +343,14 @@ def ulsan():
     stat['지역'] = '울산'
     stat['격리자'] = table[0]
     stat['퇴원'] = table[1]
+    stat['사망'] = table[2]
     stat['확진자'] = format(int(stat['격리자'].replace(',','')) + int(stat['퇴원'].replace(',','')), ',')
-    stat['감시해제'] = table[3]
-    stat['감시중'] = table[2]
+    stat['감시해제'] = table[4]
+    stat['감시중'] = table[3]
     stat['자가격리자'] = format(int(stat['감시해제'].replace(',','')) + int(stat['감시중'].replace(',','')), ',')
-    stat['결과음성'] = table[5]
-    #stat['검사중'] = table[4]
-    #stat['의심환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
+    stat['결과음성'] = table[6]
+    stat['검사중'] = table[5]
+    stat['의심환자'] = format(int(stat['결과음성'].replace(',', '')) + int(stat['검사중'].replace(',', '')), ',')
     
     print("pass : ", stat['지역'])
     return stat
@@ -357,8 +367,8 @@ def incheon():
     
     stat['지역'] = '인천'
     stat['확진자'] = table[1]
-    stat['격리자'] = format(int(table[1].replace(',','')) - 2, ',')
-    stat['퇴원'] = format(2, ',')
+    stat['격리자'] = format(int(table[1].replace(',','')), ',')
+    #stat['퇴원'] = format(2, ',')
 #    stat['퇴원'] = table[2].text
 #    stat['감시중'] = table2[0].text[:-1]
 #    stat['감시해제'] = table2[1].text[:-1]
@@ -402,9 +412,10 @@ def sejong():
     
     stat['지역'] = '세종'
     stat['확진자'] = table['info1'] # 확진
-    stat['격리자'] = table['info1'] # 격리자
+    stat['격리자'] = table['info6'] # 격리자
     stat['검사중'] = table['info3'] # 검사중
-    stat['결과음성'] = table['info4'].split("(")[0] # 결과음성
+    stat['퇴원'] = table['info5'] # 완치자
+    stat['자가격리자'] = table['info4'].split("(")[0] # 결과음성
 
     print("pass : ", stat['지역'])
 
@@ -414,9 +425,9 @@ def foreign():
     stat = copy.copy(form)
     
     stat['지역'] = '검역'
-    stat['확진자'] = "264" # 확진
-    stat['격리자'] = "264" # 격리자
-    #stat['검사중'] =  # 검사중
+    stat['확진자'] = "352" # 확진
+    stat['격리자'] = "349" # 격리자
+    stat['퇴원'] = "3" # 퇴원
     #stat['결과음성'] =  # 결과음성
 
     print("pass : ", stat['지역'])
