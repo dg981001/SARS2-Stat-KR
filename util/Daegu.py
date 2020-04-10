@@ -1,6 +1,6 @@
 import requests, copy, re
 from bs4 import BeautifulSoup
-from selenium import webdriver
+#from selenium import webdriver
 from util.form import form
 
 dir_name = "util"
@@ -22,24 +22,27 @@ class Daegu():
         self.db = dict()
 
     def buk_gu(self):
-        bukgu = requests.get('http://www.buk.daegu.kr/#')
+        bukgu = requests.get('https://www.buk.daegu.kr/index.do', verify=False)
         bukgu_data = BeautifulSoup(bukgu.content, 'html.parser')
         table = bukgu_data.find('tbody').find_all('td')
         # 전국  |  북구  |  자가격리
+        confirmed = int(table[1].text.split("(")[0].split()[0][:-1].replace(',', ''))
+        self_quarantined = int(table[2].text.split("(")[0].split()[0][:-1].replace(',', ''))
         #print(int(table[1].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].text.split("(")[0].split()[0][:-1].replace(',', '')) # 북구 확진자
-        self.db['자가격리자'] += int(table[2].text.split("(")[0].split()[0][:-1].replace(',', '')) # 북구 자가격리자
-        print(u"#  북구 : ", int(table[1].text.split("(")[0].split()[0][:-1].replace(',', '')))
+        self.db['확진자'] += confirmed # 북구 확진자
+        self.db['자가격리자'] += self_quarantined # 북구 자가격리자
+        print(u"#  북구 : ", confirmed)
 
     def nam_gu(self):
-        namgu = requests.get('http://nam.daegu.kr/')
+        namgu = requests.get('http://nam.daegu.kr/index.do#')
         namgu_data = BeautifulSoup(namgu.content, 'html.parser')
         table = namgu_data.find('tbody').find_all('td')
         # 전국  |  남구  |  자가격리
-        #print(int(table[1].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[1].text[:-1].replace(',', '')) # 남구 확진자
-        self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
-        print(u"#  남구 : ", int(table[1].text[:-1].replace(',', '')))
+        confirmed = int(table[0].text.replace(',', ''))
+
+        self.db['확진자'] += confirmed # 남구 확진자
+        # self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
+        print(u"#  남구 : ", confirmed)
 
     def dalseo_gu(self):
         res = requests.get('https://www.dalseo.daegu.kr/icms/popup/getLayerPopup.do?popup_id=POPUP_00000000000021')
@@ -72,10 +75,10 @@ class Daegu():
         table = suseonggu_data.find('tbody').find_all('td')
         # 전국  |  수성구  |  자가격리
         #print(int(table[1].text[:-1].replace(',', '')))
-        cared = int(table[0].text.split('명')[0])
-        quarantine = int(table[1].text.split('명')[0])
-        death = int(table[2].text.split('명')[0])
-        self_qurantine = int(table[3].text.split('명')[0])
+        cared = int(table[0].text.replace(',','').split('명')[0])
+        quarantine = int(table[1].text.replace(',','').split('명')[0])
+        death = int(table[2].text.replace(',','').split('명')[0])
+        self_qurantine = int(table[3].text.replace(',','').split('명')[0])
 
         confirmed = cared + quarantine + death
 
