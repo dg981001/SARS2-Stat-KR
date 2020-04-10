@@ -141,9 +141,9 @@ def gyeongnam():
     stat = copy.copy(form)
     
     stat['지역'] = '경상남도'
-    stat['확진자'] = table[0]
+    stat['격리자'] = table[0]
     stat['퇴원'] = table[1]
-    stat['격리자'] = table[2]
+    stat['확진자'] = table[2]
     # format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     stat['검사중'] = table[3]
     stat['결과음성'] = table[4]
