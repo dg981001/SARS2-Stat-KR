@@ -38,7 +38,7 @@ class Daegu():
         namgu_data = BeautifulSoup(namgu.content, 'html.parser')
         table = namgu_data.find('tbody').find_all('td')
         # 전국  |  남구  |  자가격리
-        confirmed = int(table[0].text.replace(',', ''))
+        confirmed = int(table[0].text.split('(')[0].replace(',', ''))
 
         self.db['확진자'] += confirmed # 남구 확진자
         # self.db['자가격리자'] += int(table[2].text[:-1].replace(',', '')) # 남구 자가격리자
