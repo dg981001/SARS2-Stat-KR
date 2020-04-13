@@ -65,9 +65,17 @@ class Daegu():
         table = seogu_data.find('tbody').find_all('td')
         # 전국  |  대구시  |  서구  |  자가격리
         #print(int(table[2].text[:-1].replace(',', '')))
-        self.db['확진자'] += int(table[2].text[:-1].replace(',', '')) # 서구 확진자
-        self.db['자가격리자'] += int(table[3].text[:-1].replace(',', '')) # 서구 자가격리자
-        print(u"#  서구 : ", int(table[2].text[:-1].replace(',', '')))
+        seogu2 = requests.get('https://www.dgs.go.kr/COVID/covid19.html')
+        seogu_data2 = BeautifulSoup(seogu2.content, 'html.parser')
+        confirmed = seogu_data2.find('table', class_='tbl_basic tbl_all_td_center').find_all('tr')[1].find_all('td')[1]
+
+        confirmed = int(confirmed.replace(',', ''))
+        cured = int(table[2].text[:-1].replace(',', ''))
+        quarantined = int(table[3].text[:-1].replace(',', ''))
+        self_quarantined = int(table[4].text[:-1].replace(',', ''))
+        self.db['확진자'] += confirmed # 서구 확진자
+        self.db['자가격리자'] += self_quarantined # 서구 자가격리자
+        print(u"#  서구 : ", confirmed)
 
     def suseong_gu(self):
         suseonggu = requests.get('http://www.suseong.kr/index.do')
