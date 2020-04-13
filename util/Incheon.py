@@ -160,21 +160,7 @@ class Seoul():
         # 미추홀구 사이트에서는 미추홀구 자체 데이터를 제공하지 않는 것으로 보임.
         
     def collect(self):
-        res = requests.get('http://www.seoul.go.kr/coronaV/coronaStatus.do?menu_code=01', headers=headers)
-        soup = BeautifulSoup(res.content, 'html.parser')
-
-        li_num = soup.find_all('p', class_='counter')
-        li_txt = soup.find_all('p', class_='txt')
-
-        li_txt = [txt.text for txt in li_txt]
-        li_num = [num.text for num in li_num]
-
-        others = int(soup.find('span', class_='district district26').find('span', class_='num').text.replace(',', ''))
-
-        stat = copy.copy(form)
-        for i in range(0, len(li_txt)-4):
-            stat[li_txt[i]] = li_num[i]
-
+      
         self.db = {
             '지역'          :  0,
             '확진자'        :  0,
@@ -201,9 +187,7 @@ class Seoul():
         self.ic_ongjin_goon
 
 
-        self.db['확진자'] += others # 기타
-
-        print("# 기타 : %d"%(others))
+ 
         
         stat['지역'] = '인천'
         stat['확진자'] = format(self.db['확진자'], ',')
