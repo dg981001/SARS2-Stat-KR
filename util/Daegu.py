@@ -72,18 +72,20 @@ class Daegu():
     def suseong_gu(self):
         suseonggu = requests.get('http://www.suseong.kr/index.do')
         suseonggu_data = BeautifulSoup(suseonggu.content, 'html.parser')
-        table = suseonggu_data.find('tbody').find_all('td')
+        table = suseonggu_data.find('tbody').find_all('tr')[1].find_all('td')
         # 전국  |  수성구  |  자가격리
         #print(int(table[1].text[:-1].replace(',', '')))
-        cared = int(table[0].text.replace(',','').split('명')[0])
-        quarantine = int(table[1].text.replace(',','').split('명')[0])
-        death = int(table[2].text.replace(',','').split('명')[0])
+        # cared = int(table[0].text.replace(',','').split('명')[0])
+        repositive = int(table[2].text.replace(',','').split('명')[0])
+        #quarantine = int(table[3].text.replace(',','').split('명')[0])
+        #death = int(table[2].text.replace(',','').split('명')[0])
         self_qurantine = int(table[3].text.replace(',','').split('명')[0])
 
-        confirmed = cared + quarantine + death
+        confirmed = int(table[0].text.replace(',','').split('명')[0])
 
         self.db['확진자'] += confirmed # 수성구 확진자
         self.db['자가격리자'] += self_qurantine # 수성구 자가격리자
+        #self.db['재확진자'] += repositive
         print(u"#  수성구 : ", confirmed)
 
     def jung_gu(self):
