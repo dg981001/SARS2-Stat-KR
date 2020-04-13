@@ -69,7 +69,7 @@ class Daegu():
         seogu_data2 = BeautifulSoup(seogu2.content, 'html.parser')
         confirmed = seogu_data2.find('table', class_='tbl_basic tbl_all_td_center').find_all('tr')[1].find_all('td')[1]
 
-        confirmed = int(confirmed.replace(',', ''))
+        confirmed = int(confirmed.text.replace(',', ''))
         cured = int(table[2].text[:-1].replace(',', ''))
         quarantined = int(table[3].text[:-1].replace(',', ''))
         self_quarantined = int(table[4].text[:-1].replace(',', ''))
