@@ -1,8 +1,10 @@
 from util.table import table
 from util.region import *
-from util.Seoul import Seoul
 from util.Daegu import Daegu
-#from util.Gangwon import Gangwon
+#from util.Incheon import Incheon  
+from util.Daejeon import Daejeon
+# from util.Gangwon import Gangwon
+from util.Seoul import Seoul
 from util.KST import kst_time
 from util.collector import collector
 
@@ -10,7 +12,8 @@ count_try = 0
 regions = [Seoul().collect, 
                Daegu().collect,    
                busan,   
-               daejeon,
+               #daejeon,
+               Daejeon().collect
                gwangju,
                ulsan,
                incheon,
