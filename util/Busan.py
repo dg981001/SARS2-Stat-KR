@@ -153,17 +153,19 @@ class Busan():
 
     # 진구청, 영도구청, 강서구청, 금정구청, 사상구청 : 구청 사이트에 자료가 없음
 
-
-
-
      
     def collect(self):
-        # 1. reqeusts 라이브러리를 활용한 HTML 페이지 요청 
-        # res = requests.get('http://www.daegu.go.kr/dgcontent/index.do')
-        # 2) HTML 페이지 파싱 BeautifulSoup(HTML데이터, 파싱방법)
-        # soup = BeautifulSoup(res.content, 'html.parser')
-        # 3) 필요한 데이터 검색
-        # li = soup.find('div', class_='conunt_box').find_all('strong')
+
+        a=[]
+        with urlopen('http://www.busan.go.kr/corona19/index') as response:
+            soup = BeautifulSoup(response, 'html.parser')
+            for anchor in soup.select('span'):
+                a.append(anchor.get_text().split('\n'))
+        confirmed = a[1][0].split('명')[0]
+        add_confirmed = a[2][0].split('명')[0]
+        cured = a[3][0].split('명')[0]
+        curing = a[4][0].split('명')[0]
+        death = a[5][0].split('명')[0]
         
         self.db = {
 
@@ -194,8 +196,8 @@ class Busan():
         
         stat['지역'] = '부산'
         stat['확진자'] = format(self.db['확진자'], ',')
-        stat['사망'] = li[3].text[:-1]
-        stat['퇴원'] = li[1].text[:-1]
+        stat['사망'] = death
+        stat['퇴원'] = cured
         stat['격리자'] = format(self.db['확진자'] - int(stat['사망'].replace(',','')) - int(stat['퇴원'].replace(',','')), ",") 
         stat['자가격리자'] = format(self.db['자가격리자'], ',')
         
