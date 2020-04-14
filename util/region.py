@@ -405,7 +405,7 @@ def sejong():
     stat['지역'] = '세종'
     stat['확진자'] = table['info1'] # 확진
     stat['격리자'] = table['info6'] # 격리자
-    stat['검사중'] = table['info3'] # 검사중
+    #stat['검사중'] = table['info3'] # 검사중
     stat['퇴원'] = table['info5'] # 완치자
     stat['자가격리자'] = table['info4'].split("(")[0] # 결과음성
 
@@ -417,9 +417,9 @@ def foreign():
     stat = copy.copy(form)
     
     stat['지역'] = '검역'
-    stat['확진자'] = "382" # 확진
-    stat['격리자'] = "379" # 격리자
-    stat['퇴원'] = "3" # 퇴원
+    stat['확진자'] = "389" # 확진
+    stat['격리자'] = "385" # 격리자
+    stat['퇴원'] = "4" # 퇴원
     #stat['결과음성'] =  # 결과음성
 
     print("pass : ", stat['지역'])
