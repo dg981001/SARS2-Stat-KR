@@ -1,7 +1,7 @@
 import requests, copy
 from bs4 import BeautifulSoup
 #from selenium import webdriver
-from util.form import form
+from form import form
 import platform, json, re
 from time import sleep
 
