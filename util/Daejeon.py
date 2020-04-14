@@ -6,7 +6,7 @@
 import requests
 import copy
 from bs4 import BeautifulSoup
-from form import form
+from util.form import form
 import platform
 import json
 import re
@@ -25,7 +25,7 @@ user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gec
 headers = {'User-Agent': user_agent}
 
 
-class Daegeon():
+class Daejeon():
     def __init__(self):
         self.db = {
             '지역':  0,

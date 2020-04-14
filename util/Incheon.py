@@ -10,7 +10,7 @@ dir_name = "util"
 user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
 headers = {'User-Agent': user_agent}
 
-class Seoul():
+class Incheon():
     def __init__(self):
 #        options = webdriver.ChromeOptions()
 #        options.add_argument('headless')
@@ -156,10 +156,18 @@ class Seoul():
         self.db['자가격리자'] += int(quarantine.text.replace("명",""))
 
         print(u"# 인천 옹진군 : %d"%(int(confirm.text.replace("명",""))))
-    def ic_michuhol_gu(self):
-        # 미추홀구 사이트에서는 미추홀구 자체 데이터를 제공하지 않는 것으로 보임.
-        
+
+    def ic_michuhol_gu(self): # 미추홀구 사이트에서는 미추홀구 자체 데이터를 제공하지 않는 것으로 보임
+        a = 2
+
+
     def collect(self):
+        res = requests.get('https://www.incheon.go.kr/health/HE020409')
+        soup = BeautifulSoup(res.content, 'html.parser')
+
+        table_init = soup.find_all('tbody')[1] # 확진자, 검사중, 결과음성
+        table = ' '.join(table_init.text.replace("\n", " ").split()).split(' ')
+
       
         self.db = {
             '지역'          :  0,
@@ -186,14 +194,18 @@ class Seoul():
         self.ic_ganghwa_goon
         self.ic_ongjin_goon
 
+        stat = copy.copy(form)
 
- 
         
         stat['지역'] = '인천'
         stat['확진자'] = format(self.db['확진자'], ',')
+        stat['격리자'] = format(self.db['확진자'], ',')
+        stat['결과음성'] = table[5]
+        stat['검사중'] = format(int(table[3].replace(',', '')) + int(table[4].replace(',', '')), ',')
+        stat['의심환자'] = format(int(stat['검사중'].replace(',', '')) + int(stat['결과음성'].replace(',', '')), ',')    
         # stat['사망'] = li[2].text.split(' ')[1]
-        stat['퇴원'] = format(int(stat['퇴원'].replace(',','')) - 1, ',')
-        stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
+        #stat['퇴원'] = format(int(stat['퇴원'].replace(',','')) - 1, ',')
+        #stat['격리자'] = format(int(stat['확진자'].replace(",", "")) - int(stat['퇴원'].replace(",", "")), ",")
     
         print("pass : ", stat['지역'])
         
