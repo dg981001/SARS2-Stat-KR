@@ -13,7 +13,7 @@ regions = [Seoul().collect,
                Daegu().collect,    
                busan,   
                #daejeon,
-               Daejeon().collect
+               Daejeon().collect,
                gwangju,
                ulsan,
                incheon,
