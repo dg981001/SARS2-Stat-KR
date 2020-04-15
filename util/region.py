@@ -164,7 +164,7 @@ def gyeonggi():
     stat = copy.copy(form)
     
     stat['지역'] = '경기도'
-    stat['확진자'] = table[0]
+    stat['확진자'] = table[4]
     stat['격리자'] = table[1]
     stat['퇴원'] = table[2]
     stat['사망'] = table[3]
